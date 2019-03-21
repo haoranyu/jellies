@@ -32,4 +32,7 @@ export default {
 .el-radio-button:last-child .el-radio-button__inner {
   border-right-width: 2px;
 }
+.el-radio-button:not(.is-active) .el-radio-button__inner:hover {
+  color: #333 !important;
+}
 </style>
