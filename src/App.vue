@@ -1,28 +1,39 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <jsk-radio-group v-model="radio">
+    <jsk-radio-button label="上海"></jsk-radio-button>
+    <jsk-radio-button label="北京"></jsk-radio-button>
+    <jsk-radio-button label="广州"></jsk-radio-button>
+    <jsk-radio-button label="深圳"></jsk-radio-button>
+  </jsk-radio-group>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import JskRadio from './components/Radio.vue'
+import JskRadioGroup from './components/RadioGroup.vue'
+import JskRadioButton from './components/RadioButton.vue'
 export default {
   name: 'app',
+  methods: {
+    test: function(t) {
+      console.log(t)
+    }
+  },
   components: {
-    HelloWorld
+    JskRadio,
+    JskRadioGroup,
+    JskRadioButton
+  },
+  data() {
+    return {
+      radio: '上海'
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  background: #EBEEF3;
+  //margin: 0;
 }
 </style>

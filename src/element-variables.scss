@@ -1,0 +1,320 @@
+/*
+Write your variables here. All available variables can be
+found in element-ui/packages/theme-chalk/src/common/var.scss.
+For example, to overwrite the theme color:
+*/
+
+@import "~element-ui/packages/theme-chalk/src/common/var";
+
+/* Color
+-------------------------- */
+/// color|[主题色,primary color,color primario]|BrandColor|0
+$--color-primary: #399AF4;
+/// color|[基础白色,basic white,basic white]|BackgroundColor|4
+$--color-white: #FFFFFF !default;
+/// color|[基础黑色,basic black,basic black]|BackgroundColor|4
+$--color-black: #000000 !default;
+
+$--color-primary-light-1: mix($--color-white, $--color-primary, 10%);
+$--color-primary-light-2: mix($--color-white, $--color-primary, 20%);
+$--color-primary-light-3: mix($--color-white, $--color-primary, 30%);
+$--color-primary-light-4: mix($--color-white, $--color-primary, 40%);
+$--color-primary-light-5: mix($--color-white, $--color-primary, 50%);
+$--color-primary-light-6: mix($--color-white, $--color-primary, 60%);
+$--color-primary-light-7: mix($--color-white, $--color-primary, 70%);
+$--color-primary-light-8: mix($--color-white, $--color-primary, 80%);
+$--color-primary-light-9: mix($--color-white, $--color-primary, 90%);
+
+/// color|[成功颜色,success color,success color]|SecondaryColor|1
+$--color-success: #4EC53D;
+/// color|[警告颜色,warning color,warning color]|SecondaryColor|1
+$--color-warning: #FFC300;
+/// color|[危险颜色,danger color,danger color]|SecondaryColor|1
+$--color-danger: #F33B29;
+/// color|[信息颜色,info color,info color]|SecondaryColor|1
+$--color-info: #555555;
+
+$--color-success-dark: #41B146;
+$--color-warning-dark: #FFB020;
+$--color-danger-dark: #DD2E1D;
+$--color-info-dark: #333333;
+
+$--color-success-light: #67D757;
+$--color-warning-light: #FFDE00;
+$--color-danger-light: #FF958B;
+$--color-info-light: #777777;
+
+$--color-success-lighter: #BFF199;
+$--color-warning-lighter: #FFF598;
+$--color-danger-lighter: #FFD6D2;
+$--color-info-lighter: #999999;
+
+$--color-success-darker: #41B146;
+$--color-success-darkest: #0B9500;
+
+$--color-line-darkest: #222222;
+$--color-line-darker: #333333;
+$--color-line-dark: #555555;
+$--color-line-dark-slight: #777777;
+$--color-line: #999999;
+$--color-line-light-slight: #AFAFAF;
+$--color-line-light: #CFCFCF;
+$--color-line-lighter: #DDDDDD;
+$--color-line-lightest: #F0F0F0;
+
+$--color-face-extra-darkest: #8B9AAE;
+$--color-face-darkest: #97A5BC;
+$--color-face-darker: #A6B4C8;
+$--color-face-dark: #B0BCCF;
+$--color-face-dark-slight: #BEC8D8;
+$--color-face: #D1D8E4;
+$--color-face-light-slight: #DEE3EB;
+$--color-face-light: #E3E7EE;
+$--color-face-lighter: #EBEEF3;
+$--color-face-lightest: #F2F4F7;
+
+// Background
+$--background-color-base: #F2F4F7;
+
+/* Link
+-------------------------- */
+$--link-color: $--color-primary;
+$--link-hover-color: $--color-primary-light-1;
+
+/* Border
+-------------------------- */
+$--border-width-base: 2px;
+$--border-style-base: solid;
+$--border-color-base: $--color-line-light;
+$--border-base: $--border-width-base $--border-style-base $--border-color-base;
+/// borderRadius|[大圆角,border radius base,border radius base]|Radius|0
+$--border-radius-base: 5px;
+/// borderRadius|[小圆角,border radius small,border radius small]|Radius|0
+$--border-radius-small: 3px;
+/// borderRadius|[圆形圆角,border radius circle,border radius circle]|Radius|0
+$--border-radius-circle: 100%;
+
+// Box-shadow
+/// boxShadow|[基础投影,box shadow base,box shadow base]|Shadow|1
+$--box-shadow-base: 0 0 8px 0 rgba(139, 154, 174, 0.3);
+$--box-shadow-small: 0 0 4px 0 rgba(139, 154, 174, 0.4);
+
+/* Typography
+-------------------------- */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+/// fontSize|[主标题文字大小,Extra large font size,Extra large font size]|FontSize|0
+$--font-size-extra-large: 24px;
+/// fontSize|[标题文字大小,large font size,large font size]|FontSize|0
+$--font-size-large: 20px;
+/// fontSize|[小标题文字大小,Medium font size,Medium font size]|FontSize|0
+$--font-size-medium: 16px;
+/// fontSize|[正文文字大小,base font size,base font size]|FontSize|0
+$--font-size-base: 14px;
+/// fontSize|[正文（小）文字大小,small font size,small font size]|FontSize|0
+$--font-size-small: 12px;
+/// fontSize|[辅助文字大小（暂不启用）,Extra small font size,Extra small font size]|FontSize|0
+$--font-size-extra-small: $--font-size-small;
+/// fontWeight|[主要文字粗细,primary font weight,primary font weight]|FontWeight|1
+$--font-weight-primary: 400;
+/// fontWeight|[次要文字粗细,secondary font weight,secondary font weight]|FontWeight|1
+$--font-weight-secondary: 100;
+/// fontLineHeight|[主要文字行高,primary font line height,primary font line height]|LineHeight|2
+$--font-line-height-primary: 24px;
+/// fontLineHeight|[次要文字行高,secondary font line height,secondary font line height]|LineHeight|2
+$--font-line-height-secondary: 22px;
+
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+/* Card
+--------------------------*/
+$--card-padding: 24px;
+$--card-border-color: $--border-color-lighter;
+$--card-border-radius: $--border-radius-base;
+
+/* Button
+-------------------------- */
+/// fontSize|[]|Font|1
+$--button-font-size: $--font-size-base;
+/// fontWeight|[]|Font|1
+$--button-font-weight: $--font-weight-primary;
+/// borderRadius|[]|Border|2
+$--button-border-radius: $--border-radius-base;
+$--button-padding-vertical: 11px;
+$--button-padding-horizontal: 13px;
+$--button-margin: 12px;
+
+/// fontSize|[]|Font|1
+$--button-medium-font-size: $--font-size-base !default;
+/// borderRadius|[]|Border|2
+$--button-medium-border-radius: $--border-radius-base !default;
+$--button-medium-padding-vertical: 9px;
+$--button-medium-padding-horizontal: 13px;
+
+/// fontSize|[]|Font|1
+$--button-small-font-size: $--font-size-small;
+$--button-small-border-radius: $--border-radius-small;
+$--button-small-padding-vertical: 8px;
+$--button-small-padding-horizontal: 9px;
+
+$--button-mini-font-size: $--font-size-small;
+$--button-mini-border-radius: $--border-radius-small;
+$--button-mini-padding-vertical: 6px;
+$--button-mini-padding-horizontal: 9px;
+
+$--button-hover-tint-percent: 20% !default;
+$--button-active-shade-percent: 10% !default;
+
+/// color|[]|Color|0
+$--button-primary-border-color: $--color-white;
+/// color|[]|Color|0
+$--button-primary-background-color: rgba(0, 0, 0, 0.05);
+/// color|[]|Color|0
+$--button-success-border-color: $--color-success-dark;
+/// color|[]|Color|0
+$--button-success-background-color: $--color-success-dark;
+/// color|[]|Color|0
+$--button-warning-border-color: $--color-warning-dark;
+/// color|[]|Color|0
+$--button-warning-background-color: $--color-warning-dark;
+/// color|[]|Color|0
+$--button-danger-border-color: $--color-danger-dark;
+/// color|[]|Color|0
+$--button-danger-background-color: $--color-danger-dark;
+/// color|[]|Color|0
+$--button-info-border-color: $--color-face-darkest;
+/// color|[]|Color|0
+$--button-info-background-color: $--color-face-darkest;
+
+/* Input
+-------------------------- */
+$--input-font-size: $--font-size-base !default;
+$--input-color: $--color-text-regular !default;
+$--input-width: 140px !default;
+$--input-height: 40px !default;
+$--input-border: $--border-base;
+$--input-border-color: $--color-line-light;
+$--input-border-radius: $--border-radius-base;
+$--input-border-color-hover: $--color-line-light-slight;
+$--input-fill: $--color-white;
+$--input-fill-disabled: $--disabled-fill-base;
+$--input-color-disabled: $--font-color-disabled-base;
+$--input-icon-color: $--color-text-placeholder !default;
+$--input-placeholder-color: $--color-text-placeholder !default;
+$--input-max-width: 314px !default;
+
+$--input-hover-border: $--border-color-hover;
+$--input-clear-hover-color: $--color-text-secondary !default;
+
+$--input-focus-border: $--color-line-light-slight;
+$--input-focus-fill: $--color-white !default;
+
+$--input-disabled-fill: $--disabled-fill-base !default;
+$--input-disabled-border: $--disabled-border-base !default;
+$--input-disabled-color: $--disabled-color-base !default;
+$--input-disabled-placeholder-color: $--color-text-placeholder !default;
+
+$--input-medium-font-size: 14px !default;
+$--input-medium-height: 36px !default;
+
+$--input-small-font-size: 12px !default;
+$--input-small-height: 32px !default;
+
+$--input-mini-font-size: 12px !default;
+$--input-mini-height: 28px !default;
+
+
+/* Select
+-------------------------- */
+$--select-border-color-hover: $--border-color-hover !default;
+$--select-disabled-border: $--disabled-border-base !default;
+$--select-font-size: $--font-size-base !default;
+$--select-close-hover-color: $--color-text-secondary !default;
+
+$--select-input-color: $--color-text-placeholder !default;
+$--select-multiple-input-color: #666 !default;
+$--select-input-focus-background: $--color-line-light-slight;
+$--select-input-font-size: 14px !default;
+
+$--select-option-color: $--color-text-regular !default;
+$--select-option-disabled-color: $--color-text-placeholder !default;
+$--select-option-disabled-background: $--color-white !default;
+$--select-option-height: 34px !default;
+$--select-option-hover-background: $--background-color-base !default;
+$--select-option-selected: $--color-line-darker;
+$--select-option-selected-hover: $--background-color-base;
+
+$--select-group-color: $--color-info !default;
+$--select-group-height: 30px !default;
+$--select-group-font-size: 12px !default;
+
+$--select-dropdown-background: $--color-white !default;
+$--select-dropdown-shadow: $--box-shadow-base;
+$--select-dropdown-empty-color: #999 !default;
+$--select-dropdown-max-height: 274px !default;
+$--select-dropdown-padding: 6px 0 !default;
+$--select-dropdown-empty-padding: 10px 0 !default;
+$--select-dropdown-border: solid 1px $--border-color-light !default;
+
+/* Radio
+-------------------------- */
+/// fontSize|[]|Font|1
+$--radio-font-size: $--font-size-base !default;
+/// fontWeight|[]|Font|1
+$--radio-font-weight: $--font-weight-primary;
+/// color|[]|Color|0
+$--radio-font-color: $--color-text-regular !default;
+$--radio-input-height: 14px !default;
+$--radio-input-width: 14px !default;
+/// borderRadius|[]|Border|2
+$--radio-input-border-radius: $--border-radius-circle !default;
+/// color|[]|Color|0
+$--radio-input-background-color: $--color-white !default;
+$--radio-input-border: $--border-base;
+/// color|[]|Color|0
+$--radio-input-border-color: $--border-color-base !default;
+/// color|[]|Color|0
+$--radio-icon-color: $--color-white !default;
+
+$--radio-disabled-input-border-color: $--disabled-border-base !default;
+$--radio-disabled-input-fill: $--disabled-fill-base !default;
+$--radio-disabled-icon-color: $--disabled-fill-base !default;
+
+$--radio-disabled-checked-input-border-color: $--disabled-border-base !default;
+$--radio-disabled-checked-input-fill: $--disabled-fill-base !default;
+$--radio-disabled-checked-icon-color: $--color-text-placeholder !default;
+
+/// color|[]|Color|0
+$--radio-checked-font-color: $--color-primary;
+/// color|[]|Color|0
+$--radio-checked-input-border-color: $--color-primary;
+/// color|[]|Color|0
+$--radio-checked-input-background-color: $--color-white !default;
+/// color|[]|Color|0
+$--radio-checked-icon-color: $--color-primary;
+
+$--radio-input-border-color-hover: $--color-line-light-slight;
+
+$--radio-bordered-padding: 11px 13px 0 11px;
+$--radio-bordered-medium-padding: 9px 13px 0 9px;
+$--radio-bordered-small-padding: 7px 9px 0 8px;
+$--radio-bordered-mini-padding: 5px 9px 0 6px;
+$--radio-bordered-medium-input-height: 14px !default;
+$--radio-bordered-medium-input-width: 14px !default;
+$--radio-bordered-medium-height: 36px !default;
+$--radio-bordered-small-input-height: 12px !default;
+$--radio-bordered-small-input-width: 12px !default;
+$--radio-bordered-small-height: 32px !default;
+$--radio-bordered-mini-input-height: 12px !default;
+$--radio-bordered-mini-input-width: 12px !default;
+$--radio-bordered-mini-height: 28px !default;
+
+$--radio-button-checked-background-color: $--color-primary;
+/// color|[]|Color|0
+$--radio-button-checked-font-color: $--color-white !default;
+/// color|[]|Color|0
+$--radio-button-checked-border-color: $--color-primary;
+$--radio-button-disabled-checked-fill: $--border-color-extra-light !default;
+
+@import "~element-ui/packages/theme-chalk/src/reset";
+@import "~element-ui/packages/theme-chalk/src/index";
