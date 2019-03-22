@@ -62,7 +62,7 @@ $--color-warning-lighter: #FFF598;
 $--color-danger-lighter: #FFD6D2;
 $--color-info-lighter: #999999;
 
-$--color-success-darker: #41B146;
+$--color-success-darker: #00AB33;
 $--color-success-darkest: #0B9500;
 
 $--color-line-darkest: #222222;
@@ -102,8 +102,6 @@ $--border-color-light: $--color-line-light;
 $--border-color-lighter: $--color-line-lighter;
 /// color|1|BorderColor|3
 $--border-color-extra-light: $--color-line-lightest;
-
-
 
 // Background
 /// color|1|BackgroundColor|4
@@ -356,7 +354,7 @@ $--select-dropdown-empty-color: #999 !default;
 $--select-dropdown-max-height: 274px !default;
 $--select-dropdown-padding: 6px 0 !default;
 $--select-dropdown-empty-padding: 10px 0 !default;
-$--select-dropdown-border: solid 1px $--border-color-light !default;
+$--select-dropdown-border: solid 1px $--color-line-lighter !default;
 
 /* Alert
 -------------------------- */
