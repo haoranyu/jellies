@@ -29,10 +29,10 @@ export default {
   data: function() {
     return {
       value: ''
-    }
+    };
   },
   created: function() {
-    this.value = this.vModel
+    this.value = this.vModel;
   },
   props: {
     vModel: String,
@@ -52,14 +52,14 @@ export default {
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'select-']
+        let prefixs = ['is-', 'has-', 'select-'];
         prefixs.forEach((prefix) => {
           if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key]
+            attrs[key.substr(prefix.length)] = attrs[key];
           }
         })
       })
-      return attrs
+      return attrs;
     }
   },
   model: {
@@ -68,10 +68,10 @@ export default {
   },
   watch: {
     value: function() {
-      this.$emit('change', this.value)
+      this.$emit('change', this.value);
     },
     vModel: function() {
-      this.value = this.vModel
+      this.value = this.vModel;
     }
   }
 }

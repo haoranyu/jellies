@@ -63,7 +63,7 @@ export default {
         return {
           first: '',
           second: ''
-        }
+        };
       }
     },
     cardPrice: {
@@ -74,7 +74,7 @@ export default {
           number: '',
           showUnit: false,
           unit: '课时'
-        }
+        };
       }
     },
   }
