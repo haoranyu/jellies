@@ -1,5 +1,5 @@
 <template>
-  <el-container :style="{ width: containerWidth }" :class="[isCentered ? 'centered' : '', isFullScreen ? 'fullscreen' : '', hasBleed ? 'bleed' : '']" :direction="(isFullScreen || isHorizontal) ? 'horizontal' : 'vertical'">
+  <el-container :style="{ width: containerWidth + 'px' }" :class="[isCentered ? 'centered' : '', isFullScreen ? 'fullscreen' : '', hasBleed ? 'bleed' : '']" :direction="(isFullScreen || isHorizontal) ? 'horizontal' : 'vertical'">
     <slot></slot>
   </el-container>
 </template>
@@ -10,8 +10,8 @@ export default {
   name: 'JskContainer',
   props: {
     containerWidth: {
-      type: String,
-      default: '1200px'
+      type: Number,
+      default: 1200
     },
     isCentered: {
       type: Boolean,

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <header :style="{ height: headerHeight, background: headerBackground }" :class="isFixedTop ? 'header-fixed-top' : ''">
-      <jsk-container is-horizontal is-centered :style="{ width: headerCenterWidth }">
+    <header :style="{ height: headerHeight + 'px', background: headerBackground }" :class="isFixedTop ? 'header-fixed-top' : ''">
+      <jsk-container is-horizontal is-centered :style="{ width: headerCenterWidth + 'px' }">
         <slot></slot>
       </jsk-container>
     </header>
-    <div class="header-position" v-if="isFixedTop" :style="{ height: headerHeight }"></div>
+    <div class="header-position" v-if="isFixedTop" :style="{ height: headerHeight + 'px' }"></div>
   </div>
 </template>
 
@@ -19,12 +19,12 @@ export default {
   },
   props: {
     headerHeight: {
-      type: String,
-      default: '50px'
+      type: Number,
+      default: 50
     },
     headerCenterWidth: {
-      type: String,
-      default: '1200px'
+      type: Number,
+      default: 1200
     },
     headerBackground: {
       type: String,

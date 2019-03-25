@@ -1,5 +1,5 @@
 <template>
-  <div :class="['avatar', 'avatar-' + avatarType]" :style="{ width: avatarSize, height: avatarSize }">
+  <div :class="['avatar', 'avatar-' + avatarType]" :style="{ width: avatarSize + 'px', height: avatarSize + 'px' }">
     <img :src="avatarImage">
   </div>
 </template>
@@ -14,8 +14,8 @@ export default {
       default: '#'
     },
     avatarSize: {
-      type: String,
-      default: '60px'
+      type: Number,
+      default: 60
     },
     avatarType: {
       type: String,
