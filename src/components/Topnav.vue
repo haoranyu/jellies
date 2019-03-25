@@ -1,5 +1,5 @@
 <template>
-  <ul :style="{ height: topnavHeight, lineHeight: topnavHeight }">
+  <ul :style="{ height: topnavHeight + 'px', lineHeight: topnavHeight + 'px' }">
     <li v-for="(item, index) in topnavItems" :class="index === currentActive ? 'active' : ''" v-bind:key="index" v-on:click="toItem(index)">
       {{ item.name }}
     </li>
@@ -12,8 +12,8 @@ export default {
   name: 'JskTopnav',
   props: {
     topnavHeight: {
-      type: String,
-      default: '50px'
+      type: Number,
+      default: 50
     },
     topnavItems: {
       type: Array,
