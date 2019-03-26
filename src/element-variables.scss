@@ -747,24 +747,24 @@ $--card-border-radius: $--border-radius-base;
 /* Slider
 --------------------------*/
 /// color||Color|0
-$--slider-main-background-color: $--color-primary !default;
+$--slider-main-background-color: $--color-success-light;
 /// color||Color|0
-$--slider-runway-background-color: $--border-color-light !default;
+$--slider-runway-background-color: $--color-white;
 $--slider-button-hover-color: mix($--color-primary, black, 97%) !default;
 /// color||Color|0
-$--slider-stop-background-color: $--color-white !default;
+$--slider-stop-background-color: $--color-face-lighter;
 /// color||Color|0
 $--slider-disable-color: $--color-text-placeholder !default;
 
 /// margin||Spacing|3
-$--slider-margin: 16px 0 !default;
-$--slider-border-radius: 3px !default;
+$--slider-margin: 3px 0;
+$--slider-border-radius: 6px;
 /// height||Other|4
-$--slider-height: 6px !default;
+$--slider-height: 12px !default;
 /// height||Other|4
 $--slider-button-size: 16px !default;
-$--slider-button-wrapper-size: 36px !default;
-$--slider-button-wrapper-offset: -15px !default;
+$--slider-button-wrapper-size: 16px;
+$--slider-button-wrapper-offset: -3px;
 
 /* Steps
 --------------------------*/
