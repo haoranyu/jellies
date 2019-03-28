@@ -5,6 +5,7 @@
     v-on:focus="$emit('focus')"
     v-on:blur="$emit('blur')"
     v-on:clear="$emit('clear')"
+    :class="isUnderline ? 'underline' : ''"
   >
     <template slot="prepend">
       <slot name="prepend"></slot>
@@ -36,7 +37,11 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: String
+    vModel: String,
+    isUnderline: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -67,6 +72,12 @@ export default {
 </script>
 
 <style>
+.el-input.underline .el-input__inner {
+  border-width: 0;
+  border-bottom-width: 2px;
+  border-radius: 0;
+  text-align: center;
+}
 .el-input-group input {
   border-right-width: 0;
 }
