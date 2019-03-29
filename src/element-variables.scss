@@ -331,8 +331,9 @@ $--select-font-size: $--font-size-base !default;
 $--select-close-hover-color: $--color-text-secondary !default;
 
 $--select-input-color: $--color-text-placeholder !default;
+
 $--select-multiple-input-color: #666 !default;
-$--select-input-focus-background: $--color-line-light-slight;
+$--select-input-focus-border-color: $--color-line-light-slight;
 $--select-input-font-size: 14px !default;
 
 $--select-option-color: $--color-text-regular !default;
@@ -341,7 +342,7 @@ $--select-option-disabled-background: $--color-white !default;
 $--select-option-height: 34px !default;
 $--select-option-hover-background: $--background-color-base !default;
 $--select-option-selected: $--color-line-darker;
-$--select-option-selected-font-color: $--color-primary !default;
+$--select-option-selected-font-color: $--color-line-darker;
 $--select-option-selected-hover: $--background-color-base !default;
 
 $--select-group-color: $--color-info !default;
@@ -354,7 +355,7 @@ $--select-dropdown-empty-color: #999 !default;
 $--select-dropdown-max-height: 274px !default;
 $--select-dropdown-padding: 6px 0 !default;
 $--select-dropdown-empty-padding: 10px 0 !default;
-$--select-dropdown-border: solid 1px $--color-line-lighter !default;
+$--select-dropdown-border: solid 1px $--color-line-lightest;
 
 /* Alert
 -------------------------- */
@@ -481,7 +482,7 @@ $--cascader-menu-font-size: $--font-size-base !default;
 $--cascader-menu-radius: $--border-radius-base !default;
 $--cascader-menu-border: $--border-base !default;
 /// color||Color|0
-$--cascader-menu-border-color: $--border-color-base !default;
+$--cascader-menu-border-color: $--color-line-lightest;
 $--cascader-menu-border-width: $--border-width-base !default;
 $--cascader-menu-color: $--color-text-regular !default;
 $--cascader-menu-option-color-active: $--color-text-secondary !default;
@@ -801,8 +802,8 @@ $--datepicker-off-font-color: $--color-text-placeholder !default;
 /// color||Color|0
 $--datepicker-header-font-color: $--color-text-regular !default;
 $--datepicker-icon-color: $--color-text-primary !default;
-$--datepicker-border-color: $--disabled-border-base !default;
-$--datepicker-inner-border-color: #e4e4e4 !default;
+$--datepicker-border-color: $--color-line-lightest;
+$--datepicker-inner-border-color: $--color-line-lighter;
 /// color||Color|0
 $--datepicker-inrange-color: $--border-color-extra-light !default;
 /// color||Color|0
