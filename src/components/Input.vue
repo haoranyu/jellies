@@ -5,7 +5,7 @@
     v-on:focus="$emit('focus')"
     v-on:blur="$emit('blur')"
     v-on:clear="$emit('clear')"
-    :class="[isUnderline ? 'underline' : '', inputType]"
+    :class="isUnderline ? 'underline' : ''"
   >
     <template slot="prepend">
       <slot name="prepend"></slot>
@@ -41,10 +41,6 @@ export default {
     isUnderline: {
       type: Boolean,
       default: false
-    },
-    inputType: {
-      type: String,
-      default: ''
     }
   },
   methods: {
@@ -81,21 +77,6 @@ export default {
   border-bottom-width: 2px;
   border-radius: 0;
   text-align: center;
-}
-.el-input.success .el-input__inner,
-.el-textarea.success .el-textarea__inner {
-  border-color: #41B146;
-  color: #41B146;
-}
-.el-input.danger .el-input__inner,
-.el-textarea.danger .el-textarea__inner  {
-  border-color: #DD2E1D;
-  color: #DD2E1D;
-}
-.el-input.warning .el-input__inner,
-.el-textarea.warning .el-textarea__inner  {
-  border-color: #FFB020;
-  color: #FFB020;
 }
 .el-input-group input {
   border-right-width: 0;
