@@ -474,7 +474,7 @@ $--input-mini-height: 28px !default;
 /// color||Color|0
 $--cascader-menu-font-color: $--color-text-regular !default;
 /// color||Color|0
-$--cascader-menu-selected-font-color: $--color-primary !default;
+$--cascader-menu-selected-font-color: $--color-line-darker;
 $--cascader-menu-fill: $--fill-base !default;
 /// fontSize||Font|1
 $--cascader-menu-font-size: $--font-size-base !default;
@@ -809,9 +809,9 @@ $--datepicker-inrange-color: $--border-color-extra-light !default;
 /// color||Color|0
 $--datepicker-inrange-hover-color: $--border-color-extra-light !default;
 /// color||Color|0
-$--datepicker-active-color: $--color-primary !default;
+$--datepicker-active-color: $--color-success-dark;
 /// color||Color|0
-$--datepicker-text-hover-color: $--color-primary !default;
+$--datepicker-text-hover-color: $--color-success-dark;
 $--datepicker-cell-hover-color: #fff !default;
 
 /* Loading
