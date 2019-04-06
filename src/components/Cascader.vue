@@ -7,7 +7,8 @@
     :debounce="cascaderDebounceTime"
     v-on:focus="$emit('focus')"
     v-on:blur="$emit('blur')"
-    v-on:visible-change="$emit('visible-change')"
+    v-on:visible-change="visibleChange"
+    v-on:active-item-change="activeItemChange"
   >
     <template slot="prefix">
       <slot name="prefix"></slot>
@@ -58,6 +59,12 @@ export default {
         })
       })
       return attrs;
+    },
+    visibleChange: function(show) {
+      this.$emit('visible-change', show);
+    },
+    activeItemChange: function(arr) {
+      this.$emit('active-item-change', arr);
     }
   },
   model: {

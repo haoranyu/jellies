@@ -8,8 +8,8 @@
     v-on:focus="$emit('focus')"
     v-on:blur="$emit('blur')"
     v-on:clear="$emit('clear')"
-    v-on:visible-change="$emit('visible-change')"
-    v-on:remove-tag="$emit('remove-tag')"
+    v-on:visible-change="visibleChange"
+    v-on:remove-tag="removeTag"
   >
     <template slot="prefix">
       <slot name="prefix"></slot>
@@ -35,7 +35,7 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: String,
+    vModel: [String, Number, Boolean, Array],
     isAddingAllowed: {
       type: Boolean,
       default: false
@@ -60,6 +60,12 @@ export default {
         })
       })
       return attrs;
+    },
+    visibleChange: function(show) {
+      this.$emit('visible-change', show);
+    },
+    removeTag: function(tag) {
+      this.$emit('remove-tag', tag);
     }
   },
   model: {
