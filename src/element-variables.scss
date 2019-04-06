@@ -805,14 +805,14 @@ $--datepicker-icon-color: $--color-text-primary !default;
 $--datepicker-border-color: $--color-line-lightest;
 $--datepicker-inner-border-color: $--color-line-lighter;
 /// color||Color|0
-$--datepicker-inrange-color: $--border-color-extra-light !default;
+$--datepicker-inrange-color: $--color-face-lightest;
 /// color||Color|0
-$--datepicker-inrange-hover-color: $--border-color-extra-light !default;
+$--datepicker-inrange-hover-color: $--color-face-lightest;
 /// color||Color|0
-$--datepicker-active-color: $--color-success-dark;
+$--datepicker-active-color: $--color-face-extra-darkest;
 /// color||Color|0
-$--datepicker-text-hover-color: $--color-success-dark;
-$--datepicker-cell-hover-color: #fff !default;
+$--datepicker-text-hover-color: $--color-face-extra-darkest;
+$--datepicker-cell-hover-color: $--color-white;
 
 /* Loading
 --------------------------*/
