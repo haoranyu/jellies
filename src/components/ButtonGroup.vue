@@ -1,14 +1,6 @@
-<template>
-  <el-button-group>
-    <slot></slot>
-  </el-button-group>
-</template>
-
-
 <script>
-export default {
-  name: 'JskButtonGroup',
-}
+import { ButtonGroup } from 'element-ui';
+export default ButtonGroup
 </script>
 
 <style scoped>
