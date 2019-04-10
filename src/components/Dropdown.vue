@@ -4,7 +4,7 @@
      v-on:click="$emit('click')"
      v-on:command="handleCommand"
      v-on:visible-change="visibleChange"
-     :hide-on-click="isItemClickCollapsible​"
+     :hide-on-click="isItemClickCollapsible"
   >
     <template slot="dropdown">
       <slot name="dropdown"></slot>
@@ -18,7 +18,7 @@ export default {
   name: 'JskDropdown',
   inheritAttrs: false,
   props: {
-    isItemClickCollapsible​: {
+    isItemClickCollapsible: {
       type: Boolean,
       default: true
     }
