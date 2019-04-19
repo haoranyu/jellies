@@ -1,5 +1,5 @@
 <template>
-  <el-button :type="buttonType" :size="buttonSize" :circle="isCircular" :icon="buttonPrefixIcon + buttonIcon" :disabled="disabled" :native-type="type" v-on:click="$emit('click')">
+  <el-button :type="buttonType" :size="buttonSize" :circle="isCircular" :icon="buttonPrefixIcon + buttonIcon" :disabled="disabled" :native-type="type" v-on:click="$emit('click')" :style="buttonStyle">
     <slot></slot>
     <i v-if="buttonSuffixIcon !== ''" :class="['el-icon--right', buttonSuffixIcon]"></i>
   </el-button>
@@ -8,10 +8,31 @@
 <script>
 export default {
   name: 'JskButton',
+  computed: {
+    buttonStyle: function() {
+      let buttonStyleValue = {}
+      if (this.buttonBackgroundColor !== '') {
+        buttonStyleValue.background = this.buttonBackgroundColor;
+        buttonStyleValue.borderColor = this.buttonBackgroundColor;
+      }
+      if (this.buttonTextColor !== '') {
+        buttonStyleValue.color = this.buttonTextColor;
+      }
+      return buttonStyleValue;
+    }
+  },
   props: {
     buttonType: {
       type: String,
       default: 'info'
+    },
+    buttonBackgroundColor: {
+      type: String,
+      default: ''
+    },
+    buttonTextColor: {
+      type: String,
+      default: ''
     },
     buttonSize: {
       type: String,
