@@ -18,21 +18,6 @@
 <script>
 import { Rate } from 'element-ui';
 
-// 这个问题将在 element 之后的发版(2.8)中被解决，解决后可以移除这部分的植入
-// https://github.com/ElemeFE/element/issues/15033
-Rate.computed.decimalStyle = function() {
-  let width = '';
-  if (this.rateDisabled) {
-    width = `${ this.valueDecimal }%`;
-  } else if (this.allowHalf) {
-    width = '50%';
-  }
-  return {
-    color: this.activeColor,
-    width
-  };
-}
-
 export default {
   name: 'JskRate',
   inheritAttrs: false,
