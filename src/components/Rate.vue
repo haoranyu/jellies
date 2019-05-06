@@ -43,7 +43,7 @@ export default {
       default: false
     },
     rateColors: {
-      type: Array,
+      type: [Array, Object],
       default: () => ['#FFB020', '#FFB020', '#FFB020']
     },
     rateVoidColor: {
