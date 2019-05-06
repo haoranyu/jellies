@@ -6,6 +6,7 @@
     v-on:blur="$emit('blur')"
     v-on:clear="$emit('clear')"
     :class="isUnderline ? 'underline' : ''"
+    :show-word-limit="hasLengthLimitHint"
   >
     <template slot="prepend">
       <slot name="prepend"></slot>
@@ -39,6 +40,10 @@ export default {
   props: {
     vModel: String,
     isUnderline: {
+      type: Boolean,
+      default: false
+    },
+    hasLengthLimitHint: {
       type: Boolean,
       default: false
     }
