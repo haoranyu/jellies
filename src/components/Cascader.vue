@@ -8,7 +8,8 @@
     v-on:focus="$emit('focus')"
     v-on:blur="$emit('blur')"
     v-on:visible-change="visibleChange"
-    v-on:active-item-change="activeItemChange"
+    v-on:expand-change="expandChange"
+    v-on:remove-tag="removeTag"
   >
     <template slot="prefix">
       <slot name="prefix"></slot>
@@ -63,8 +64,11 @@ export default {
     visibleChange: function(show) {
       this.$emit('visible-change', show);
     },
-    activeItemChange: function(arr) {
-      this.$emit('active-item-change', arr);
+    expandChange: function(arr) {
+      this.$emit('expand-change', arr);
+    },
+    removeTag: function(para) {
+      this.$emit('remove-tag', para);
     }
   },
   model: {
@@ -85,5 +89,12 @@ export default {
 .el-cascader-menus {
   border-radius: 5px !important;
   overflow: hidden;
+}
+.el-cascader-menu .el-checkbox .el-checkbox__inner::after {
+  left: 3px;
+  top: 0;
+}
+.el-cascader-menu .el-checkbox .el-checkbox__inner::before {
+  top: 4px !important;
 }
 </style>
