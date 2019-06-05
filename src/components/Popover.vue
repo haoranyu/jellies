@@ -1,20 +1,23 @@
 <template>
-  <el-tooltip
+  <el-popover
     v-model="value"
     v-bind="trimAttrs($attrs)"
+    :trigger="triggerValue"
     :visible-arrow="isArrowVisible"
-    :manual="isManual"
-    :enterable="isMouseEnterable"
-    :effect="tooltipTheme">
-    <template slot="content">
-      <slot name="content"></slot>
+    v-on:show="$emit('show')"
+    v-on:after-enter="$emit('after-enter')"
+    v-on:hide="$emit('hide')"
+    v-on:after-leave="$emit('after-leave')"
+    >
+    <template slot="reference">
+      <slot name="reference"></slot>
     </template>
     <slot></slot>
-  </el-tooltip>
+  </el-popover>
 </template>
 <script>
 export default {
-  name: 'JskTooltip',
+  name: 'JskPopover',
   inheritAttrs: false,
   data: function() {
     return {
@@ -37,19 +40,23 @@ export default {
       type: Boolean,
       default: false
     },
-    isMouseEnterable: {
-      type: Boolean,
-      default: true
-    },
-    tooltipTheme: {
+    tooltipTrigger: {
       type: String,
-      default: 'dark'
+      default: 'click'
+    }
+  },
+  computed: {
+    triggerValue: function() {
+      if (this.isManual) {
+        return 'manual';
+      }
+      return this.tooltipTrigger;
     }
   },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'tooltip-'];
+        let prefixs = ['is-', 'has-', 'popover-'];
         prefixs.forEach((prefix) => {
           if (key.substr(0, prefix.length) === prefix) {
             attrs[key.substr(prefix.length)] = attrs[key];
@@ -73,25 +80,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.el-tooltip__popper.is-light {
-  background: #E3E7EE !important;
-  border: none !important;
-}
-.el-tooltip__popper.is-light .popper__arrow {
-  border: none !important;
-}
-.el-tooltip__popper.is-light[x-placement^="right"] .popper__arrow::after {
-  border-right-color: #E3E7EE !important;
-}
-.el-tooltip__popper.is-light[x-placement^="top"] .popper__arrow::after {
-  border-top-color: #E3E7EE !important;
-}
-.el-tooltip__popper.is-light[x-placement^="left"] .popper__arrow::after {
-  border-left-color: #E3E7EE !important;
-}
-.el-tooltip__popper.is-light[x-placement^="bottom"] .popper__arrow::after {
-  border-bottom-color: #E3E7EE !important;
-}
-</style>
