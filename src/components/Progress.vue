@@ -1,7 +1,7 @@
 <template>
   <el-progress
     v-bind="trimAttrs($attrs)"
-    :type="isCircular ? 'circle' : 'line'"
+    :type="progressShape"
     :color="backgroundColorByType"
     :text-inside="isValueInside"
     :show-text="hasValue ? true : false"
@@ -17,16 +17,16 @@ export default {
   name: 'JskProgress',
   inheritAttrs: false,
   props: {
-    isCircular: {
-      type: Boolean,
-      default: false
+    progressShape: {
+      type: String,
+      default: 'line'
     },
     progressType: {
       type: String,
       default: ''
     },
     progressBarColor: {
-      type: String,
+      type: [String, Array],
       default: ''
     },
     progressDiameter: {
