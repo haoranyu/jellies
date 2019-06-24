@@ -1,0 +1,216 @@
+@font-face {
+  font-family: 'jellies-icons';
+  src: url('./jellies-icons.woff') format('woff'), /* chrome, firefox */
+       url('./jellies-icons.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  font-weight: normal;
+  font-style: normal
+}
+
+[class^="el-icon-j-"], [class*=" el-icon-j-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'jellies-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/// Icon definition start
+
+.el-icon-j-save:before {
+  content: "\e92c";
+}
+.el-icon-j-arrow-right:before {
+  content: "\e900";
+}
+.el-icon-j-angle-down:before {
+  content: "\e901";
+}
+.el-icon-j-angle-left:before {
+  content: "\e902";
+}
+.el-icon-j-angle-right:before {
+  content: "\e903";
+}
+.el-icon-j-angle-up:before {
+  content: "\e904";
+}
+.el-icon-j-arrow-down:before {
+  content: "\e905";
+}
+.el-icon-j-arrow-left:before {
+  content: "\e906";
+}
+.el-icon-j-arrow-up:before {
+  content: "\e907";
+}
+.el-icon-j-backward:before {
+  content: "\e908";
+}
+.el-icon-j-bars:before {
+  content: "\e909";
+}
+.el-icon-j-bell:before {
+  content: "\e90a";
+}
+.el-icon-j-calendar:before {
+  content: "\e90b";
+}
+.el-icon-j-caret-down:before {
+  content: "\e90c";
+}
+.el-icon-j-caret-left:before {
+  content: "\e90d";
+}
+.el-icon-j-caret-right:before {
+  content: "\e90e";
+}
+.el-icon-j-caret-up:before {
+  content: "\e90f";
+}
+.el-icon-j-check-square:before {
+  content: "\e910";
+}
+.el-icon-j-check:before {
+  content: "\e911";
+}
+.el-icon-j-clock:before {
+  content: "\e912";
+}
+.el-icon-j-code-submit:before {
+  content: "\e913";
+}
+.el-icon-j-comment:before {
+  content: "\e914";
+}
+.el-icon-j-double-angle-down:before {
+  content: "\e915";
+}
+.el-icon-j-double-angle-left:before {
+  content: "\e916";
+}
+.el-icon-j-double-angle-right:before {
+  content: "\e917";
+}
+.el-icon-j-double-angle-up:before {
+  content: "\e918";
+}
+.el-icon-j-drag-bar-horizontal:before {
+  content: "\e919";
+}
+.el-icon-j-drag-bar-vertical:before {
+  content: "\e91a";
+}
+.el-icon-j-expand:before {
+  content: "\e91b";
+}
+.el-icon-j-expand-square:before {
+  content: "\e91c";
+}
+.el-icon-j-fast-backward:before {
+  content: "\e91d";
+}
+.el-icon-j-fast-forward:before {
+  content: "\e91e";
+}
+.el-icon-j-forward:before {
+  content: "\e91f";
+}
+.el-icon-j-gear:before {
+  content: "\e920";
+}
+.el-icon-j-heart-broken:before {
+  content: "\e921";
+}
+.el-icon-j-heart:before {
+  content: "\e922";
+}
+.el-icon-j-home:before {
+  content: "\e923";
+}
+.el-icon-j-info-circle:before {
+  content: "\e924";
+}
+.el-icon-j-info:before {
+  content: "\e925";
+}
+.el-icon-j-pause:before {
+  content: "\e926";
+}
+.el-icon-j-play:before {
+  content: "\e927";
+}
+.el-icon-j-question-circle:before {
+  content: "\e928";
+}
+.el-icon-j-question:before {
+  content: "\e929";
+}
+.el-icon-j-reconnect:before {
+  content: "\e92a";
+}
+.el-icon-j-replay:before {
+  content: "\e92b";
+}
+.el-icon-j-shrink-square:before {
+  content: "\e92d";
+}
+.el-icon-j-shrink:before {
+  content: "\e92e";
+}
+.el-icon-j-sound-off:before {
+  content: "\e92f";
+}
+.el-icon-j-sound-on:before {
+  content: "\e930";
+}
+.el-icon-j-star:before {
+  content: "\e931";
+}
+.el-icon-j-times-square:before {
+  content: "\e932";
+}
+.el-icon-j-times:before {
+  content: "\e933";
+}
+.el-icon-j-user-admin:before {
+  content: "\e934";
+}
+.el-icon-j-user-graduate:before {
+  content: "\e935";
+}
+.el-icon-j-user:before {
+  content: "\e936";
+}
+.el-icon-j-video:before {
+  content: "\e937";
+}
+.el-icon-j-warning-circle:before {
+  content: "\e938";
+}
+.el-icon-j-warning:before {
+  content: "\e939";
+}
+
+/// Icon definition end
+
+.el-icon-j-loading {
+  animation: rotating 2s linear infinite;
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
