@@ -1,9 +1,7 @@
 <template>
   <el-upload
+    ref="upload"
     v-bind="trimAttrs($attrs)"
-    v-on:clear-files="this.$emit('clear-files')"
-    v-on:abort="abort"
-    v-on:submit="this.$emit('submit')"
     :drag="isDraggable"
     :show-file-list="hasFileList"
     :auto-upload="isAutoUpload"
@@ -33,8 +31,14 @@ export default {
       })
       return attrs;
     },
-    abort: function(files) {
-      this.$emit('abort', files);
+    clearFiles: function() {
+      this.$refs.upload.clearFiles();
+    },
+    abort: function(file) {
+      this.$refs.upload.abort(file);
+    },
+    submit: function() {
+      this.$refs.upload.submit();
     }
   },
   props: {

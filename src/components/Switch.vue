@@ -1,5 +1,6 @@
 <template>
   <el-switch
+    ref="switch"
     v-model="value"
     v-bind="trimAttrs($attrs)"
     :active-color="switchActiveColor"
@@ -52,6 +53,9 @@ export default {
         })
       })
       return attrs;
+    },
+    focus: function() {
+      this.$refs.switch.focus();
     }
   },
   model: {

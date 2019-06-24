@@ -1,5 +1,6 @@
 <template>
   <el-select
+    ref="select"
     v-model="value"
     v-bind="trimAttrs($attrs)"
     :allow-create="isAddingAllowed"
@@ -66,6 +67,12 @@ export default {
     },
     removeTag: function(tag) {
       this.$emit('remove-tag', tag);
+    },
+    focus: function() {
+      this.$refs.select.focus();
+    },
+    blur: function() {
+      this.$refs.select.blur();
     }
   },
   model: {
