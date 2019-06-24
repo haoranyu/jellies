@@ -1,5 +1,6 @@
 <template>
   <el-input-number
+    ref="inputNumber"
     v-model="value"
     v-bind="trimAttrs($attrs)"
     :controls-position="isRightControls ? 'right' : ''"
@@ -39,6 +40,12 @@ export default {
         })
       })
       return attrs;
+    },
+    focus: function() {
+      this.$refs.inputNumber.focus();
+    },
+    select: function() {
+      this.$refs.inputNumber.select();
     }
   },
   model: {

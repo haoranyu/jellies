@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-date-picker
+      ref="datePicker"
       v-model="value"
       v-bind="trimAttrs($attrs)"
       v-on:focus="$emit('focus')"
@@ -57,6 +58,9 @@ export default {
         })
       })
       return attrs;
+    },
+    focus: function() {
+      this.$refs.datePicker.focus();
     }
   },
   model: {

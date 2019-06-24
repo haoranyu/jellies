@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-time-select
+      ref="timeSelect"
       v-model="value"
       v-bind="trimAttrs($attrs)"
       v-on:focus="$emit('focus')"
@@ -55,6 +56,9 @@ export default {
         })
       })
       return attrs;
+    },
+    focus: function() {
+      this.$refs.timeSelect.focus();
     }
   },
   model: {
