@@ -17,14 +17,14 @@ export default {
   inheritAttrs: false,
   data: function() {
     return {
-      value: ''
+      value: true
     };
   },
   created: function() {
     this.value = this.vModel;
   },
   props: {
-    vModel: String,
+    vModel: Boolean,
     switchActiveColor: {
       type: String,
       default: '#67D757'

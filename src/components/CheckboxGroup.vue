@@ -16,14 +16,14 @@ export default {
   inheritAttrs: false,
   data: function() {
     return {
-      value: ''
+      value: []
     };
   },
   created: function() {
     this.value = this.vModel;
   },
   props: {
-    vModel: String,
+    vModel: Array,
     checkboxButtonTextColor: {
       type: String,
       default: '#FFFFFF'
