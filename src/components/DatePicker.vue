@@ -30,7 +30,7 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: Date,
+    vModel: [Date, String],
     datePickerOptions: {
       type: Object
     },
@@ -38,7 +38,7 @@ export default {
       type: Boolean,
       default: false
     },
-    timePickerTextAlign: {
+    datePickerTextAlign: {
       type: String,
       default: 'left'
     },
