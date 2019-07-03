@@ -20,11 +20,7 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: [String, Array],
-    isUnderline: {
-      type: Boolean,
-      default: false
-    }
+    vModel: [String, Array]
   },
   methods: {
     trimAttrs: function(attrs) {

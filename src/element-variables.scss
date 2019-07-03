@@ -662,15 +662,15 @@ $--switch-button-size: 16px !default;
 /* Dialog
 -------------------------- */
 $--dialog-background-color: $--color-white !default;
-$--dialog-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !default;
+$--dialog-box-shadow: 0 0 8px 0 rgba(139, 154, 174, 0.15);
 /// fontSize||Font|1
-$--dialog-title-font-size: $--font-size-large !default;
+$--dialog-title-font-size: $--font-size-medium;
 /// fontSize||Font|1
 $--dialog-content-font-size: 14px !default;
 /// fontLineHeight||LineHeight|2
 $--dialog-font-line-height: $--font-line-height-primary !default;
 /// padding||Spacing|3
-$--dialog-padding-primary: 20px !default;
+$--dialog-padding-primary: 24px !default;
 
 /* Table
 -------------------------- */

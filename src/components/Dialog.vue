@@ -1,0 +1,212 @@
+<template>
+  <el-dialog
+    v-bind="trimAttrs($attrs)"
+    :visible.sync="visibleProp"
+    :title="dialogTitle"
+    :width="typeof(dialogWidth) === 'string' ? dialogWidth : dialogWidth + 'px'"
+    :top="typeof(dialogTop) === 'string' ? dialogTop : dialogTop + 'px'"
+    :modal="hasMask"
+    :modal-append-to-body="isMaskOnBody"
+    :append-to-body="isOnBody"
+    :close-on-click-modal="isClickMaskClosable"
+    :is-press-esc-closable="isPressEscClosable"
+    :show-close="hasCloseButton"
+    :custom-class="[
+      dialogCustomClass,
+      'jsk-dialog',
+      (dialogDecoration.src !== null ? 'jsk-dialog-padding-left' : ''),
+      (hasTitle ? '' : ' jsk-hide-header')
+    ]"
+  >
+    <div class="jsk-dialog-decoration" :style="dialogDecorationStyle" v-if="dialogDecoration.src !== null"></div>
+    <template slot="title">
+      <slot name="title"></slot>
+    </template>
+    <slot></slot>
+    <template slot="footer">
+      <el-form
+        size="small"
+        @submit.native.prevent>
+        <el-form-item class="jsk-dialog-footer">
+          <el-row :gutter="12">
+            <el-col :span="12" class="jsk-dialog-footer-left">
+              <slot name="footer-left"></slot>
+            </el-col>
+            <el-col :span="12">
+              <slot name="footer-right"></slot>
+            </el-col>
+          </el-row>
+          <slot name="footer"></slot>
+        </el-form-item>
+      </el-form>
+    </template>
+  </el-dialog>
+</template>
+
+<script>
+export default {
+  name: 'JskDialog',
+  inheritAttrs: false,
+  computed: {
+    hasTitle: function() {
+      if (this.$slots.title || this.dialogTitle !== '') {
+        return true;
+      }
+      return false;
+    },
+    dialogDecorationStyle: function() {
+      return {
+        top: this.dialogDecoration.top,
+        left: this.dialogDecoration.left,
+        backgroundImage: 'url(' + this.dialogDecoration.src + ')',
+        width: this.dialogDecoration.width,
+        height: this.dialogDecoration.height
+      }
+    }
+  },
+  data: function() {
+    return {
+      visibleProp: false
+    };
+  },
+  created: function() {
+    this.visibleProp = this.visible;
+  },
+  props: {
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    dialogTitle: {
+      type: String,
+      default: ''
+    },
+    dialogWidth: {
+      type: [String, Number],
+      default: '50%'
+    },
+    dialogTop: {
+      type: [String, Number],
+      default: '15vh'
+    },
+    dialogCustomClass: {
+      type: String,
+      default: ''
+    },
+    dialogDecoration: {
+      type: Object,
+      default: function() {
+        return {
+          top: 0,
+          left: 0,
+          src: null,
+          width: 0,
+          height: 0
+        }
+      },
+      style: {
+        type: Object,
+        default: function() {
+          return {}
+        }
+      }
+    },
+    hasMask: {
+      type: Boolean,
+      default: true
+    },
+    isMaskOnBody: {
+      type: Boolean,
+      default: true
+    },
+    isOnBody: {
+      type: Boolean,
+      default: false
+    },
+    isScrollLocked: {
+      type: Boolean,
+      default: true
+    },
+    isClickMaskClosable: {
+      type: Boolean,
+      default: true
+    },
+    isPressEscClosable: {
+      type: Boolean,
+      default: true
+    },
+    hasCloseButton: {
+      type: Boolean,
+      default: true
+    },
+  },
+  methods: {
+    trimAttrs: function(attrs) {
+      Object.keys(attrs).forEach((key) => {
+        let prefixs = ['is-', 'has-', 'dialog-'];
+        prefixs.forEach((prefix) => {
+          if (key.substr(0, prefix.length) === prefix) {
+            attrs[key.substr(prefix.length)] = attrs[key];
+          }
+        })
+      })
+      return attrs;
+    }
+  },
+  watch: {
+    visibleProp: function() {
+      this.$emit('update:visible', this.visibleProp)
+    },
+    visible: function() {
+      this.visibleProp = this.visible;
+    }
+  }
+}
+</script>
+<style scoped>
+.jsk-dialog-footer {
+  margin-bottom: 0 !important;
+}
+.jsk-dialog-footer-left {
+  text-align: left;
+}
+.jsk-dialog-decoration {
+  display: block;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+</style>
+<style>
+.jsk-dialog.jsk-dialog-padding-left {
+  padding-left: 80px !important;
+}
+.jsk-dialog.jsk-hide-header .el-dialog__header {
+  padding: 10px 24px;
+}
+.jsk-dialog .el-dialog__header {
+  padding-bottom: 0 !important;
+}
+.jsk-dialog .el-dialog__footer {
+  padding-top: 0 !important;
+}
+.jsk-dialog .el-dialog__title {
+  font-weight: bold;
+}
+.jsk-dialog .el-dialog__headerbtn {
+  font-size: 24px;
+  top: 18px;
+  right: 18px;
+}
+.jsk-dialog .el-dialog__headerbtn .el-dialog__close {
+  color: #777 !important;
+}
+.jsk-dialog .el-dialog__headerbtn:focus .el-dialog__close,
+.jsk-dialog .el-dialog__headerbtn:hover .el-dialog__close {
+  color: #555 !important;
+}
+.jsk-dialog .el-dialog__body {
+  padding: 14px 24px;
+}
+</style>
