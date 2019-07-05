@@ -13,7 +13,7 @@ export default {
       type: Boolean,
       default: true
     },
-    dblClickSplitter: {
+    hasDblclickExpansion: {
       type: Boolean,
       default: true
     },
@@ -393,7 +393,7 @@ export default {
               ...('ontouchstart' in window ? { touchstart: e => this.onMouseDown(e, i - 1) } : {}),
               mousedown: e => this.onMouseDown(e, i - 1),
               click: e => this.onSplitterClick(e, i),
-              ...(this.dblClickSplitter ? { dblclick: e => this.onSplitterDblClick(e, i) } : {})
+              ...(this.hasDblclickExpansion ? { dblclick: e => this.onSplitterDblClick(e, i) } : {})
             }
           }
           splitPanesChildren.push(createEl('div', splitterAttributes))
