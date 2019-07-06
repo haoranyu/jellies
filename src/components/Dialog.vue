@@ -4,7 +4,7 @@
     :visible.sync="visibleProp"
     :title="dialogTitle"
     :width="typeof(dialogWidth) === 'string' ? dialogWidth : dialogWidth + 'px'"
-    :top="typeof(dialogTop) === 'string' ? dialogTop : dialogTop + 'px'"
+    :top="typeof(dialogTop) === 'string' ? dialogTop : dialogTop + 'vh'"
     :modal="hasMask"
     :modal-append-to-body="isMaskOnBody"
     :append-to-body="isOnBody"
@@ -155,7 +155,7 @@ export default {
   },
   watch: {
     visibleProp: function() {
-      this.$emit('update:visible', this.visibleProp)
+      this.$emit('update:visible', this.visibleProp);
     },
     visible: function() {
       this.visibleProp = this.visible;
