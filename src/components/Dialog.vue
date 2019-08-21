@@ -9,8 +9,10 @@
     :modal-append-to-body="isMaskOnBody"
     :append-to-body="isOnBody"
     :close-on-click-modal="isClickMaskClosable"
-    :is-press-esc-closable="isPressEscClosable"
+    :close-on-press-escape="isPressEscClosable"
     :show-close="hasCloseButton"
+    :destroy-on-close="isDestroyedOnClose"
+    :lock-scroll="isScrollLocked"
     :custom-class="[
       dialogCustomClass,
       'jsk-dialog',
@@ -134,6 +136,10 @@ export default {
     isPressEscClosable: {
       type: Boolean,
       default: true
+    },
+    isDestroyedOnClose: {
+      type: Boolean,
+      default: false
     },
     hasCloseButton: {
       type: Boolean,
