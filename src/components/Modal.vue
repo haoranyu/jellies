@@ -9,9 +9,11 @@
     :modal-append-to-body="isMaskOnBody"
     :append-to-body="isOnBody"
     :close-on-click-modal="isClickMaskClosable"
-    :is-press-esc-closable="isPressEscClosable"
+    :close-on-press-escape="isPressEscClosable"
     :show-close="false"
+    :destroy-on-close="isDestroyedOnClose"
     :fullscreen="isFullscreen"
+    :lock-scroll="isScrollLocked"
     :custom-class="modalCustomClass + ' jsk-modal'"
   >
     <template slot="title">
@@ -104,6 +106,10 @@ export default {
     isPressEscClosable: {
       type: Boolean,
       default: true
+    },
+    isDestroyedOnClose: {
+      type: Boolean,
+      default: false
     },
     hasCloseButton: {
       type: Boolean,
