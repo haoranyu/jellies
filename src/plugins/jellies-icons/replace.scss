@@ -1,0 +1,88 @@
+@font-face {
+  font-family: 'jellies-icons';
+  src: url('./jellies-icons.woff') format('woff'), /* chrome, firefox */
+       url('./jellies-icons.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  font-weight: normal;
+  font-style: normal
+}
+
+.el-icon-close,
+.el-icon-warning,
+.el-icon-danger,
+.el-icon-success,
+.el-icon-info,
+.el-icon-arrow-left,
+.el-icon-arrow-right,
+.el-icon-arrow-down,
+.el-icon-arrow-up,
+.el-icon-check,
+.el-icon-circle-close,
+.el-icon-minus,
+.el-icon-plus,
+.el-icon-circle-check,
+.el-icon-more,
+.el-icon-d-arrow-left,
+.el-icon-d-arrow-right,
+.el-icon-d-arrow-down,
+.el-icon-d-arrow-up
+ {
+  font-family: 'jellies-icons' !important;
+}
+
+.el-icon-close:before {
+  content: "\e940";
+}
+.el-icon-warning:before {
+  content: "\e927";
+}
+.el-icon-info:before {
+  content: "\e926";
+}
+.el-icon-success:before {
+  content: "\e90e";
+}
+.el-icon-danger:before {
+  content: "\e90f";
+}
+.el-icon-arrow-left:before {
+  content: "\e90d";
+}
+.el-icon-arrow-right:before {
+  content: "\e905";
+}
+.el-icon-arrow-down:before {
+  content: "\e907";
+}
+.el-icon-arrow-up:before {
+  content: "\e906";
+}
+.el-icon-check:before {
+  content: "\e93c";
+}
+.el-icon-circle-close:before {
+  content: "\e911";
+}
+.el-icon-minus:before {
+  content: "\e93e";
+}
+.el-icon-plus:before {
+  content: "\e93f";
+}
+.el-icon-circle-check:before {
+  content: "\e910";
+}
+.el-icon-more:before {
+  content: "\e93d";
+}
+.el-icon-d-arrow-left:before {
+  content: "\e90c";
+}
+.el-icon-d-arrow-right:before {
+  content: "\e90b";
+}
+.el-icon-d-arrow-down:before {
+  content: "\e90a";
+}
+.el-icon-d-arrow-up:before {
+  content: "\e908";
+}
