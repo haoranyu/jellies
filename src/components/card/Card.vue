@@ -6,7 +6,7 @@
         <div class="subtitle">{{ cardSubtitle }}</div>
         <ul class="instructors">
           <li v-for="(instructor, index) in cardInstructors" v-bind:key="index">
-            <jsk-avatar :avatar-image="instructor.avatar"></jsk-avatar>
+            <jsk-avatar :avatar-image="instructor.avatar" :avatar-size="60"></jsk-avatar>
             <div class="name">{{ instructor.name }}</div>
           </li>
         </ul>

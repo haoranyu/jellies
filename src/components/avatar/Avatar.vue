@@ -3,7 +3,7 @@
     v-bind="trimAttrs($attrs)"
     :fit="objectFit"
     :src-set="srcset"
-    :style="'background: ' + AvatarBackgroundColor + '; color: ' + AvatarTextColor"
+    :style="avatarStyle"
     v-on:error="$emit('error')"
   >
     <slot>
@@ -16,12 +16,8 @@
 export default {
   name: 'JskAvatar',
   props: {
-    avatarSize: {
-      type: Number,
-      default: 60
-    },
-    AvatarBackgroundColor: String,
-    AvatarTextColor: String,
+    avatarBackgroundColor: String,
+    avatarTextColor: String,
     srcset: String
   },
   methods: {
@@ -36,7 +32,15 @@ export default {
       })
       return attrs;
     },
-  }
+  },
+  computed: {
+    avatarStyle: function() {
+      return {
+        background: this.avatarBackgroundColor,
+        color: this.avatarTextColor,
+      };
+    },
+  },
 }
 </script>
 
