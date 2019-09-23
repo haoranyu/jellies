@@ -74,76 +74,92 @@ import Upload from './components/upload'
 
 Vue.use(Element)
 
-Vue.use(Alert)
-Vue.use(Avatar)
-Vue.use(Backtop)
-Vue.use(Badge)
-Vue.use(Breadcrumb)
-Vue.use(BreadcrumbItem)
-Vue.use(Button)
-Vue.use(ButtonGroup)
-Vue.use(Card)
-Vue.use(Carousel)
-Vue.use(CarouselItem)
-Vue.use(Cascader)
-Vue.use(Checkbox)
-Vue.use(CheckboxButton)
-Vue.use(CheckboxGroup)
-Vue.use(Col)
-Vue.use(Collapse)
-Vue.use(CollapseItem)
-Vue.use(ColorPicker)
-Vue.use(Container)
-Vue.use(DatePicker)
-Vue.use(Dialog)
-Vue.use(Divider)
-Vue.use(Drawer)
-Vue.use(Dropdown)
-Vue.use(DropdownItem)
-Vue.use(DropdownMenu)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Header)
-Vue.use(Image)
-Vue.use(Input)
-Vue.use(InputNumber)
-Vue.use(Link)
-Vue.use(MenuItem)
-Vue.use(MenuItemGroup)
-Vue.use(Modal)
-Vue.use(Option)
-Vue.use(OptionGroup)
-Vue.use(Pagination)
-Vue.use(Panel)
-Vue.use(Popover)
-Vue.use(Price)
-Vue.use(Progress)
-Vue.use(Radio)
-Vue.use(RadioButton)
-Vue.use(RadioGroup)
-Vue.use(Rate)
-Vue.use(Row)
-Vue.use(Select)
-Vue.use(SideMenu)
-Vue.use(Slider)
-Vue.use(Splitpanes)
-Vue.use(Submenu)
-Vue.use(Switch)
-Vue.use(Table)
-Vue.use(TableColumn)
-Vue.use(Tag)
-Vue.use(Text)
-Vue.use(TimePicker)
-Vue.use(TimeSelect)
-Vue.use(Timeline)
-Vue.use(TimelineItem)
-Vue.use(Tooltip)
-Vue.use(Topnav)
-Vue.use(Tree)
-Vue.use(Upload)
+const components = [
+  Alert,
+  Avatar,
+  Backtop,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  ButtonGroup,
+  Card,
+  Carousel,
+  CarouselItem,
+  Cascader,
+  Checkbox,
+  CheckboxButton,
+  CheckboxGroup,
+  Col,
+  Collapse,
+  CollapseItem,
+  ColorPicker,
+  Container,
+  DatePicker,
+  Dialog,
+  Divider,
+  Drawer,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Form,
+  FormItem,
+  Header,
+  Image,
+  Input,
+  InputNumber,
+  Link,
+  MenuItem,
+  MenuItemGroup,
+  Modal,
+  Option,
+  OptionGroup,
+  Pagination,
+  Panel,
+  Popover,
+  Price,
+  Progress,
+  Radio,
+  RadioButton,
+  RadioGroup,
+  Rate,
+  Row,
+  Select,
+  SideMenu,
+  Slider,
+  Splitpanes,
+  Submenu,
+  Switch,
+  Table,
+  TableColumn,
+  Tag,
+  Text,
+  TimePicker,
+  TimeSelect,
+  Timeline,
+  TimelineItem,
+  Tooltip,
+  Topnav,
+  Tree,
+  Upload
+];
+
+const install = function(Vue, opts = {}) {
+  if (install.installed) return;
+
+  components.forEach(component => {
+    Vue.component(component.name, component);
+  });
+
+  Vue.prototype.$ELEMENT = {
+    size: opts.size || '',
+    zIndex: opts.zIndex || 2000
+  };
+};
 
 export default {
   version: '1.0.0',
+  install,
   Alert,
   Avatar,
   Backtop,

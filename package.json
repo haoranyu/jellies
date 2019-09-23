@@ -1,8 +1,9 @@
 {
   "name": "jellies",
-  "version": "0.9.0",
+  "version": "0.9.3",
   "description": "A UI toolkit for Vue 2.x based on elementUI.",
   "main": "./dist/jellies.common.js",
+  "module": "./src/index.js",
   "files": [
     "dist/*",
     "src/*",
@@ -17,7 +18,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "core-js": "^2.6.9",
     "element-ui": "^2.11.1",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.3.1",
     "vue": "^2.6.10"
   },
   "devDependencies": {
@@ -27,8 +31,6 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.15.3",
     "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^7.0.3",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.6.10"
   },
@@ -55,5 +57,7 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "author": "Haoran Yu",
+  "license": "MIT",
 }
