@@ -17,7 +17,7 @@ Import it to your project. And use it accordingly on your Vue instance.
 ```
 import Jellies from 'jellies'
 
-// Some code releated to Vue...
+// Some code related to Vue...
 
 Vue.use(Jellies);
 ```
