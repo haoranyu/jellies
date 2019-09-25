@@ -57,6 +57,8 @@ import Select from './components/select'
 import SideMenu from './components/side-menu'
 import Slider from './components/slider'
 import Splitpanes from './components/splitpanes'
+import Step from './components/step'
+import Steps from './components/steps'
 import Submenu from './components/submenu'
 import Switch from './components/switch'
 import Table from './components/table'
@@ -128,6 +130,8 @@ const components = [
   SideMenu,
   Slider,
   Splitpanes,
+  Step,
+  Steps,
   Submenu,
   Switch,
   Table,
@@ -213,6 +217,8 @@ export default {
   SideMenu,
   Slider,
   Splitpanes,
+  Step,
+  Steps,
   Submenu,
   Switch,
   Table,
