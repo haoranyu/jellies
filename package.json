@@ -22,7 +22,9 @@
     "element-ui": "^2.12.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.3.1",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-clipboard2": "^0.3.1",
+    "vue-codemirror": "^4.0.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",

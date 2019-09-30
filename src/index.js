@@ -1,8 +1,17 @@
 import Vue from 'vue'
+
+import VueCodemirror from 'vue-codemirror'
+import './plugins/codemirror'
+Vue.use(VueCodemirror)
+
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 import Element from 'element-ui'
 import './plugins/element-variables.scss'
 import './plugins/jellies-icons/style.scss'
 import './plugins/jellies-icons/replace.scss'
+Vue.use(Element)
 
 import Alert from './components/alert'
 import Avatar from './components/avatar'
@@ -19,6 +28,7 @@ import Cascader from './components/cascader'
 import Checkbox from './components/checkbox'
 import CheckboxButton from './components/checkbox-button'
 import CheckboxGroup from './components/checkbox-group'
+import Codeblock from './components/codeblock'
 import Col from './components/col'
 import Collapse from './components/collapse'
 import CollapseItem from './components/collapse-item'
@@ -74,8 +84,6 @@ import Topnav from './components/topnav'
 import Tree from './components/tree'
 import Upload from './components/upload'
 
-Vue.use(Element)
-
 const components = [
   Alert,
   Avatar,
@@ -92,6 +100,7 @@ const components = [
   Checkbox,
   CheckboxButton,
   CheckboxGroup,
+  Codeblock,
   Col,
   Collapse,
   CollapseItem,
@@ -179,6 +188,7 @@ export default {
   Checkbox,
   CheckboxButton,
   CheckboxGroup,
+  Codeblock,
   Col,
   Collapse,
   CollapseItem,
