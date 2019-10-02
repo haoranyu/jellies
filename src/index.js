@@ -13,6 +13,9 @@ import './plugins/jellies-icons/style.scss'
 import './plugins/jellies-icons/replace.scss'
 Vue.use(Element)
 
+import Katex from 'vue-katex-auto-render'
+Vue.directive('katex', Katex)
+
 import Alert from './components/alert'
 import Avatar from './components/avatar'
 import Backtop from './components/backtop'
