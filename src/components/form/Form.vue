@@ -1,73 +1,90 @@
-<template>
-  <el-form
-    ref="form"
-    v-bind="trimAttrs($attrs)"
-    v-on:validate="validate"
-    :label-width="labelWidth"
-    :hide-required-asterisk="!hasRequiredIndicator"
-    :show-message="hasMessage"
-    :inline-message="isMessageInline"
-  >
-    <slot></slot>
-  </el-form>
-</template>
-
 <script>
+import { Form } from 'element-ui'
+Form.props = {};
 export default {
   name: 'JskForm',
-  inheritAttrs: false,
+  mixins: [ Form ],
   props: {
-    formLabelWidth: [
-      Number,
-      String
-    ],
+    formModel: Object,
+    formRules: Object,
+    isInline: {
+      type: Boolean,
+      default: false
+    },
+    formLabelWidth: {
+      type: [String, Number],
+      default: 'auto'
+    },
+    formLabelPosition: {
+      type: String,
+      default: 'right'
+    },
+    formLabelSuffix: {
+      type: String,
+      default: ''
+    },
+    formSize: String,
     hasRequiredIndicator: {
       type: Boolean,
-      default: true
+      default: false
     },
     hasMessage: {
       type: Boolean,
       default: true
     },
+    hasStatusIcon: {
+      type: Boolean,
+      default: false
+    },
     isMessageInline: {
+      type: Boolean,
+      default: false
+    },
+    hasValidateOnRuleChange: {
+      type: Boolean,
+      default: true
+    },
+    disabled: {
       type: Boolean,
       default: false
     }
   },
   computed: {
+    model: function() {
+      return this.formModel;
+    },
+    rules: function() {
+      return this.formRules;
+    },
+    inline: function() {
+      return this.isInline;
+    },
+    labelPosition: function() {
+      return this.formLabelPosition;
+    },
     labelWidth: function() {
-      let formLabelWidth = this.formLabelWidth;
-      if (typeof(formLabelWidth) === 'string') {
-        return this.formLabelWidth;
-      } else if (typeof(formLabelWidth) === 'number') {
-        return this.formLabelWidth + 'px';
-      }
-      return '';
-    }
-  },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'form-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
+      return this.formLabelWidth;
     },
-    validate: function(func) {
-      this.$refs.form.validate(func);
+    labelSuffix: function() {
+      return this.formLabelSuffix;
     },
-    validateField: function(func) {
-      this.$refs.form.validateField(func);
+    hideRequiredAsterisk: function() {
+      return !this.formLabelSuffix;
     },
-    resetFields: function() {
-      this.$refs.form.resetFields();
+    showMessage: function() {
+      return this.hasMessage;
     },
-    clearValidate: function(func) {
-      this.$refs.form.clearValidate(func);
+    inlineMessage: function() {
+      return this.isMessageInline;
+    },
+    statusIcon: function() {
+      return this.hasStatusIcon;
+    },
+    validateOnRuleChange: function() {
+      return this.hasValidateOnRuleChange;
+    },
+    size: function() {
+      return this.formSize;
     }
   }
 }
