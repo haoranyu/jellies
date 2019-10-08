@@ -560,11 +560,11 @@ $--tab-vertical-header-count-fill: $--color-text-secondary !default;
 /* Button
 -------------------------- */
 
-$--button-font-size: $--font-size-base;
+$--button-font-size: $--font-size-base !default;
 /// fontWeight|[]|Font|1
-$--button-font-weight: $--font-weight-primary;
+$--button-font-weight: $--font-weight-primary !default;;
 /// borderRadius|[]|Border|2
-$--button-border-radius: $--border-radius-base;
+$--button-border-radius: $--border-radius-base !default;
 $--button-padding-vertical: 11px;
 $--button-padding-horizontal: 13px;
 $--button-margin: 12px;
