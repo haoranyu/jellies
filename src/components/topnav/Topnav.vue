@@ -53,7 +53,7 @@ export default {
     return {
       currentActive: 0,
       currentHover: 0
-    }
+    };
   },
   mounted: function() {
     this.currentActive = this.topnavInitActive;
