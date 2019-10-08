@@ -1,7 +1,23 @@
 <template>
-  <ul :style="{ height: topnavHeight + 'px', lineHeight: topnavHeight + 'px' }">
-    <li v-for="(item, index) in topnavItems" :class="index === currentActive ? 'active' : ''" v-bind:key="index" v-on:click="toItem(index)">
+  <ul :style="{ height: height, lineHeight: height }">
+    <li
+      v-for="(item, index) in topnavItems"
+      :class="index === currentActive ? 'active' : ''"
+      v-bind:key="index"
+      v-on:click="toItem(index)"
+      v-on:mouseover="hoverItem(index)"
+      v-on:mouseout="hoverItem(currentActive)"
+      :style="{
+        color: (index === currentActive || index === currentHover)  ? topnavActiveColor : 'inherit'
+      }"
+    >
       {{ item.name }}
+      <div
+        class="avtive-bar"
+        :style="{
+          background: topnavActiveColor
+        }"
+      ></div>
     </li>
   </ul>
 </template>
@@ -12,7 +28,7 @@ export default {
   name: 'JskTopnav',
   props: {
     topnavHeight: {
-      type: Number,
+      type: [String, Number],
       default: 50
     },
     topnavItems: {
@@ -27,20 +43,37 @@ export default {
     topnavInitActive: {
       type: Number,
       default: 0
+    },
+    topnavActiveColor: {
+      type: String,
+      default: '#41B146'
     }
   },
   data: function() {
     return {
-      currentActive: 0
-    }
+      currentActive: 0,
+      currentHover: 0
+    };
   },
   mounted: function() {
-    this.currentActive = this.topnavInitActive
+    this.currentActive = this.topnavInitActive;
+    this.currentHover = this.topnavInitActive;
   },
   methods: {
     toItem: function(index) {
-      this.currentActive = index
-      this.topnavItems[index].callback()
+      this.currentActive = index;
+      this.topnavItems[index].callback();
+    },
+    hoverItem: function(index) {
+      this.currentHover = index;
+    }
+  },
+  computed: {
+    height: function() {
+      if (typeof(this.topnavHeight) === 'string') {
+        return this.topnavHeight;
+      }
+      return this.topnavHeight + 'px';
     }
   }
 }
@@ -62,11 +95,7 @@ ul > li {
   position: relative;
   cursor: pointer;
 }
-ul > li.active,
-ul > li:hover {
-  color: #41B146;
-}
-ul > li::after {
+ul > li .avtive-bar {
   content: " ";
   width: 0;
   height: 2px;
@@ -77,7 +106,7 @@ ul > li::after {
   left: 50%;
   transition: 0.3s all cubic-bezier(.46, 1, .23, 1.52);
 }
-ul > li.active::after {
+ul > li.active .avtive-bar {
   width: 20%;
   left: 40%;
 }
