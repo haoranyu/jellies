@@ -10,7 +10,7 @@ export default {
   name: 'JskContainer',
   props: {
     containerWidth: {
-      type: Number,
+      type: [String, Number],
       default: 1200
     },
     isCentered: {
