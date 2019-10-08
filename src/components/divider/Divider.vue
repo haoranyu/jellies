@@ -1,7 +1,7 @@
 <template>
   <el-divider
     v-bind="trimAttrs($attrs)"
-    :content-position="contentAlign">
+    :content-position="dividerContentAlign">
     <slot></slot>
   </el-divider>
 </template>
@@ -23,7 +23,7 @@ export default {
     }
   },
   props: {
-    contentAlign: {
+    dividerContentAlign: {
       type: String,
       default: 'center'
     }
