@@ -1,7 +1,7 @@
 <template>
   <div>
     <header :style="{ height: headerHeight + 'px', background: headerBackgroundColor }" :class="isFixedTop ? 'header-fixed-top' : ''">
-      <jsk-container is-horizontal is-centered :style="{ width: headerCenterWidth + 'px' }">
+      <jsk-container is-horizontal is-centered :container-width="headerCenterWidth">
         <slot></slot>
       </jsk-container>
     </header>
@@ -23,7 +23,7 @@ export default {
       default: 50
     },
     headerCenterWidth: {
-      type: Number,
+      type: [String, Number],
       default: 1200
     },
     headerBackgroundColor: {

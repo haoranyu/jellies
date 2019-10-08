@@ -9,4 +9,7 @@ export default ButtonGroup
 .el-button + .el-button-group  {
   margin-left: 12px;
 }
+.el-button-group > .el-button + .el-button {
+  margin-left: 0;
+}
 </style>

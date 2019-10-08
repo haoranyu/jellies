@@ -1,5 +1,5 @@
 <template>
-  <el-container :style="{ width: containerWidth + 'px' }" :class="[isCentered ? 'centered' : '', isFullScreen ? 'fullscreen' : '', hasBleed ? 'bleed' : '']" :direction="(isFullScreen || isHorizontal) ? 'horizontal' : 'vertical'">
+  <el-container :style="{ maxWidth: width }" :class="['container', isCentered ? 'centered' : '', isFullScreen ? 'fullscreen' : '', hasBleed ? 'bleed' : '']" :direction="(isFullScreen || isHorizontal) ? 'horizontal' : 'vertical'">
     <slot></slot>
   </el-container>
 </template>
@@ -29,11 +29,22 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  computed: {
+    width: function() {
+      if (typeof(this.containerWidth) === 'string') {
+        return this.containerWidth;
+      }
+      return this.containerWidth + 'px';
+    }
   }
 }
 </script>
 
 <style scoped>
+.container {
+  width: 100%;
+}
 .bleed {
   padding-left: 12px;
   padding-right: 12px;
