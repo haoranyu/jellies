@@ -1,45 +1,74 @@
-<template>
-  <el-dropdown
-     v-bind="trimAttrs($attrs)"
-     v-on:click="$emit('click')"
-     v-on:command="handleCommand"
-     v-on:visible-change="visibleChange"
-     :hide-on-click="isItemClickCollapsible"
-  >
-    <template slot="dropdown">
-      <slot name="dropdown"></slot>
-    </template>
-    <slot></slot>
-  </el-dropdown>
-</template>
-
 <script>
+import { Dropdown } from 'element-ui'
+Dropdown.props = {};
 export default {
   name: 'JskDropdown',
-  inheritAttrs: false,
+  mixins: [ Dropdown ],
   props: {
+    dropdownTrigger: {
+      type: String,
+      default: 'hover'
+    },
+    dropdownType: String,
+    dropdownMenuSize: {
+      type: String,
+      default: ''
+    },
+    dropdownShowTimeout: {
+      type: Number,
+      default: 250
+    },
+    dropdownHideTimeout: {
+      type: Number,
+      default: 150
+    },
+    dropdownTabindex: {
+      type: Number,
+      default: 0
+    },
+    dropdownPlacement: {
+      type: String,
+      default: 'bottom-end'
+    },
+    isSplitButton: Boolean,
     isItemClickCollapsible: {
       type: Boolean,
       default: true
+    },
+    isArrowVisible: {
+      default: true
     }
   },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'dropdown-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
+  computed: {
+    trigger: function() {
+      return this.dropdownTrigger;
     },
-    handleCommand: function(command) {
-      this.$emit('command', command);
+    type: function() {
+      return this.dropdownType;
     },
-    visibleChange: function(visibility) {
-      this.$emit('visible-change', visibility);
+    size: function() {
+      return this.dropdownMenuSize;
+    },
+    splitButton: function() {
+      return this.isSplitButton;
+    },
+    hideOnClick: function() {
+      return this.isItemClickCollapsible;
+    },
+    placement: function() {
+      return this.dropdownPlacement;
+    },
+    visibleArrow: function() {
+      return this.isArrowVisible;
+    },
+    showTimeout: function() {
+      return this.dropdownShowTimeout;
+    },
+    hideTimeout: function() {
+      return this.dropdownHideTimeout;
+    },
+    tabindex: function() {
+      return this.dropdownTabindex;
     }
   }
 }
