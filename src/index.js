@@ -74,8 +74,10 @@ import Step from './components/step'
 import Steps from './components/steps'
 import Submenu from './components/submenu'
 import Switch from './components/switch'
+import Tab from './components/tab'
 import Table from './components/table'
 import TableColumn from './components/table-column'
+import Tabs from './components/tabs'
 import Tag from './components/tag'
 import Text from './components/text'
 import TimePicker from './components/time-picker'
@@ -146,8 +148,10 @@ const components = [
   Steps,
   Submenu,
   Switch,
+  Tab,
   Table,
   TableColumn,
+  Tabs,
   Tag,
   Text,
   TimePicker,
@@ -234,8 +238,10 @@ export default {
   Steps,
   Submenu,
   Switch,
+  Tab,
   Table,
   TableColumn,
+  Tabs,
   Tag,
   Text,
   TimePicker,
