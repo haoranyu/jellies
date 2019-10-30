@@ -31,7 +31,7 @@ import Cascader from './components/cascader'
 import Checkbox from './components/checkbox'
 import CheckboxButton from './components/checkbox-button'
 import CheckboxGroup from './components/checkbox-group'
-import Codeblock from './components/codeblock'
+import CodeBlock from './components/code-block'
 import Col from './components/col'
 import Collapse from './components/collapse'
 import CollapseItem from './components/collapse-item'
@@ -105,7 +105,7 @@ const components = [
   Checkbox,
   CheckboxButton,
   CheckboxGroup,
-  Codeblock,
+  CodeBlock,
   Col,
   Collapse,
   CollapseItem,
@@ -195,7 +195,7 @@ export default {
   Checkbox,
   CheckboxButton,
   CheckboxGroup,
-  Codeblock,
+  CodeBlock,
   Col,
   Collapse,
   CollapseItem,
