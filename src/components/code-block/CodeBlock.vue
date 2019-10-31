@@ -1,12 +1,12 @@
 <template>
   <div
     :class="[
-      'jsk-codeblock',
+      'jsk-code-block',
       isSelectionAllowed ? '' : 'no-selection',
-      'jsk-codeblock-copy-' + codeblockCopyButtonTrigger
+      'jsk-code-block-copy-' + codeBlockCopyButtonTrigger
     ]"
     :style="{
-      borderColor: codeblockTheme === 'light' ? '#DDDDDD' : '#272822',
+      borderColor: codeBlockTheme === 'light' ? '#DDDDDD' : '#272822',
       width: width
     }"
   >
@@ -14,7 +14,7 @@
       ref="codemirror"
       v-model="code"
       :options="cmOption"
-      class="jsk-codeblock-codemirror"
+      class="jsk-code-block-codemirror"
       :style="{
         maxHeight: maxHeight
       }"
@@ -26,9 +26,9 @@
       v-if="isCopyAllowed"
       v-clipboard:copy="code"
       v-clipboard:success="onCopy"
-      class="jsk-codeblock-copy"
+      class="jsk-code-block-copy"
     >
-      {{ isCopied ? codeblockCopiedText : codeblockCopyText }}
+      {{ isCopied ? codeBlockCopiedText : codeBlockCopyText }}
     </jsk-button>
   </div>
 </template>
@@ -37,7 +37,7 @@
 <script>
 import CodeMirror from 'codemirror'
 export default {
-  name: 'JskCodeblock',
+  name: 'JskCodeBlock',
   data: function() {
     return {
       cmOption: {
@@ -59,8 +59,8 @@ export default {
     if (!this.isSelectionAllowed) {
       this.disableSelection();
     }
-    if (this.codeblockLanguage !== '') {
-      this.cmOption.mode = CodeMirror.findModeByName(this.codeblockLanguage).mode;
+    if (this.codeBlockLanguage !== '') {
+      this.cmOption.mode = CodeMirror.findModeByName(this.codeBlockLanguage).mode;
     }
   },
   methods: {
@@ -77,31 +77,31 @@ export default {
     }
   },
   props: {
-    codeblockTheme: {
+    codeBlockTheme: {
       type: String,
       default: 'light'
     },
-    codeblockCopyText: {
+    codeBlockCopyText: {
       type: String,
       default: '复制'
     },
-    codeblockCopiedText: {
+    codeBlockCopiedText: {
       type: String,
       default: '已复制'
     },
-    codeblockLanguage: {
+    codeBlockLanguage: {
       type: String,
       default: ''
     },
-    codeblockWidth: {
+    codeBlockWidth: {
       type: [String, Number],
       default: 'inherit'
     },
-    codeblockMaxHeight: {
+    codeBlockMaxHeight: {
       type: [String, Number],
       default: 'inherit'
     },
-    codeblockCopyButtonTrigger: {
+    codeBlockCopyButtonTrigger: {
       type: String,
       default: 'show'
     },
@@ -126,35 +126,35 @@ export default {
         'dark': 'monokai',
         'light': 'eclipse'
       };
-      return themeMapping[this.codeblockTheme];
+      return themeMapping[this.codeBlockTheme];
     },
     buttonType: function() {
       if (this.isCopied) {
         return 'success';
-      } else if (this.codeblockTheme === 'dark') {
+      } else if (this.codeBlockTheme === 'dark') {
         return 'primary';
       } else {
         return 'info';
       }
     },
     width: function() {
-      if (typeof(this.codeblockWidth) === 'string') {
-        return this.codeblockWidth;
+      if (typeof(this.codeBlockWidth) === 'string') {
+        return this.codeBlockWidth;
       }
-      return this.codeblockWidth + 'px';
+      return this.codeBlockWidth + 'px';
     },
     maxHeight: function() {
-      if (typeof(this.codeblockMaxHeight) === 'string') {
-        return this.codeblockMaxHeight;
+      if (typeof(this.codeBlockMaxHeight) === 'string') {
+        return this.codeBlockMaxHeight;
       }
-      return this.codeblockMaxHeight + 'px';
+      return this.codeBlockMaxHeight + 'px';
     },
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.jsk-codeblock {
+.jsk-code-block {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
@@ -170,19 +170,19 @@ export default {
     overflow-y: auto;
   }
 }
-.jsk-codeblock-copy-hover {
-  .jsk-codeblock-copy {
+.jsk-code-block-copy-hover {
+  .jsk-code-block-copy {
     display: none;
   }
   &:hover {
-    .jsk-codeblock-copy {
+    .jsk-code-block-copy {
       display: block;
     }
   }
 }
 </style>
 <style lang="scss">
-.jsk-codeblock {
+.jsk-code-block {
   line-height: 24px;
   overflow-y: auto;
   .CodeMirror {
