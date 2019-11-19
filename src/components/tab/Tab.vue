@@ -18,6 +18,13 @@
       }"
       @click="switchTrigger"
     >
+      <div
+        class="bar"
+        v-if="$parent.hasBar"
+        :style="{
+          background: barColor
+        }"
+      ></div>
       <i
         :class="[
           'el-icon-j-times',
@@ -68,6 +75,12 @@ export default {
     height: function() {
       return this.$parent.height;
     },
+    barColor: function() {
+      if (this.isCurrentActive) {
+        return this.$parent.tabsActiveTabBarColor;
+      }
+      return this.$parent.outerBackgroundColor;
+    },
     background: function() {
       if (this.isCurrentActive) {
         return this.$parent.innerActiveBackgroundColor;
@@ -87,6 +100,9 @@ export default {
       return this.isClosable;
     },
     dividerStyle: function() {
+      if (this.isCurrentActive) {
+        return 'none';
+      }
       return this.$parent.hasDivider ? 'solid' : 'none';
     },
     dividerColor: function() {
@@ -158,6 +174,13 @@ i,
   right: 5px;
   z-index: 30;
   width: 14px;
+}
+.bar {
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 i {
   display: none;

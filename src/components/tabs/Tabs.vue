@@ -35,6 +35,10 @@ export default {
     tabsActiveTabBackgroundColor: String,
     tabsTabTextColor: String,
     tabsActiveTabTextColor: String,
+    tabsActiveTabBarColor: {
+      type: String,
+      default: '#41B146'
+    },
     tabsHeight: {
       type: [String, Number],
       default: 40
@@ -68,6 +72,10 @@ export default {
       default: false
     },
     hasTooltip: {
+      type: Boolean,
+      default: false
+    },
+    hasBar: {
       type: Boolean,
       default: false
     },
