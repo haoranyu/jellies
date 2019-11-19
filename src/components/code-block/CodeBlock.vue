@@ -60,7 +60,7 @@ export default {
       this.disableSelection();
     }
     if (this.codeBlockLanguage !== '') {
-      this.cmOption.mode = CodeMirror.findModeByName(this.codeBlockLanguage).mode;
+      this.cmOption.mode = CodeMirror.findModeByName(this.codeBlockLanguage).mime;
     }
   },
   methods: {

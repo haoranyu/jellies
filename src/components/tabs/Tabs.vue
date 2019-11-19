@@ -74,18 +74,6 @@ export default {
     isClosable: {
       type: Boolean,
       default: false
-    },
-    tabsAfterSwitchMethod: {
-      type: Function,
-      default: (index) => {
-        return true;
-      }
-    },
-    tabsAfterCloseMethod: {
-      type: Function,
-      default: (index) => {
-        return true;
-      }
     }
   },
   computed: {
@@ -155,6 +143,11 @@ export default {
       } else {
         return 'dark';
       }
+    }
+  },
+  methods: {
+    changeActive: function(index) {
+      this.currentActive = index;
     }
   }
 }

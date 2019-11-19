@@ -13,21 +13,16 @@
     :show-close="hasCloseButton"
     :destroy-on-close="isDestroyedOnClose"
     :lock-scroll="isScrollLocked"
-    :custom-class="[
-      dialogCustomClass,
-      'jsk-dialog',
-      (dialogDecoration.src !== null ? 'jsk-dialog-padding-left' : ''),
-      (hasTitle ? '' : ' jsk-hide-header')
-    ]"
+    :custom-class="customClass"
   >
-    <div class="jsk-dialog-decoration" :style="dialogDecorationStyle" v-if="dialogDecoration.src !== null"></div>
+    <div class="jsk-dialog-decoration" :style="decorationStyle" v-if="dialogDecoration.src !== null"></div>
     <template slot="title">
       <slot name="title"></slot>
     </template>
     <slot></slot>
     <template slot="footer">
-      <el-form
-        size="small"
+      <jsk-form
+        form-size="small"
         @submit.native.prevent>
         <el-form-item class="jsk-dialog-footer">
           <el-row :gutter="12">
@@ -40,7 +35,7 @@
           </el-row>
           <slot name="footer"></slot>
         </el-form-item>
-      </el-form>
+      </jsk-form>
     </template>
   </el-dialog>
 </template>
@@ -56,7 +51,7 @@ export default {
       }
       return false;
     },
-    dialogDecorationStyle: function() {
+    decorationStyle: function() {
       return {
         top: this.dialogDecoration.top,
         left: this.dialogDecoration.left,
@@ -64,6 +59,15 @@ export default {
         width: this.dialogDecoration.width,
         height: this.dialogDecoration.height
       }
+    },
+    customClass: function() {
+      let classList = [
+        this.dialogCustomClass,
+        'jsk-dialog',
+        (this.dialogDecoration.src !== null ? 'jsk-dialog-padding-left' : ''),
+        (this.hasTitle ? '' : ' jsk-hide-header')
+      ];
+      return classList.join(' ');
     }
   },
   data: function() {
@@ -144,7 +148,7 @@ export default {
     hasCloseButton: {
       type: Boolean,
       default: true
-    },
+    }
   },
   methods: {
     trimAttrs: function(attrs) {

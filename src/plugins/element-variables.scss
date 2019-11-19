@@ -334,11 +334,11 @@ $--radio-bordered-mini-height: 28px !default;
 /// fontSize||Font|1
 $--radio-button-font-size: $--font-size-base !default;
 /// color||Color|0
-$--radio-button-checked-background-color: $--color-primary;
+$--radio-button-checked-background-color: $--color-success-dark;
 /// color||Color|0
 $--radio-button-checked-font-color: $--color-white !default;
 /// color|[]|Color|0
-$--radio-button-checked-border-color: $--color-primary;
+$--radio-button-checked-border-color: $--color-success-dark;
 $--radio-button-disabled-checked-fill: $--border-color-extra-light !default;
 
 /* Select

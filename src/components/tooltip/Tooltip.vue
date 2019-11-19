@@ -1,6 +1,6 @@
 <template>
   <el-tooltip
-    v-model="value"
+    :value="value"
     v-bind="trimAttrs($attrs)"
     :visible-arrow="isArrowVisible"
     :manual="isManual"
@@ -16,16 +16,11 @@
 export default {
   name: 'JskTooltip',
   inheritAttrs: false,
-  data: function() {
-    return {
-      value: ''
-    };
-  },
   created: function() {
-    this.value = this.vModel;
+    this.value = this.isVisible;
   },
   props: {
-    vModel: {
+    isVisible: {
       type: Boolean,
       default: false
     },
@@ -57,18 +52,6 @@ export default {
         })
       })
       return attrs;
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-    },
-    vModel: function() {
-      this.value = this.vModel;
     }
   }
 }

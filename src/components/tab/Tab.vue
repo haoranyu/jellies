@@ -1,11 +1,11 @@
 <template>
   <jsk-tooltip
     :tooltip-open-delay="1000"
-    :tooltip-content="content"
+    :tooltip-content="tooltipContent"
     tooltip-placement="bottom"
     :tooltip-theme="tooltipTheme"
     :disabled="!showTooltip"
-    v-if="!closed">
+  >
     <li
       :class="isCurrentActive ? 'active' : ''"
       :style="{
@@ -29,6 +29,9 @@
         }"
         @click.stop="closeTrigger"
       ></i>
+      <span class="mark" v-show="hasMark">
+        <slot name="mark"></slot>
+      </span>
       <slot></slot>
     </li>
   </jsk-tooltip>
@@ -37,27 +40,24 @@
 <script>
 export default {
   name: 'JskTab',
-  data: function() {
-    return {
-      closed: false
-    }
-  },
   props: {
     tabIndex: Number,
+    tabTooltip: String,
     isActive: {
       type: Boolean,
       default: false
     },
-    tabBeforeSwitchMethod: {
-      type: Function,
-      default: (index) => {
-        return true;
-      }
+    isClosable: Boolean,
+    hasMark: {
+      type: Boolean,
+      default: false
     },
-    tabBeforeCloseMethod: {
+    beforeClose: {
       type: Function,
-      default: (index) => {
-        return true;
+      default: () => {
+        return new Promise((returnToTab) => {
+          returnToTab(true);
+        });
       }
     }
   },
@@ -81,7 +81,10 @@ export default {
       return 'inherit';
     },
     closable: function() {
-      return this.$parent.isClosable;
+      if (this.isClosable === undefined) {
+        return this.$parent.isClosable;
+      }
+      return this.isClosable;
     },
     dividerStyle: function() {
       return this.$parent.hasDivider ? 'solid' : 'none';
@@ -109,20 +112,25 @@ export default {
         return true;
       }
       return false;
+    },
+    tooltipContent: function() {
+      if (this.tabTooltip) {
+        return this.tabTooltip;
+      }
+      return this.content;
     }
   },
   methods: {
     switchTrigger: function() {
-      if (this.tabBeforeSwitchMethod(this.tabIndex)) {
-        this.$parent.currentActive = this.tabIndex;
-        this.$parent.tabsAfterSwitchMethod(this.tabIndex);
-      }
+      this.$emit('switch', this.tabIndex, this.$parent.currentActive);
+      this.$parent.currentActive = this.tabIndex;
     },
     closeTrigger: function() {
-      if (this.tabBeforeCloseMethod(this.tabIndex)) {
-        this.closed = true;
-        this.$parent.tabsAfterCloseMethod(this.tabIndex);
-      }
+      this.beforeClose().then((result) => {
+        if (result) {
+          this.$emit('close', this.tabIndex);
+        }
+      });
     }
   }
 }
@@ -143,11 +151,17 @@ li {
   user-select: none;
   outline: none;
 }
-i {
+i,
+.mark {
   font-size: 14px;
   position: absolute;
   right: 5px;
+  z-index: 30;
+  width: 14px;
+}
+i {
   display: none;
+  z-index: 50;
 }
 li:hover i.closable {
   display: block;

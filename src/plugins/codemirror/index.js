@@ -1,3 +1,10 @@
 import 'codemirror/lib/codemirror.css'
 import './themes.js'
 import './modes.js'
+import './keys.js'
+import './fold.js'
+import './scrollbar.js'
+import './match.js'
+
+import 'codemirror/addon/selection/active-line.js'
+import 'codemirror/addon/selection/mark-selection.js'
