@@ -21,7 +21,7 @@
         @close="closeTab"
       >
       <div slot="mark" class="saving-mark" v-if="file.isSaving"><i class="el-icon-j-loading"></i></div>
-      <div slot="mark" class="modified-mark" v-else-if="isModified(file)">●</div>
+      <div slot="mark" class="modified-mark" v-else-if="file.isModified">●</div>
       {{ file.name }}
       </jsk-tab>
       <ul slot="options" class="jsk-code-editor-control">
@@ -68,7 +68,7 @@
         ref="codemirror"
         :options="editorOptions"
         class="jsk-code-editor-codemirror"
-        @input="buffFileChange"
+        @input="setCurrentFileModificationState"
         @gutterContextMenu="setBreakpoint"
       >
       </codemirror>
@@ -76,6 +76,7 @@
         v-show="lockMenuVisiable"
         :style="lockMenuPosition"
         :lock-menu-mode="lockMenuMode"
+        @lock-change="setCurrentFileModificationState"
         @lock="lockSelectedCode"
         @unlock="unlockLockedCode"
         @hide="lockSelectedCode(true)"
@@ -220,9 +221,9 @@ export default {
   },
   created: function() {
     this.initEditorOptions();
+    this.initFiles();
   },
   mounted: function() {
-    this.initFiles();
     this.initEditorListeners();
     this.setActiveTab(this.codeEditorInitActive);
     this.switchToCurrentFile();
@@ -242,8 +243,15 @@ export default {
     },
     initFile(file) {
       this.$set(file, 'isSaving', false);
-      this.$set(file, 'codeBuff', file.code);
+      this.$set(file, 'isModified', false);
       this.initFileLocks(file);
+      this.initFileDoc(file);
+    },
+    initFileDoc(file) {
+      file.doc = CodeMirror.Doc(file.code, this.getFileMode(file));
+      this.addLocks(file.doc, file.locks);
+      this.addFeedbackNotes(file.doc, file.feedbackNotes);
+      this.addLineNotes(file.doc, file.lineNotes);
     },
     initFileLocks(file) {
       if (file.locks === undefined) {
@@ -252,7 +260,6 @@ export default {
       file.locks.forEach((lock) => {
         lock.hide = (lock.hide === true);
       });
-      this.$set(file, 'locksBuff', file.locks);
     },
     initEditorOptions() {
       this.editorOptions = _merge(this.editorOptions, this.codeEditorOptions);
@@ -308,10 +315,13 @@ export default {
       file.doc.cantEdit = isSaving;
       file.isSaving = isSaving;
     },
-    isModified(file) {
-      let isCodeChanged = (file.code !== file.codeBuff);
-      let areLocksChanged = !_isEqual(file.locks, file.locksBuff);
-      return (isCodeChanged || areLocksChanged);
+    setModificationState(file) {
+      let isCodeChanged = (file.code !== file.doc.getValue());
+      let areLocksChanged = !_isEqual(file.locks, this.getLocks(file.doc));
+      file.isModified = (isCodeChanged || areLocksChanged);
+    },
+    setCurrentFileModificationState() {
+      return this.setModificationState(this.currentFile);
     },
 
     /////////////////////////
@@ -323,13 +333,8 @@ export default {
     },
     switchToCurrentFile() {
       let cm = this.$refs.codemirror.cminstance;
-      if (this.currentFile.doc === undefined) {
-        this.renderDoc(this.currentFile);
-        cm.swapDoc(this.currentFile.doc);
-      } else {
-        cm.swapDoc(this.currentFile.doc);
-        this.rerenderDoc(this.currentFile);
-      }
+      cm.swapDoc(this.currentFile.doc);
+      this.renderCurrentFile();
     },
     createAndSwitchToNewFile() {
       let newFile = {
@@ -361,26 +366,22 @@ export default {
       }
       return mode;
     },
-    buffFileChange() {
-      this.currentFile.codeBuff = this.currentFile.doc.getValue();
-      this.currentFile.locksBuff = this.getCurrentFileLocks();
-    },
     saveCurrentFile() {
       this.saveFile(this.currentActiveIndex);
     },
     saveFile(index) {
       let file = this.files[index];
-      let fileChanged = this.isModified(file);
-      if (fileChanged || file.name === 'untitled') {
+      if (file.isModified || file.name === 'untitled') {
         this.setSaving(file);
         return new Promise((saveDone) => {
           this.$emit('before-save', index);
           this.beforeSaveFile(file, index).then((fileSaved) => {
             if (fileSaved) {
-              file.code = file.codeBuff;
-              file.locks = file.locksBuff;
+              file.code = file.doc.getValue();
+              file.locks = this.getLocks(file.doc);
               this.$emit('saved', index);
               this.setSaving(file, false);
+              this.setModificationState(file);
               saveDone(true);
             }
           });
@@ -388,12 +389,6 @@ export default {
       }
     },
     renderDoc(file) {
-      file.doc = CodeMirror.Doc(file.code, this.getFileMode(file));
-      this.addLocks(file.doc, file.locks);
-      this.addFeedbackNotes(file.doc, file.feedbackNotes);
-      this.addLineNotes(file.doc, file.lineNotes);
-    },
-    rerenderDoc(file) {
       // Suppose that the followings might be changed and need to be rerendered:
       // - line notes
       // - errors and warnings
@@ -404,8 +399,8 @@ export default {
       this.clearLineNotes(file.doc);
       this.addLineNotes(file.doc, file.lineNotes);
     },
-    rerenderCurrentFile() {
-      this.rerenderDoc(this.currentFile);
+    renderCurrentFile() {
+      this.renderDoc(this.currentFile);
     },
 
     /////////////////////////
@@ -443,7 +438,7 @@ export default {
       return () => {
         return new Promise((returnToTab) => {
           let file = this.files[index];
-          if (this.isModified(file)) {
+          if (file.isModified) {
             this.closeConfirmFileName = file.name;
             this.closeConfirmVisiable = true;
             new Promise((resolve) => {
@@ -645,8 +640,8 @@ export default {
     /////////////////////////
     // Lock Control /////////
     /////////////////////////
-    getCurrentFileLocks() {
-      let allMarks = this.getMarks('locked-code');
+    getLocks(doc) {
+      let allMarks = this.getMarks(doc, 'locked-code');
       let allLocks = [];
       allMarks.forEach((mark) => {
         allLocks.push({
@@ -703,7 +698,6 @@ export default {
         return lock;
       });
       this.addLocks(cm.doc, newLocks);
-      this.currentFile.locksBuff = this.getCurrentFileLocks();
     },
     getLocksAtSelection() {
       let cm = this.$refs.codemirror.cminstance;
@@ -725,7 +719,6 @@ export default {
       this.selectedLocks.forEach((lock) => {
         lock.clear();
       });
-      this.currentFile.locksBuff = this.getCurrentFileLocks();
     },
     showLockControlAtSelection(mouse) {
       this.selectedLocks = this.getLocksAtSelection();
@@ -793,8 +786,8 @@ export default {
         ch: position.ch
       };
     },
-    getMarks(markClassName) {
-      let allMarks = this.currentFile.doc.getAllMarks();
+    getMarks(doc, markClassName) {
+      let allMarks = doc.getAllMarks();
       if (markClassName !== undefined) {
         allMarks = allMarks.filter((mark) => {
           return mark.className === markClassName;

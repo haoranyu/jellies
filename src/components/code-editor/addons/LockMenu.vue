@@ -7,13 +7,19 @@
       button-size="small"
       button-icon="el-icon-lock"
       is-circular
-      @click="() => { this.$emit('lock') }"
+      @click="() => {
+        this.$emit('lock');
+        this.$emit('lock-change');
+      }"
     ></jsk-button>
     <jsk-button
       button-size="small"
       button-icon="el-icon-view"
       is-circular
-      @click="() => { this.$emit('hide') }"
+      @click="() => {
+        this.$emit('hide');
+        this.$emit('lock-change');
+      }"
     ></jsk-button>
   </jsk-button-group>
   <jsk-button
@@ -22,7 +28,10 @@
     button-size="small"
     button-icon="el-icon-unlock"
     is-circular
-    @click="() => { this.$emit('unlock') }"
+    @click="() => {
+      this.$emit('unlock');
+      this.$emit('lock-change');
+    }"
   ></jsk-button>
 </template>
 <script>
