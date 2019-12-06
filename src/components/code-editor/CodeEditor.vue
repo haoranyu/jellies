@@ -97,30 +97,42 @@
       :visible.sync="closeConfirmVisiable"
     >
     </code-editor-close-confirm>
+    <code-editor-reload-confirm
+      :reload-confirm-filename="reloadConfirmFileName"
+      :reload-confirm-content="reloadConfirmContent"
+      :visible.sync="reloadConfirmVisiable"
+    >
+    </code-editor-reload-confirm>
   </div>
 </template>
 
 <script>
 import CodeMirror from 'codemirror'
 import CodeEditorCloseConfirm from './addons/CloseConfirm'
+import CodeEditorReloadConfirm from './addons/ReloadConfirm'
 import CodeEditorLockMenu from './addons/LockMenu'
 import CodeEditorFeedbackTooltip from './addons/FeedbackTooltip'
 import CodeEditorTranslation from './configs/translation'
 import CodeEditorCodemirrorOptions from './configs/options'
 const _isEqual = require('lodash.isequal');
 const _merge = require('lodash.merge');
+const _cloneDeep = require('lodash.clonedeep');
 export default {
   name: 'JskCodeEditor',
   components: {
     CodeEditorCloseConfirm,
+    CodeEditorReloadConfirm,
     CodeEditorLockMenu,
     CodeEditorFeedbackTooltip
   },
   data: function() {
     return {
+      isSwithcingTab          : false,
       value                   : null,
       closeConfirmVisiable    : false,
       closeConfirmFileName    : undefined,
+      reloadConfirmVisiable   : false,
+      reloadConfirmFileName   : undefined,
       feedbackTooltipPlacement: undefined,
       feedbackTooltipVisiable : false,
       feedbackTooltipContent  : undefined,
@@ -140,6 +152,7 @@ export default {
   },
   props: {
     codeEditorCloseConfirmContent: Object,
+    codeEditorReloadConfirmContent: Object,
     codeEditorSettingsContent: Object,
     codeEditorSettings: Object,
     codeEditorFiles: {
@@ -246,6 +259,8 @@ export default {
       this.$set(file, 'isModified', false);
       this.initFileLocks(file);
       this.initFileDoc(file);
+      this.$set(file, 'codeInit', file.code);
+      this.$set(file, 'locksInit', _cloneDeep(file.locks));
     },
     initFileDoc(file) {
       file.doc = CodeMirror.Doc(file.code, this.getFileMode(file));
@@ -316,12 +331,45 @@ export default {
       file.isSaving = isSaving;
     },
     setModificationState(file) {
-      let isCodeChanged = (file.code !== file.doc.getValue());
-      let areLocksChanged = !_isEqual(file.locks, this.getLocks(file.doc));
+      let isCodeChanged = (file.codeInit !== file.doc.getValue());
+      let areLocksChanged = !_isEqual(file.locksInit, this.getLocks(file.doc));
+      this.isAfterSwapDoc = false;
       file.isModified = (isCodeChanged || areLocksChanged);
     },
     setCurrentFileModificationState() {
       return this.setModificationState(this.currentFile);
+    },
+
+    ////////////////////////////////
+    // File Modification Outside ///
+    ////////////////////////////////
+    isCurrentFileChangedOutside() {
+      if (this.currentFileCode !== this.currentFile.codeInit ||
+          !_isEqual(this.currentFileLocks, this.currentFile.locksInit)) {
+        return true;
+      }
+      return false;
+    },
+    reloadCurrentFile() {
+      if (!this.currentFile.isModified) {
+        this.initFile(this.currentFile);
+        this.switchToCurrentFile();
+      } else if (!this.isAfterSwapDoc ||
+        (this.isAfterSwapDoc && this.isCurrentFileChangedOutside())) {
+        this.reloadConfirmFileName = this.currentFile.name;
+        this.reloadConfirmVisiable = true;
+        new Promise((resolve) => {
+          this.$on('reload-confirm', (result) => {
+            resolve(result);
+          })
+        }).then((result) => {
+          this.reloadConfirmVisiable = false;
+          if (result === 'reload') {
+            this.initFile(this.currentFile);
+            this.switchToCurrentFile();
+          }
+        });
+      }
     },
 
     /////////////////////////
@@ -334,6 +382,7 @@ export default {
     switchToCurrentFile() {
       let cm = this.$refs.codemirror.cminstance;
       cm.swapDoc(this.currentFile.doc);
+      this.isAfterSwapDoc = true;
       this.renderCurrentFile();
     },
     createAndSwitchToNewFile() {
@@ -377,7 +426,9 @@ export default {
           this.$emit('before-save', index);
           this.beforeSaveFile(file, index).then((fileSaved) => {
             if (fileSaved) {
+              file.codeInit = file.doc.getValue();
               file.code = file.doc.getValue();
+              file.locksInit = this.getLocks(file.doc);
               file.locks = this.getLocks(file.doc);
               this.$emit('saved', index);
               this.setSaving(file, false);
@@ -809,6 +860,12 @@ export default {
     currentFile: function() {
       return this.files[this.currentActiveIndex];
     },
+    currentFileCode: function() {
+      return this.currentFile.code;
+    },
+    currentFileLocks: function() {
+      return this.currentFile.locks;
+    },
     editorTheme: function() {
       let themeMapping = {
         'dark': 'monokai',
@@ -831,6 +888,12 @@ export default {
       }
       return CodeEditorTranslation[this.codeEditorLanguage].closeConfirm;
     },
+    reloadConfirmContent: function() {
+      if (this.codeEditorReloadConfirmContent !== undefined) {
+        return this.codeEditorReloadConfirmContent;
+      }
+      return CodeEditorTranslation[this.codeEditorLanguage].reloadConfirm;
+    },
     settingsContent: function() {
       if (this.codeEditorSettingsContent !== undefined) {
         return this.codeEditorSettingsContent;
@@ -848,6 +911,15 @@ export default {
         if (!_isEqual(this.settings, this.codeEditorSettings)) {
           this.$emit('update:codeEditorSettings', this.settings);
         }
+      }
+    },
+    currentFileCode: function() {
+      this.reloadCurrentFile();
+    },
+    currentFileLocks: {
+      deep: true,
+      handler: function() {
+        this.reloadCurrentFile();
       }
     }
   }

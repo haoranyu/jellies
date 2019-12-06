@@ -5,6 +5,11 @@ export default {
       content: '如果你在未保存修改的情况下关闭，将导致修改丢失。',
       buttons: ['不保存', '取消', '保存']
     },
+    reloadConfirm: {
+      title: '在外部被修改，是否重新加载？',
+      content: '如果你选择加载外部修改，你当前做出的修改将丢失。',
+      buttons: ['取消', '重新加载']
+    },
     settings: {
       labels: {
         mode: '编辑模式',
@@ -33,6 +38,11 @@ export default {
       title: 'has changes, do you want to save them?',
       content: 'Your changes will be lost if you close this item without saving.',
       buttons: ['Don\'t save', 'Cancel', 'Save']
+    },
+    reloadConfirm: {
+      title: 'has changed on disk. Do you want to reload it?',
+      content: 'Your changes will be lost if you decide to reload the new version.',
+      buttons: ['Cancel', 'Reload']
     },
     settings: {
       labels: {
