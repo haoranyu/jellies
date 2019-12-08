@@ -63,7 +63,10 @@ export default {
       return this.formLabelPosition;
     },
     labelWidth: function() {
-      return this.formLabelWidth;
+      if (typeof(this.formLabelWidth) === 'string') {
+        return this.formLabelWidth;
+      }
+      return this.formLabelWidth + 'px';
     },
     labelSuffix: function() {
       return this.formLabelSuffix;
