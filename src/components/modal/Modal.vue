@@ -162,7 +162,7 @@ export default {
   margin-left: 6px;
   height: 40px;
   padding: 0;
-  line-height: 38px !important;
+  line-height: 42px !important;
   cursor: pointer;
 }
 .jsk-modal-option-size {

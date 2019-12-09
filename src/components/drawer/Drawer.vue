@@ -117,3 +117,16 @@ export default {
   }
 }
 </script>
+<style>
+.el-drawer__close-btn {
+  padding-top: 4px;
+}
+.el-drawer__header {
+  margin-bottom: 24px;
+}
+.el-drawer,
+.el-drawer__header > span,
+.el-drawer__header > button {
+  outline: none;
+}
+</style>

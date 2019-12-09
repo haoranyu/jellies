@@ -206,8 +206,8 @@ export default {
 }
 .jsk-dialog .el-dialog__headerbtn {
   font-size: 24px;
-  top: 18px;
-  right: 18px;
+  top: 24px;
+  right: 20px;
 }
 .jsk-dialog .el-dialog__headerbtn .el-dialog__close {
   color: #777 !important;
