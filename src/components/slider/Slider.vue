@@ -36,7 +36,7 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: Number,
+    vModel: [Number, Array],
     sliderFinishedStep: {
       type: Number,
       default: -1
