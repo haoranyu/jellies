@@ -30,7 +30,7 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: [Date, String],
+    vModel: [Date, String, Array],
     datePickerOptions: {
       type: Object
     },
