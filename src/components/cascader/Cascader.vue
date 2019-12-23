@@ -35,7 +35,7 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: String,
+    vModel: [String, Array],
     isUsingLeafNode: {
       type: Boolean,
       default: false
