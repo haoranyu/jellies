@@ -16,6 +16,8 @@ Vue.use(Element)
 import Katex from 'vue-katex-auto-render'
 Vue.directive('katex', Katex)
 
+import 'splitpanes/dist/splitpanes.css'
+
 import Alert from './components/alert'
 import Avatar from './components/avatar'
 import Backtop from './components/backtop'
@@ -71,6 +73,7 @@ import Select from './components/select'
 import SideMenu from './components/side-menu'
 import Slider from './components/slider'
 import Splitpanes from './components/splitpanes'
+import SplitpanesPane from './components/splitpanes-pane'
 import Step from './components/step'
 import Steps from './components/steps'
 import Submenu from './components/submenu'
@@ -146,6 +149,7 @@ const components = [
   SideMenu,
   Slider,
   Splitpanes,
+  SplitpanesPane,
   Step,
   Steps,
   Submenu,
@@ -185,7 +189,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  version: '1.2.0',
+  version: '1.2.4',
   install,
   Alert,
   Avatar,
@@ -242,6 +246,7 @@ export default {
   SideMenu,
   Slider,
   Splitpanes,
+  SplitpanesPane,
   Step,
   Steps,
   Submenu,
