@@ -24,9 +24,13 @@
 </template>
 
 <script>
+import { Select as ElSelect } from 'element-ui';
 export default {
   name: 'JskSelect',
   inheritAttrs: false,
+  components: {
+    ElSelect
+  },
   data: function() {
     return {
       value: ''

@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { Checkbox as ElCheckbox } from 'element-ui';
 export default {
   name: 'JskCheckbox',
   inheritAttrs: false,
@@ -46,6 +47,9 @@ export default {
     vModel: function() {
       this.value = this.vModel;
     }
+  },
+  components: {
+    ElCheckbox
   }
 }
 </script>

@@ -17,9 +17,13 @@
 </template>
 
 <script>
+import { Image as ElImage } from 'element-ui';
 export default {
   name: 'JskImage',
   inheritAttrs: false,
+  components: {
+    ElImage
+  },
   props: {
     lazyload: {
       type: String,

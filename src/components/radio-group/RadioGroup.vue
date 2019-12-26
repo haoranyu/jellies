@@ -11,9 +11,13 @@
 </template>
 
 <script>
+import { RadioGroup as ElRadioGroup } from 'element-ui';
 export default {
   name: 'JskRadioGroup',
   inheritAttrs: false,
+  components: {
+    ElRadioGroup
+  },
   data: function() {
     return {
       value: ''

@@ -11,9 +11,13 @@
 </template>
 
 <script>
+import { InputNumber as ElInputNumber } from 'element-ui';
 export default {
   name: 'JskInputNumber',
   inheritAttrs: false,
+  components: {
+    ElInputNumber
+  },
   data: function() {
     return {
       value: ''

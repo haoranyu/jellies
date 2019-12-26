@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { Collapse as ElCollapse } from 'element-ui';
 export default {
   name: 'JskCollapse',
   inheritAttrs: false,
@@ -46,6 +47,9 @@ export default {
     vModel: function() {
       this.value = this.vModel;
     }
+  },
+  components: {
+    ElCollapse
   }
 }
 </script>

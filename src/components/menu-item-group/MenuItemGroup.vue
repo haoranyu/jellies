@@ -10,9 +10,13 @@
 </template>
 
 <script>
+import { MenuItemGroup as ElMenuItemGroup } from 'element-ui';
 export default {
   name: 'JskMenuItemGroup',
   inheritAttrs: false,
+  components: {
+    ElMenuItemGroup
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {

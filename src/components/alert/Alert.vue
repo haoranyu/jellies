@@ -11,6 +11,7 @@
   </el-alert>
 </template>
 <script>
+import { Alert as ElAlert } from 'element-ui';
 export default {
   name: 'JskAlert',
   inheritAttrs: false,
@@ -36,6 +37,9 @@ export default {
       type: String,
       default: 'light'
     }
+  },
+  components: {
+    ElAlert
   }
 }
 </script>

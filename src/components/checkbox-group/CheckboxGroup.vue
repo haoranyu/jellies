@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { CheckboxGroup as ElCheckboxGroup } from 'element-ui';
 export default {
   name: 'JskCheckboxGroup',
   inheritAttrs: false,
@@ -57,6 +58,9 @@ export default {
     vModel: function() {
       this.value = this.vModel;
     }
+  },
+  components: {
+    ElCheckboxGroup
   }
 }
 </script>

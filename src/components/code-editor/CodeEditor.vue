@@ -107,6 +107,9 @@
 </template>
 
 <script>
+import { codemirror } from 'vue-codemirror'
+import 'codemirror/lib/codemirror.css'
+import '../../plugins/codemirror'
 import CodeMirror from 'codemirror'
 import CodeEditorCloseConfirm from './addons/CloseConfirm'
 import CodeEditorReloadConfirm from './addons/ReloadConfirm'
@@ -123,7 +126,8 @@ export default {
     CodeEditorCloseConfirm,
     CodeEditorReloadConfirm,
     CodeEditorLockMenu,
-    CodeEditorFeedbackTooltip
+    CodeEditorFeedbackTooltip,
+    codemirror
   },
   data: function() {
     return {

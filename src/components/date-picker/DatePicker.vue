@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { DatePicker as ElDatePicker } from 'element-ui';
 export default {
   name: 'JskDatePicker',
   inheritAttrs: false,
@@ -74,6 +75,9 @@ export default {
     vModel: function() {
       this.value = this.vModel;
     }
+  },
+  components: {
+    ElDatePicker
   }
 }
 </script>

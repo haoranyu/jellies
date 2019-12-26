@@ -12,9 +12,13 @@
 </template>
 
 <script>
+import { Switch as ElSwitch } from 'element-ui';
 export default {
   name: 'JskSwitch',
   inheritAttrs: false,
+  components: {
+    ElSwitch
+  },
   data: function() {
     return {
       value: true

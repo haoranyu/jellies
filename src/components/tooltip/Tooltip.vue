@@ -13,9 +13,13 @@
   </el-tooltip>
 </template>
 <script>
+import { Tooltip as ElTooltip } from 'element-ui';
 export default {
   name: 'JskTooltip',
   inheritAttrs: false,
+  components: {
+    ElTooltip
+  },
   created: function() {
     this.value = this.isVisible;
   },

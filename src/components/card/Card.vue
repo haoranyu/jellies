@@ -6,7 +6,7 @@
         <div class="subtitle">{{ cardSubtitle }}</div>
         <ul class="instructors">
           <li v-for="(instructor, index) in cardInstructors" v-bind:key="index">
-            <jsk-avatar :avatar-image="instructor.avatar" :avatar-size="60"></jsk-avatar>
+            <jsk-avatar :avatar-src="instructor.avatar" :avatar-size="60"></jsk-avatar>
             <div class="name">{{ instructor.name }}</div>
           </li>
         </ul>
@@ -32,13 +32,21 @@
 
 
 <script>
-import JskAvatar from '../avatar/Avatar'
-import JskPrice from '../price/Price'
+import {
+  Card as ElCard,
+  Col as ElCol,
+  Row as ElRow
+} from 'element-ui';
+import JskPrice from '../price/Price';
+import JskAvatar from '../avatar/Avatar';
 export default {
   name: 'JskCard',
   components: {
     JskAvatar,
-    JskPrice
+    JskPrice,
+    ElCard,
+    ElCol,
+    ElRow
   },
   props: {
     cardLink: {

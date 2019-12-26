@@ -16,9 +16,13 @@
 </template>
 
 <script>
+import { Rate as ElRate } from 'element-ui';
 export default {
   name: 'JskRate',
   inheritAttrs: false,
+  components: {
+    ElRate
+  },
   data: function() {
     return {
       value: ''

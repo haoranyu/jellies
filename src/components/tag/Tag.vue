@@ -15,9 +15,13 @@
 </template>
 
 <script>
+import { Tag as ElTag } from 'element-ui';
 export default {
   name: 'JskTag',
   inheritAttrs: false,
+  components: {
+    ElTag
+  },
   props: {
     hasAnimation: {
       type: Boolean,

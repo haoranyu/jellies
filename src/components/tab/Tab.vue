@@ -45,8 +45,12 @@
 </template>
 
 <script>
+import JskTooltip from '../tooltip/Tooltip';
 export default {
   name: 'JskTab',
+  components: {
+    JskTooltip
+  },
   props: {
     tabIndex: Number,
     tabTooltip: String,

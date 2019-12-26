@@ -8,8 +8,12 @@
 </template>
 
 <script>
+import { RadioButton as ElRadioButton } from 'element-ui';
 export default {
   name: 'JskRadioButton',
+  components: {
+    ElRadioButton
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {

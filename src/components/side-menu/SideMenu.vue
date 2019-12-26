@@ -31,9 +31,17 @@
 </template>
 
 <script>
+import {
+  Menu as ElMenu,
+  MenuItem as ElMenuItem
+} from 'element-ui';
 export default {
   name: 'JskSideMenu',
   inheritAttrs: false,
+  components: {
+    ElMenu,
+    ElMenuItem
+  },
   data: function() {
     return {
       isCollapsedProp: false

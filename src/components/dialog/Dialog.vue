@@ -22,7 +22,7 @@
     <slot></slot>
     <template slot="footer">
       <jsk-form
-        form-size="small"
+        size="small"
         @submit.native.prevent>
         <el-form-item class="jsk-dialog-footer">
           <el-row :gutter="12">
@@ -41,9 +41,23 @@
 </template>
 
 <script>
+import {
+  Dialog as ElDialog,
+  FormItem as ElFormItem,
+  Row as ElRow,
+  Col as ElCol,
+} from 'element-ui';
+import JskForm from '../form/'
 export default {
   name: 'JskDialog',
   inheritAttrs: false,
+  components: {
+    ElDialog,
+    JskForm,
+    ElFormItem,
+    ElRow,
+    ElCol
+  },
   computed: {
     hasTitle: function() {
       if (this.$slots.title || this.dialogTitle !== '') {

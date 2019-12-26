@@ -16,9 +16,13 @@
   </el-upload>
 </template>
 <script>
+import { Upload as ElUpload } from 'element-ui';
 export default {
   name: 'JskUpload',
   inheritAttrs: false,
+  components: {
+    ElUpload
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {

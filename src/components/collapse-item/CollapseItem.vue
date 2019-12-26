@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { CollapseItem as ElCollapseItem } from 'element-ui';
 export default {
   name: 'JskCollapseItem',
   inheritAttrs: false,
@@ -25,6 +26,9 @@ export default {
       })
       return attrs;
     }
+  },
+  components: {
+    ElCollapseItem
   }
 }
 </script>

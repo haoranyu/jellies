@@ -23,6 +23,10 @@
 </template>
 
 <script>
+import {
+  Input as ElInput,
+  ColorPicker as ElColorPicker
+} from 'element-ui';
 export default {
   name: 'JskColorPicker',
   inheritAttrs: false,
@@ -85,6 +89,10 @@ export default {
     vModel: function() {
       this.value = this.vModel;
     }
+  },
+  components: {
+    ElInput,
+    ElColorPicker
   }
 }
 </script>

@@ -20,22 +20,24 @@
       }"
     >
     </codemirror>
-    <jsk-button
-      :button-type="buttonType"
-      button-size="mini"
+    <el-button
+      :type="buttonType"
+      size="mini"
       v-if="isCopyAllowed"
-      v-clipboard:copy="code"
-      v-clipboard:success="onCopy"
+      @click="onCopy"
       class="jsk-code-block-copy"
     >
       {{ isCopied ? codeBlockCopiedText : codeBlockCopyText }}
-    </jsk-button>
+    </el-button>
   </div>
 </template>
 
-
 <script>
-import CodeMirror from 'codemirror'
+import { codemirror } from 'vue-codemirror'
+import 'codemirror/lib/codemirror.css'
+import { Button as ElButton } from 'element-ui';
+import CodeMirror from 'codemirror';
+import XECommand from 'xe-command'
 export default {
   name: 'JskCodeBlock',
   data: function() {
@@ -70,7 +72,9 @@ export default {
       });
     },
     onCopy: function() {
-      this.isCopied = true;
+      if (XECommand.copy(this.code)) {
+        this.isCopied = true;
+      }
       setTimeout(() => {
         this.isCopied = false;
       }, 3000);
@@ -149,6 +153,10 @@ export default {
       }
       return this.codeBlockMaxHeight + 'px';
     },
+  },
+  components: {
+    ElButton,
+    codemirror
   }
 }
 </script>

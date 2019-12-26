@@ -8,9 +8,13 @@
 </template>
 
 <script>
+import { Timeline as ElTimeline } from 'element-ui';
 export default {
   name: 'JskTimeline',
   inheritAttrs: false,
+  components: {
+    ElTimeline
+  },
   props: {
     isReversed: {
       type: Boolean,

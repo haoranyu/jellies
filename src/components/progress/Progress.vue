@@ -13,9 +13,13 @@
 </template>
 
 <script>
+import { Progress as ElProgress } from 'element-ui';
 export default {
   name: 'JskProgress',
   inheritAttrs: false,
+  components: {
+    ElProgress
+  },
   props: {
     progressShape: {
       type: String,

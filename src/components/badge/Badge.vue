@@ -4,8 +4,8 @@
   </el-badge>
 </template>
 
-
 <script>
+import { Badge as ElBadge } from 'element-ui';
 export default {
   name: 'JskBadge',
   inheritAttrs: false,
@@ -21,6 +21,9 @@ export default {
       })
       return attrs;
     }
+  },
+  components: {
+    ElBadge
   }
 }
 </script>

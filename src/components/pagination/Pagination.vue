@@ -16,9 +16,13 @@
 </template>
 
 <script>
+import { Pagination as ElPagination } from 'element-ui';
 export default {
   name: 'JskPagination',
   inheritAttrs: false,
+  components: {
+    ElPagination
+  },
   data: function() {
     return {
       currentPage: this.paginationCurrentPage,

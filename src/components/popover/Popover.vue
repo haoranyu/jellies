@@ -16,9 +16,13 @@
   </el-popover>
 </template>
 <script>
+import { Popover as ElPopover } from 'element-ui';
 export default {
   name: 'JskPopover',
   inheritAttrs: false,
+  components: {
+    ElPopover
+  },
   data: function() {
     return {
       value: ''
@@ -40,7 +44,7 @@ export default {
       type: Boolean,
       default: false
     },
-    tooltipTrigger: {
+    popoverTrigger: {
       type: String,
       default: 'click'
     }
@@ -50,7 +54,7 @@ export default {
       if (this.isManual) {
         return 'manual';
       }
-      return this.tooltipTrigger;
+      return this.popoverTrigger;
     }
   },
   methods: {

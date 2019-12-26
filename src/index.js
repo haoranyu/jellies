@@ -1,22 +1,4 @@
-import Vue from 'vue'
-
-import VueCodemirror from 'vue-codemirror'
-import './plugins/codemirror'
-Vue.use(VueCodemirror)
-
-import VueClipboard from 'vue-clipboard2'
-Vue.use(VueClipboard)
-
-import Element from 'element-ui'
-import './plugins/element-variables.scss'
-import './plugins/jellies-icons/style.scss'
-import './plugins/jellies-icons/replace.scss'
-Vue.use(Element)
-
-import Katex from 'vue-katex-auto-render'
-Vue.directive('katex', Katex)
-
-import 'splitpanes/dist/splitpanes.css'
+import './style.scss'
 
 import Alert from './components/alert'
 import Avatar from './components/avatar'
@@ -53,10 +35,14 @@ import Header from './components/header'
 import Image from './components/image'
 import Input from './components/input'
 import InputNumber from './components/input-number'
+import Katex from './components/katex'
 import Link from './components/link'
+import Loading from './components/loading'
 import MenuItem from './components/menu-item'
 import MenuItemGroup from './components/menu-item-group'
+import Message from './components/message'
 import Modal from './components/modal'
+import Notification from './components/notification'
 import Option from './components/option'
 import OptionGroup from './components/option-group'
 import Pagination from './components/pagination'
@@ -177,10 +163,17 @@ const install = function(Vue, opts = {}) {
     Vue.component(component.name, component);
   });
 
+  Vue.use(Loading.directive);
+  Vue.use(Katex);
+
   Vue.prototype.$ELEMENT = {
     size: opts.size || '',
     zIndex: opts.zIndex || 2000
   };
+
+  Vue.prototype.$loading = Loading.service;
+  Vue.prototype.$notify = Notification;
+  Vue.prototype.$message = Message;
 };
 
 /* istanbul ignore if */
@@ -227,6 +220,7 @@ export default {
   Input,
   InputNumber,
   Link,
+  Loading,
   MenuItem,
   MenuItemGroup,
   Modal,

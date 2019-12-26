@@ -13,12 +13,14 @@
 
 
 <script>
+import { Avatar as ElAvatar } from 'element-ui';
 export default {
   name: 'JskAvatar',
   props: {
     avatarBackgroundColor: String,
     avatarTextColor: String,
-    srcset: String
+    srcset: String,
+    objectFit: String
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -41,6 +43,9 @@ export default {
       };
     },
   },
+  components: {
+    ElAvatar
+  }
 }
 </script>
 

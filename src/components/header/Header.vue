@@ -1,9 +1,13 @@
 <template>
   <div>
     <header :style="{ height: headerHeight + 'px', background: headerBackgroundColor }" :class="isFixedTop ? 'header-fixed-top' : ''">
-      <jsk-container is-horizontal is-centered :container-width="headerCenterWidth">
+      <el-container direction="horizontal" :style="{
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        maxWidth: width
+      }">
         <slot></slot>
-      </jsk-container>
+      </el-container>
     </header>
     <div class="header-position" v-if="isFixedTop" :style="{ height: headerHeight + 'px' }"></div>
   </div>
@@ -11,11 +15,11 @@
 
 
 <script>
-import JskContainer from '../container/Container'
+import { Container as ElContainer } from 'element-ui';
 export default {
   name: 'JskHeader',
   components: {
-    JskContainer
+    ElContainer
   },
   props: {
     headerHeight: {
@@ -34,7 +38,15 @@ export default {
       type: Boolean,
       default: true
     }
-  }
+  },
+  computed: {
+    width: function() {
+      if (typeof(this.headerCenterWidth) === 'string') {
+        return this.headerCenterWidth;
+      }
+      return this.headerCenterWidth + 'px';
+    }
+  },
 }
 </script>
 

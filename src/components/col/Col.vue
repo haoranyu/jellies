@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { Col as ElCol } from 'element-ui';
 export default {
   name: 'JskCol',
   inheritAttrs: false,
@@ -22,6 +23,9 @@ export default {
       })
       return attrs;
     }
+  },
+  components: {
+    ElCol
   }
 }
 </script>

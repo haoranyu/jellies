@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { Carousel as ElCarousel } from 'element-ui';
 export default {
   name: 'JskCarousel',
   inheritAttrs: false,
@@ -44,6 +45,9 @@ export default {
       type: String,
       default: 'hover'
     }
+  },
+  components: {
+    ElCarousel
   }
 }
 </script>

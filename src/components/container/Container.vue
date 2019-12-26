@@ -6,6 +6,7 @@
 
 
 <script>
+import { Container as ElContainer } from 'element-ui';
 export default {
   name: 'JskContainer',
   props: {
@@ -37,6 +38,9 @@ export default {
       }
       return this.containerWidth + 'px';
     }
+  },
+  components: {
+    ElContainer
   }
 }
 </script>

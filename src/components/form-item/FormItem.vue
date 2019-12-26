@@ -14,9 +14,13 @@
 </template>
 
 <script>
+import { FormItem as ElFormItem } from 'element-ui';
 export default {
   name: 'JskFormItem',
   inheritAttrs: false,
+  components: {
+    ElFormItem
+  },
   props: {
     formItemLabelWidth: [
       Number,

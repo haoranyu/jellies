@@ -34,9 +34,19 @@
 </template>
 
 <script>
+import {
+  Dialog as ElDialog,
+  Row as ElRow,
+  Col as ElCol,
+} from 'element-ui';
 export default {
   name: 'JskModal',
   inheritAttrs: false,
+  components: {
+    ElDialog,
+    ElRow,
+    ElCol
+  },
   computed: {
     modalSizeOption: function() {
       return this.isFullscreen ? 'shrink' : 'expand';

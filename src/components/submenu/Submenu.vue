@@ -10,9 +10,13 @@
 </template>
 
 <script>
+import { Submenu as ElSubmenu } from 'element-ui';
 export default {
   name: 'JskSubmenu',
   inheritAttrs: false,
+  components: {
+    ElSubmenu
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {

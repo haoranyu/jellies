@@ -3,7 +3,6 @@
     v-model="value"
     v-bind="trimAttrs($attrs)"
     :show-all-levels="!isUsingLeafNode"
-    :change-on-select="isAnyNodeSelectable"
     :debounce="cascaderDebounceTime"
     v-on:focus="$emit('focus')"
     v-on:blur="$emit('blur')"
@@ -23,6 +22,7 @@
 </template>
 
 <script>
+import { Cascader as ElCascader } from 'element-ui';
 export default {
   name: 'JskCascader',
   inheritAttrs: false,
@@ -37,10 +37,6 @@ export default {
   props: {
     vModel: [String, Array],
     isUsingLeafNode: {
-      type: Boolean,
-      default: false
-    },
-    isAnyNodeSelectable: {
       type: Boolean,
       default: false
     },
@@ -82,6 +78,9 @@ export default {
     vModel: function() {
       this.value = this.vModel;
     }
+  },
+  components: {
+    ElCascader
   }
 }
 </script>

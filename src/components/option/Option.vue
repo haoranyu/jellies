@@ -8,8 +8,12 @@
 </template>
 
 <script>
+import { Option as ElOption } from 'element-ui';
 export default {
   name: 'JskOption',
+  components: {
+    ElOption
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {

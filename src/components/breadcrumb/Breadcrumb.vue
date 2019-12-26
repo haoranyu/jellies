@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { Breadcrumb as ElBreadcrumb } from 'element-ui';
 export default {
   name: 'JskBreadcrumb',
   props: {
@@ -20,6 +21,9 @@ export default {
       type: String,
       default: ''
     }
+  },
+  components: {
+    ElBreadcrumb
   }
 }
 </script>

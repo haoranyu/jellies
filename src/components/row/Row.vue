@@ -7,9 +7,13 @@
 </template>
 
 <script>
+import { Row as ElRow } from 'element-ui';
 export default {
   name: 'JskRow',
   inheritAttrs: false,
+  components: {
+    ElRow
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {

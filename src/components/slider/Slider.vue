@@ -24,9 +24,13 @@
 </template>
 
 <script>
+import { Slider as ElSlider } from 'element-ui';
 export default {
   name: 'JskSlider',
   inheritAttrs: false,
+  components: {
+    ElSlider
+  },
   data: function() {
     return {
       value: 0
