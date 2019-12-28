@@ -154,31 +154,110 @@ const components = [
   Topnav,
   Tree,
   Upload
-];
+]
 
 const install = function(Vue, opts = {}) {
-  if (install.installed) return;
+  if (install.installed) return
 
   components.forEach(component => {
-    Vue.component(component.name, component);
-  });
+    Vue.component(component.name, component)
+  })
 
-  Vue.use(Loading.directive);
-  Vue.use(Katex);
+  Vue.use(Loading.directive)
+  Vue.use(Katex)
 
   Vue.prototype.$ELEMENT = {
     size: opts.size || '',
     zIndex: opts.zIndex || 2000
-  };
+  }
 
-  Vue.prototype.$loading = Loading.service;
-  Vue.prototype.$notify = Notification;
-  Vue.prototype.$message = Message;
-};
+  Vue.prototype.$loading = Loading.service
+  Vue.prototype.$notify = Notification
+  Vue.prototype.$message = Message
+}
 
 /* istanbul ignore if */
 if (typeof window !== 'undefined' && window.Vue) {
-  install(window.Vue);
+  install(window.Vue)
+}
+
+export {
+  install,
+  Alert,
+  Avatar,
+  Backtop,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  ButtonGroup,
+  Card,
+  Carousel,
+  CarouselItem,
+  Cascader,
+  Checkbox,
+  CheckboxButton,
+  CheckboxGroup,
+  CodeBlock,
+  CodeEditor,
+  Col,
+  Collapse,
+  CollapseItem,
+  ColorPicker,
+  Container,
+  DatePicker,
+  Dialog,
+  Divider,
+  Drawer,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Form,
+  FormItem,
+  Header,
+  Image,
+  Input,
+  InputNumber,
+  Link,
+  Loading,
+  MenuItem,
+  MenuItemGroup,
+  Modal,
+  Option,
+  OptionGroup,
+  Pagination,
+  Panel,
+  Popover,
+  Price,
+  Progress,
+  Radio,
+  RadioButton,
+  RadioGroup,
+  Rate,
+  Row,
+  Select,
+  SideMenu,
+  Slider,
+  Splitpanes,
+  SplitpanesPane,
+  Step,
+  Steps,
+  Submenu,
+  Switch,
+  Tab,
+  Table,
+  TableColumn,
+  Tabs,
+  Tag,
+  Text,
+  TimePicker,
+  TimeSelect,
+  Timeline,
+  TimelineItem,
+  Tooltip,
+  Topnav,
+  Tree,
+  Upload
 }
 
 export default {
