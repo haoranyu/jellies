@@ -218,6 +218,7 @@ export {
   Image,
   Input,
   InputNumber,
+  Katex,
   Link,
   Loading,
   MenuItem,
