@@ -22,8 +22,8 @@
           {{ modalTitle }}
         </el-col>
         <el-col :span="6" class="jsk-modal-title-right">
-          <i @click="changeModalSize" :class="['el-icon-j-' + modalSizeOption + '-square', 'jsk-modal-option', 'jsk-modal-option-size']" v-if="hasSizeButton"></i>
           <i @click="closeModal" class="el-icon-j-times-square jsk-modal-option jsk-modal-option-close" v-if="hasCloseButton"></i>
+          <i @click="changeModalSize" :class="['el-icon-j-' + modalSizeOption + '-square', 'jsk-modal-option', 'jsk-modal-option-size']" v-if="hasSizeButton"></i>
         </el-col>
       </el-row>
     </template>
@@ -168,6 +168,8 @@ export default {
   height: 40px;
 }
 .jsk-modal-option {
+  display: block;
+  float: left;
   font-size: 27px;
   margin-left: 6px;
   height: 40px;
