@@ -169,7 +169,7 @@ export default {
 }
 .jsk-modal-option {
   display: block;
-  float: left;
+  float: right;
   font-size: 27px;
   margin-left: 6px;
   height: 40px;
