@@ -71,7 +71,8 @@ export default {
         left: this.dialogDecoration.left,
         backgroundImage: 'url(' + this.dialogDecoration.src + ')',
         width: this.dialogDecoration.width,
-        height: this.dialogDecoration.height
+        height: this.dialogDecoration.height,
+        backgroundPosition: this.dialogDecoration.backgroundPosition || 'center center'
       }
     },
     customClass: function() {
@@ -198,7 +199,6 @@ export default {
   display: block;
   position: absolute;
   background-repeat: no-repeat;
-  background-position: center;
   background-size: cover;
 }
 </style>
