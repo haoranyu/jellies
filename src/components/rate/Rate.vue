@@ -7,7 +7,7 @@
     :colors="rateColors"
     :void-color="rateVoidColor"
     :disabled-void-color="rateReadonlyVoidColor"
-    :disabled-void-icon-class="rateReadonlyVoidClass"
+    :disabled-void-icon-class="rateReadonlyVoidIconClass"
     :show-text="rateIndication === 'text'"
     :show-score="rateIndication === 'score'"
     :text-color="rateTextColor"
@@ -53,7 +53,7 @@ export default {
       type: String,
       default: '#E3E7EE'
     },
-    rateReadonlyVoidClass: {
+    rateReadonlyVoidIconClass: {
       type: String,
       default: 'el-icon-star-on'
     },
