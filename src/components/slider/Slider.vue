@@ -11,6 +11,7 @@
       :max="sliderMaxStep"
       :step="sliderStepLength"
       :show-stops="isStopsVisible"
+      :show-tooltip="hasTooltip"
       :format-tooltip="sliderTooltipFormat"
       :range="isIntervalSelection"
     >
