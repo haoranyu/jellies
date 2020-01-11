@@ -100,7 +100,7 @@ export default {
       }
     },
     finishedLimitationTrigger: function() {
-      if (this.sliderFinishedStep > 0 && this.value >= this.sliderFinishedStep) {
+      if (this.value >= this.sliderFinishedStep) {
         this.value = this.sliderFinishedStep;
       }
     }
