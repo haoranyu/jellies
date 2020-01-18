@@ -1,8 +1,12 @@
 <script>
+import Vue from 'vue'
 import { DropdownMenu } from 'element-ui';
-DropdownMenu.name = 'JskDropdownMenu';
-export default DropdownMenu
+export default Vue.extend({
+  name: 'JskDropdownMenu',
+  mixins: [DropdownMenu]
+})
 </script>
+
 
 <style scoped>
 .el-dropdown-menu {

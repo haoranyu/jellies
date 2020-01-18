@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import { TimelineItem as ElTimelineItem } from 'element-ui';
+import { TimelineItem } from 'element-ui';
 export default {
   name: 'JskTimelineItem',
   inheritAttrs: false,
   components: {
-    ElTimelineItem
+    'ElTimelineItem': TimelineItem
   },
   props: {
     isTimeHidden: {

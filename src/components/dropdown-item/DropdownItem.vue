@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import { DropdownItem as ElDropdownItem } from 'element-ui';
+import { DropdownItem } from 'element-ui';
 export default {
   name: 'JskDropdownItem',
   inheritAttrs: false,
   components: {
-    ElDropdownItem
+    'ElDropdownItem': DropdownItem
   },
   props: {
     hasDividerAbove: {

@@ -34,7 +34,7 @@
 <script>
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
-import { Button as ElButton } from 'element-ui';
+import { Button } from 'element-ui';
 import CodeMirror from 'codemirror';
 import XECommand from 'xe-command'
 export default {
@@ -161,7 +161,7 @@ export default {
     },
   },
   components: {
-    ElButton,
+    'ElButton': Button,
     codemirror
   }
 }

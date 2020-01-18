@@ -1,7 +1,6 @@
 <script>
+import Vue from 'vue'
 import { Tree } from 'element-ui';
-
-Tree.name = 'JskTree';
 
 Tree.components.ElTreeNode.components.NodeContent.render = function(h) {
   const parent = this.$parent;
@@ -18,7 +17,10 @@ Tree.components.ElTreeNode.components.NodeContent.render = function(h) {
   );
 }
 
-export default Tree
+export default Vue.extend({
+  name: 'JskTree',
+  mixins: [Tree]
+})
 </script>
 
 <style>

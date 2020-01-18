@@ -16,12 +16,12 @@
   </el-popover>
 </template>
 <script>
-import { Popover as ElPopover } from 'element-ui';
+import { Popover } from 'element-ui';
 export default {
   name: 'JskPopover',
   inheritAttrs: false,
   components: {
-    ElPopover
+    'ElPopover': Popover
   },
   data: function() {
     return {

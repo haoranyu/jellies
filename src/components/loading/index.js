@@ -1,3 +1,3 @@
-import { Loading } from 'element-ui';
+// import { Loading } from 'element-ui';
 
-export default Loading;
+// export default Loading;

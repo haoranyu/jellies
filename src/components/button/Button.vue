@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { Button as ElButton } from 'element-ui';
+import { Button } from 'element-ui';
 export default {
   name: 'JskButton',
   computed: {
@@ -65,7 +65,7 @@ export default {
     }
   },
   components: {
-    ElButton
+    'ElButton': Button
   }
 }
 </script>

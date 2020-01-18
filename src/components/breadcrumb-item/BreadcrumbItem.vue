@@ -1,5 +1,8 @@
 <script>
+import Vue from 'vue'
 import { BreadcrumbItem } from 'element-ui';
-BreadcrumbItem.name = 'JskBreadcrumbItem';
-export default BreadcrumbItem
+export default Vue.extend({
+  name: 'JskBreadcrumbItem',
+  mixins: [BreadcrumbItem]
+})
 </script>

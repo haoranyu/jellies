@@ -1,7 +1,10 @@
 <script>
+import Vue from 'vue'
 import { ButtonGroup } from 'element-ui';
-ButtonGroup.name = 'JskButtonGroup';
-export default ButtonGroup
+export default Vue.extend({
+  name: 'JskBreadcrumbItem',
+  mixins: [ButtonGroup]
+})
 </script>
 
 <style scoped>

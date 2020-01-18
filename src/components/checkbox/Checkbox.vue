@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { Checkbox as ElCheckbox } from 'element-ui';
+import { Checkbox } from 'element-ui';
 export default {
   name: 'JskCheckbox',
   inheritAttrs: false,
@@ -49,7 +49,7 @@ export default {
     }
   },
   components: {
-    ElCheckbox
+    'ElCheckbox': Checkbox
   }
 }
 </script>

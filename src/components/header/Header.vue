@@ -15,11 +15,11 @@
 
 
 <script>
-import { Container as ElContainer } from 'element-ui';
+import { Container } from 'element-ui';
 export default {
   name: 'JskHeader',
   components: {
-    ElContainer
+    'ElContainer': Container
   },
   props: {
     headerHeight: {

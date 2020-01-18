@@ -32,15 +32,15 @@
 
 <script>
 import {
-  Menu as ElMenu,
-  MenuItem as ElMenuItem
+  Menu,
+  MenuItem
 } from 'element-ui';
 export default {
   name: 'JskSideMenu',
   inheritAttrs: false,
   components: {
-    ElMenu,
-    ElMenuItem
+    'ElMenu': Menu,
+    'ElMenuItem': MenuItem
   },
   data: function() {
     return {

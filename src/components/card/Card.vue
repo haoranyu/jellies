@@ -33,9 +33,9 @@
 
 <script>
 import {
-  Card as ElCard,
-  Col as ElCol,
-  Row as ElRow
+  Card,
+  Col,
+  Row
 } from 'element-ui';
 import JskPrice from '../price/Price';
 import JskAvatar from '../avatar/Avatar';
@@ -44,9 +44,9 @@ export default {
   components: {
     JskAvatar,
     JskPrice,
-    ElCard,
-    ElCol,
-    ElRow
+    'ElCard': Card,
+    'ElCol': Col,
+    'ElRow': Row
   },
   props: {
     cardLink: {

@@ -18,12 +18,12 @@
 </template>
 
 <script>
-import { TimePicker as ElTimePicker } from 'element-ui';
+import { TimePicker } from 'element-ui';
 export default {
   name: 'JskTimePicker',
   inheritAttrs: false,
   components: {
-    ElTimePicker
+    'ElTimePicker': TimePicker
   },
   data: function() {
     return {

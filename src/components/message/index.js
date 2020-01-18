@@ -1,3 +1,3 @@
-import { Message } from 'element-ui';
+// import { Message } from 'element-ui';
 
-export default Message;
+// export default Message;

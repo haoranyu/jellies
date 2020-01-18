@@ -3,8 +3,8 @@
     [
       "component",
       {
-        "libraryName": "jellies",
-        "libDir": "./src/components"
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
       }
     ]
   ]

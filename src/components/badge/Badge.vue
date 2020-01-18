@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { Badge as ElBadge } from 'element-ui';
+import { Badge } from 'element-ui';
 export default {
   name: 'JskBadge',
   inheritAttrs: false,
@@ -23,7 +23,7 @@ export default {
     }
   },
   components: {
-    ElBadge
+    'ElBadge': Badge
   }
 }
 </script>

@@ -1,5 +1,8 @@
 <script>
+import Vue from 'vue'
 import { CarouselItem } from 'element-ui';
-CarouselItem.name = 'JskCarouselItem';
-export default CarouselItem
+export default Vue.extend({
+  name: 'JskCarouselItem',
+  mixins: [CarouselItem]
+})
 </script>

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { Cascader as ElCascader } from 'element-ui';
+import { Cascader } from 'element-ui';
 export default {
   name: 'JskCascader',
   inheritAttrs: false,
@@ -80,7 +80,7 @@ export default {
     }
   },
   components: {
-    ElCascader
+    'ElCascader': Cascader
   }
 }
 </script>

@@ -6,7 +6,7 @@
 
 
 <script>
-import { Container as ElContainer } from 'element-ui';
+import { Container } from 'element-ui';
 export default {
   name: 'JskContainer',
   props: {
@@ -40,7 +40,7 @@ export default {
     }
   },
   components: {
-    ElContainer
+    'ElContainer': Container
   }
 }
 </script>

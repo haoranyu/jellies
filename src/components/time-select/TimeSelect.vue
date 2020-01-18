@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import { TimeSelect as ElTimeSelect } from 'element-ui';
+import { TimeSelect } from 'element-ui';
 export default {
   name: 'JskTimeSelect',
   inheritAttrs: false,
   components: {
-    ElTimeSelect
+    'ElTimeSelect': TimeSelect
   },
   data: function() {
     return {

@@ -24,8 +24,8 @@
 
 <script>
 import {
-  Input as ElInput,
-  ColorPicker as ElColorPicker
+  Input,
+  ColorPicker
 } from 'element-ui';
 export default {
   name: 'JskColorPicker',
@@ -91,8 +91,8 @@ export default {
     }
   },
   components: {
-    ElInput,
-    ElColorPicker
+    'ElInput': Input,
+    'ElColorPicker': ColorPicker
   }
 }
 </script>
