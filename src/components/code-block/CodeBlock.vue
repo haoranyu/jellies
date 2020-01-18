@@ -26,9 +26,8 @@
       v-if="isCopyAllowed"
       @click="onCopy"
       class="jsk-code-block-copy"
-    >
-      {{ isCopied ? codeBlockCopiedText : codeBlockCopyText }}
-    </el-button>
+      v-text="buttonText"
+    />
   </div>
 </template>
 
@@ -139,6 +138,13 @@ export default {
         return 'primary';
       } else {
         return 'info';
+      }
+    },
+    buttonText: function() {
+      if (this.isCopied) {
+        return this.codeBlockCopiedText;
+      } else {
+        return this.codeBlockCopyText;
       }
     },
     width: function() {

@@ -6,10 +6,12 @@
       v-on:focus="$emit('focus')"
       v-on:blur="$emit('blur')"
       v-on:clear="$emit('clear')"
+      v-on:change="finishedLimitationTrigger"
       :min="sliderMinStep"
       :max="sliderMaxStep"
       :step="sliderStepLength"
       :show-stops="isStopsVisible"
+      :show-tooltip="hasTooltip"
       :format-tooltip="sliderTooltipFormat"
       :range="isIntervalSelection"
     >
@@ -96,6 +98,11 @@ export default {
       } else {
         return 'calc(6px + ' + (finishedStepsLength / totalStepsLength * 100) +'%)';
       }
+    },
+    finishedLimitationTrigger: function() {
+      if (this.value >= this.sliderFinishedStep) {
+        this.value = this.sliderFinishedStep;
+      }
     }
   },
   model: {
@@ -104,9 +111,6 @@ export default {
   },
   watch: {
     value: function() {
-      if (this.sliderFinishedStep > 0 && this.value > this.sliderFinishedStep) {
-        this.value = this.sliderFinishedStep;
-      }
       this.$emit('change', this.value);
     },
     vModel: function() {
