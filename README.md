@@ -8,7 +8,7 @@ This project is a UI toolkit based on [ElementUI](https://github.com/ElemeFE/ele
 
 Install the Jellies via NPM.
 
-```
+```bash
 npm install --save jellies
 ```
 
@@ -16,7 +16,7 @@ Import it to your project. And use it accordingly on your Vue instance.
 
 ### Fully import
 
-```
+```javascript
 import Jellies from 'jellies'
 
 // Some code related to Vue...
@@ -30,14 +30,13 @@ With the help of [babel-plugin-component](https://github.com/ElementUI/babel-plu
 
 First, install babel-plugin-component:
 
-```
+```javascript
 npm install babel-plugin-component -D
 ```
 
 Then edit .babelrc:
 
-```
-
+```json
 {
   "plugins": [
     [
@@ -49,12 +48,11 @@ Then edit .babelrc:
     ]
   ]
 }
-
 ```
 
 Next, if you need Button and Select, edit main.js:
 
-```
+```javascript
 import Vue from 'vue';
 import { Button, Select } from 'jellies';
 import App from './App.vue';
@@ -70,7 +68,7 @@ new Vue({
 
 Full example
 
-```
+```javascript
 import Vue from 'vue';
 import {
   Pagination,
@@ -235,31 +233,26 @@ Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
-
+```
 
 Then you are able to use the functionality of Jellies in your project.
 
 ## For Developer
 
 ### Solve Dependency
-```
 
+```bash
 npm install
-
 ```
 
 ### Compiles and hot-reloads for development
-```
 
+```bash
 npm run serve
-
 ```
 
 ### Compiles and minifies for production
-```
 
+```bash
 npm run build-bundle
-
-```
-
 ```
