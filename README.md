@@ -17,7 +17,7 @@ Import it to your project. And use it accordingly on your Vue instance.
 ### Fully import
 
 ```javascript
-import Jellies from 'jellies'
+import Jellies from "jellies";
 
 // Some code related to Vue...
 
@@ -53,15 +53,15 @@ Then edit .babelrc:
 Next, if you need Button and Select, edit main.js:
 
 ```javascript
-import Vue from 'vue';
-import { Button, Select } from 'jellies';
-import App from './App.vue';
+import Vue from "vue";
+import { Button, Select } from "jellies";
+import App from "./App.vue";
 
-Vue.use(Button)
-Vue.use(Select)
+Vue.use(Button);
+Vue.use(Select);
 
 new Vue({
-  el: '#app',
+  el: "#app",
   render: h => h(App)
 });
 ```
@@ -69,15 +69,14 @@ new Vue({
 Full example
 
 ```javascript
-import Vue from 'vue';
+import Vue from "vue";
+
 import {
   Pagination,
   Dialog,
-  Autocomplete,
   Dropdown,
   DropdownMenu,
   DropdownItem,
-  Menu,
   Submenu,
   MenuItem,
   MenuItemGroup,
@@ -107,17 +106,14 @@ import {
   Form,
   FormItem,
   Tabs,
-  TabPane,
   Tag,
   Tree,
   Alert,
   Slider,
-  Icon,
   Row,
   Col,
   Upload,
   Progress,
-  Spinner,
   Badge,
   Card,
   Rate,
@@ -129,34 +125,25 @@ import {
   CollapseItem,
   Cascader,
   ColorPicker,
-  Transfer,
   Container,
   Header,
-  Aside,
-  Main,
-  Footer,
   Timeline,
   TimelineItem,
   Link,
   Divider,
   Image,
-  Calendar,
   Backtop,
-  PageHeader,
-  CascaderPanel,
+  Panel,
   Loading,
-  MessageBox,
   Message,
   Notification
-} from "jellies"
+} from "jellies";
 
 Vue.use(Pagination);
 Vue.use(Dialog);
-Vue.use(Autocomplete);
 Vue.use(Dropdown);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
-Vue.use(Menu);
 Vue.use(Submenu);
 Vue.use(MenuItem);
 Vue.use(MenuItemGroup);
@@ -186,17 +173,14 @@ Vue.use(BreadcrumbItem);
 Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Tabs);
-Vue.use(TabPane);
 Vue.use(Tag);
 Vue.use(Tree);
 Vue.use(Alert);
 Vue.use(Slider);
-Vue.use(Icon);
 Vue.use(Row);
 Vue.use(Col);
 Vue.use(Upload);
 Vue.use(Progress);
-Vue.use(Spinner);
 Vue.use(Badge);
 Vue.use(Card);
 Vue.use(Rate);
@@ -208,29 +192,19 @@ Vue.use(Collapse);
 Vue.use(CollapseItem);
 Vue.use(Cascader);
 Vue.use(ColorPicker);
-Vue.use(Transfer);
 Vue.use(Container);
 Vue.use(Header);
-Vue.use(Aside);
-Vue.use(Main);
-Vue.use(Footer);
 Vue.use(Timeline);
 Vue.use(TimelineItem);
 Vue.use(Link);
 Vue.use(Divider);
 Vue.use(Image);
-Vue.use(Calendar);
 Vue.use(Backtop);
-Vue.use(PageHeader);
-Vue.use(CascaderPanel);
+Vue.use(Panel);
 
 Vue.use(Loading.directive);
 
 Vue.prototype.$loading = Loading.service;
-Vue.prototype.$msgbox = MessageBox;
-Vue.prototype.$alert = MessageBox.alert;
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
 ```
