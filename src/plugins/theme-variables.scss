@@ -1001,6 +1001,3 @@ $--breakpoints-spec: (
   'lg-and-down': (max-width: $--xl - 1),
   'xl-only' : (min-width: $--xl),
 );
-
-@import "~element-ui/packages/theme-chalk/src/reset";
-@import "~element-ui/packages/theme-chalk/src/index";
