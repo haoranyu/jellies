@@ -20,7 +20,7 @@ function compile() {
 function icons() {
   return src("./src/plugins/jellies-icons/**")
     .pipe(cssmin())
-    .pipe(dest("./lib/fonts"));
+    .pipe(dest("./package/fonts"));
 }
 
 exports.build = series(compile, icons);
