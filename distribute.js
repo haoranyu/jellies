@@ -1,5 +1,5 @@
-var fs = require("fs");
-var path = require("path");
+const fs = require("fs");
+const path = require("path");
 
 function displayFile(param) {
   fs.stat(param, function(err, stats) {
@@ -7,9 +7,9 @@ function displayFile(param) {
       fs.readdir(param, function(err, file) {
         if (file) {
           file.forEach(e => {
-            var absolutePath = path.resolve(path.join(param, e));
+            const absolutePath = path.resolve(path.join(param, e));
             displayFile(absolutePath);
-            var aimPath =
+            const aimPath =
               path.resolve(
                 "src/components/" +
                   absolutePath
@@ -29,7 +29,7 @@ function removeDir(pathname) {
     if (fs.statSync(pathname).isDirectory()) {
       let arr = [];
       arr = fs.readdirSync(pathname);
-      arr.forEach((item, index) => {
+      arr.forEach((item) => {
         removeDir(pathname + "/" + item);
       });
       fs.rmdirSync(pathname);
