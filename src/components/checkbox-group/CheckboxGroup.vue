@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { CheckboxGroup as ElCheckboxGroup } from 'element-ui';
+import { CheckboxGroup } from 'element-ui';
 export default {
   name: 'JskCheckboxGroup',
   inheritAttrs: false,
@@ -60,7 +60,7 @@ export default {
     }
   },
   components: {
-    ElCheckboxGroup
+    'ElCheckboxGroup': CheckboxGroup
   }
 }
 </script>

@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import { Pagination as ElPagination } from 'element-ui';
+import { Pagination } from 'element-ui';
 export default {
   name: 'JskPagination',
   inheritAttrs: false,
   components: {
-    ElPagination
+    'ElPagination': Pagination
   },
   data: function() {
     return {

@@ -26,12 +26,12 @@
 </template>
 
 <script>
-import { Input as ElInput } from 'element-ui';
+import { Input } from 'element-ui';
 export default {
   name: 'JskInput',
   inheritAttrs: false,
   components: {
-    ElInput
+    'ElInput': Input
   },
   data: function() {
     return {

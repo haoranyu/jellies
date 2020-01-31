@@ -1,8 +1,5 @@
 <template>
-  <jsk-button-group
-    v-if="lockMenuMode === 'lock'"
-    class="lock-menu"
-  >
+  <jsk-button-group v-if="lockMenuMode === 'lock'" class="lock-menu">
     <jsk-button
       button-size="small"
       button-icon="el-icon-lock"
@@ -35,15 +32,21 @@
   ></jsk-button>
 </template>
 <script>
+import JskButton from "../../button/Button";
+import JskButtonGroup from "../../button-group/ButtonGroup";
 export default {
-  name: 'JskCodeEditorLockMenu',
+  name: "JskCodeEditorLockMenu",
   props: {
     lockMenuMode: {
       type: String,
-      default: 'lock'
+      default: "lock"
     }
+  },
+  components: {
+    JskButton,
+    JskButtonGroup
   }
-}
+};
 </script>
 <style scoped>
 .lock-menu {

@@ -143,7 +143,7 @@ $--fill-base: $--color-white !default;
 /* Typography
 -------------------------- */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
-
+$--font-jellies-icon-path: './fonts';
 
 /// fontSize|[主标题文字大小,Extra large font size,Extra large font size]|FontSize|0
 $--font-size-extra-large: 24px;
@@ -1001,6 +1001,3 @@ $--breakpoints-spec: (
   'lg-and-down': (max-width: $--xl - 1),
   'xl-only' : (min-width: $--xl),
 );
-
-@import "~element-ui/packages/theme-chalk/src/reset";
-@import "~element-ui/packages/theme-chalk/src/index";

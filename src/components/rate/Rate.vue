@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import { Rate as ElRate } from 'element-ui';
+import { Rate } from 'element-ui';
 export default {
   name: 'JskRate',
   inheritAttrs: false,
   components: {
-    ElRate
+    'ElRate': Rate
   },
   data: function() {
     return {

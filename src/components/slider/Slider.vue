@@ -26,12 +26,12 @@
 </template>
 
 <script>
-import { Slider as ElSlider } from 'element-ui';
+import { Slider } from 'element-ui';
 export default {
   name: 'JskSlider',
   inheritAttrs: false,
   components: {
-    ElSlider
+    'ElSlider': Slider
   },
   data: function() {
     return {

@@ -3,29 +3,30 @@
     dialog-width="460px"
     :has-close-button="false"
     :dialog-title="'\'' + reloadConfirmFilename + '\' ' + reloadConfirmContent.title"
-    :visible.sync="visibleProp">
+    :visible.sync="visibleProp"
+  >
     {{ reloadConfirmContent.content }}
     <span slot="footer">
       <jsk-button
         button-type="info"
-        @click="() => { this.$parent.$emit('reload-confirm', 'cancel') }">
-        {{ reloadConfirmContent.buttons[0] }}
-      </jsk-button>
+        @click="() => { this.$parent.$emit('reload-confirm', 'cancel') }"
+      >{{ reloadConfirmContent.buttons[0] }}</jsk-button>
       <jsk-button
         button-type="success"
-        @click="() => { this.$parent.$emit('reload-confirm', 'reload') }">
-        {{ reloadConfirmContent.buttons[1] }}
-      </jsk-button>
+        @click="() => { this.$parent.$emit('reload-confirm', 'reload') }"
+      >{{ reloadConfirmContent.buttons[1] }}</jsk-button>
     </span>
   </jsk-dialog>
 </template>
 <script>
+import JskDialog from "../../dialog/Dialog";
+import JskButton from "../../button/Button";
 export default {
-  name: 'JskCodeEditorReloadConfirm',
+  name: "JskCodeEditorReloadConfirm",
   data: function() {
     return {
       visibleProp: false
-    }
+    };
   },
   created: function() {
     this.visibleProp = this.visible;
@@ -37,17 +38,21 @@ export default {
     },
     reloadConfirmFilename: {
       type: String,
-      default: 'The file'
+      default: "The file"
     },
     reloadConfirmContent: Object
   },
   watch: {
     visibleProp: function() {
-      this.$emit('update:visible', this.visibleProp);
+      this.$emit("update:visible", this.visibleProp);
     },
     visible: function() {
       this.visibleProp = this.visible;
     }
+  },
+  components: {
+    JskDialog,
+    JskButton
   }
-}
+};
 </script>

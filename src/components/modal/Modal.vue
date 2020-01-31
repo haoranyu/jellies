@@ -35,17 +35,17 @@
 
 <script>
 import {
-  Dialog as ElDialog,
-  Row as ElRow,
-  Col as ElCol,
+  Dialog,
+  Row,
+  Col,
 } from 'element-ui';
 export default {
   name: 'JskModal',
   inheritAttrs: false,
   components: {
-    ElDialog,
-    ElRow,
-    ElCol
+    'ElDialog': Dialog,
+    'ElRow': Row,
+    'ElCol': Col
   },
   computed: {
     modalSizeOption: function() {

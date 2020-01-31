@@ -1,3 +1,3 @@
 import { Message } from 'element-ui';
-
-export default Message;
+const MessageWrapper = Message
+export default MessageWrapper.directive;

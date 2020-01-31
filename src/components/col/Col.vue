@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { Col as ElCol } from 'element-ui';
+import { Col } from 'element-ui';
 export default {
   name: 'JskCol',
   inheritAttrs: false,
@@ -25,7 +25,7 @@ export default {
     }
   },
   components: {
-    ElCol
+    'ElCol': Col
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <script>
-import { CarouselItem } from 'element-ui';
-CarouselItem.name = 'JskCarouselItem';
-export default CarouselItem
+import { CarouselItem } from "element-ui";
+const CarouselItemWrapper = CarouselItem;
+CarouselItemWrapper.name = "JskCarouselItem";
+export default CarouselItemWrapper;
 </script>

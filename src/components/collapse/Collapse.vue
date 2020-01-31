@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { Collapse as ElCollapse } from 'element-ui';
+import { Collapse } from 'element-ui';
 export default {
   name: 'JskCollapse',
   inheritAttrs: false,
@@ -49,7 +49,7 @@ export default {
     }
   },
   components: {
-    ElCollapse
+    'ElCollapse': Collapse
   }
 }
 </script>

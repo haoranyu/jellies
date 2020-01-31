@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { Breadcrumb as ElBreadcrumb } from 'element-ui';
+import { Breadcrumb } from 'element-ui';
 export default {
   name: 'JskBreadcrumb',
   props: {
@@ -23,7 +23,7 @@ export default {
     }
   },
   components: {
-    ElBreadcrumb
+    'ElBreadcrumb': Breadcrumb
   }
 }
 </script>

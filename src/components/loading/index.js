@@ -1,3 +1,3 @@
 import { Loading } from 'element-ui';
-
-export default Loading;
+const LoadingWrapper = Loading;
+export default LoadingWrapper;

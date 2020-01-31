@@ -18,18 +18,15 @@
       }"
       @click="switchTrigger"
     >
-      <div
-        class="bar"
-        v-if="$parent.hasBar"
-        :style="{
+      <div class="bar" v-if="$parent.hasBar" :style="{
           background: barColor
-        }"
-      ></div>
+        }"></div>
       <i
         :class="[
           'el-icon-j-times',
           closable ? 'closable' : ''
-        ]" :style="{
+        ]"
+        :style="{
           height: height,
           lineHeight: height,
           background: background
@@ -45,9 +42,9 @@
 </template>
 
 <script>
-import JskTooltip from '../tooltip/Tooltip';
+import JskTooltip from "../tooltip/Tooltip";
 export default {
-  name: 'JskTab',
+  name: "JskTab",
   components: {
     JskTooltip
   },
@@ -66,7 +63,7 @@ export default {
     beforeClose: {
       type: Function,
       default: () => {
-        return new Promise((returnToTab) => {
+        return new Promise(returnToTab => {
           returnToTab(true);
         });
       }
@@ -95,7 +92,7 @@ export default {
       if (this.isCurrentActive) {
         return this.$parent.innerActiveTextColor;
       }
-      return 'inherit';
+      return "inherit";
     },
     closable: function() {
       if (this.isClosable === undefined) {
@@ -105,15 +102,15 @@ export default {
     },
     dividerStyle: function() {
       if (this.isCurrentActive) {
-        return 'none';
+        return "none";
       }
-      return this.$parent.hasDivider ? 'solid' : 'none';
+      return this.$parent.hasDivider ? "solid" : "none";
     },
     dividerColor: function() {
-      if (this.$parent.tabsTheme === 'dark') {
-        return 'rgba(0, 0, 0, 0.3)';
+      if (this.$parent.tabsTheme === "dark") {
+        return "rgba(0, 0, 0, 0.3)";
       }
-      return 'rgba(0, 0, 0, 0.1)';
+      return "rgba(0, 0, 0, 0.1)";
     },
     showTooltip: function() {
       return this.$parent.hasTooltip;
@@ -125,7 +122,7 @@ export default {
       if (this.$slots.default) {
         return this.$slots.default[0].text;
       }
-      return '';
+      return "";
     },
     isCurrentActive: function() {
       if (this.isActive || this.$parent.currentActive === this.tabIndex) {
@@ -142,18 +139,18 @@ export default {
   },
   methods: {
     switchTrigger: function() {
-      this.$emit('switch', this.tabIndex, this.$parent.currentActive);
+      this.$emit("switch", this.tabIndex, this.$parent.currentActive);
       this.$parent.currentActive = this.tabIndex;
     },
     closeTrigger: function() {
-      this.beforeClose().then((result) => {
+      this.beforeClose().then(result => {
         if (result) {
-          this.$emit('close', this.tabIndex);
+          this.$emit("close", this.tabIndex);
         }
       });
     }
   }
-}
+};
 </script>
 
 <style scoped>

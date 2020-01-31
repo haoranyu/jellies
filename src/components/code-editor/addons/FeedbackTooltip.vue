@@ -1,25 +1,26 @@
 <template>
-  <div v-if="feedbackTooltipVisiable" >
+  <div v-if="feedbackTooltipVisiable">
     <jsk-tooltip
       :tooltip-placement="feedbackTooltipPlacement"
       :tooltip-theme="feedbackTooltipTheme"
       :is-visible="true"
       is-manual
     >
+      <div slot="default" class="feedback-tooltip" :style="feedbackTooltipPosition"></div>
       <div
-        slot="default"
-        class="feedback-tooltip"
-        :style="feedbackTooltipPosition"
-      ></div>
-      <div slot="content" v-html="feedbackTooltipContent" :style="{
+        slot="content"
+        v-html="feedbackTooltipContent"
+        :style="{
         maxWidth: maxWidth
-      }"></div>
+      }"
+      ></div>
     </jsk-tooltip>
   </div>
 </template>
 <script>
+import JskTooltip from "../../tooltip/Tooltip";
 export default {
-  name: 'JskCodeEditorFeedbackTooltip',
+  name: "JskCodeEditorFeedbackTooltip",
   props: {
     feedbackTooltipPosition: {
       type: Object,
@@ -32,7 +33,7 @@ export default {
     },
     feedbackTooltipPlacement: {
       type: String,
-      default: 'bottom'
+      default: "bottom"
     },
     feedbackTooltipVisiable: {
       type: Boolean,
@@ -40,11 +41,11 @@ export default {
     },
     feedbackTooltipContent: {
       type: String,
-      default: 'Hints'
+      default: "Hints"
     },
     feedbackTooltipTheme: {
       type: String,
-      default: 'light'
+      default: "light"
     },
     feedbackTooltipMaxWidth: {
       type: [String, Number],
@@ -53,13 +54,16 @@ export default {
   },
   computed: {
     maxWidth: function() {
-      if (typeof(this.feedbackTooltipMaxWidth) === 'string') {
+      if (typeof this.feedbackTooltipMaxWidth === "string") {
         return this.feedbackTooltipMaxWidth;
       }
-      return this.feedbackTooltipMaxWidth + 'px';
+      return this.feedbackTooltipMaxWidth + "px";
     }
+  },
+  components: {
+    JskTooltip
   }
-}
+};
 </script>
 <style scoped>
 .feedback-tooltip {

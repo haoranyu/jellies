@@ -13,7 +13,7 @@
 
 
 <script>
-import { Avatar as ElAvatar } from 'element-ui';
+import { Avatar } from 'element-ui';
 export default {
   name: 'JskAvatar',
   props: {
@@ -44,7 +44,7 @@ export default {
     },
   },
   components: {
-    ElAvatar
+    'ElAvatar': Avatar
   }
 }
 </script>

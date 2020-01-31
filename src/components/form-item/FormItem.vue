@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import { FormItem as ElFormItem } from 'element-ui';
+import { FormItem } from 'element-ui';
 export default {
   name: 'JskFormItem',
   inheritAttrs: false,
   components: {
-    ElFormItem
+    'ElFormItem': FormItem
   },
   props: {
     formItemLabelWidth: [

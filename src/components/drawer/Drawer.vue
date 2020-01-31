@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import { Drawer as ElDrawer} from 'element-ui';
+import { Drawer } from 'element-ui';
 export default {
   name: 'JskDrawer',
   inheritAttrs: false,
   components: {
-    ElDrawer
+    'ElDrawer': Drawer
   },
   computed: {
     dialogDirection: function() {

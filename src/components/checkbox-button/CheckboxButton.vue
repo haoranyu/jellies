@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { CheckboxButton as ElCheckboxButton } from 'element-ui';
+import { CheckboxButton } from 'element-ui';
 export default {
   name: 'JskCheckboxButton',
   methods: {
@@ -25,7 +25,7 @@ export default {
     }
   },
   components: {
-    ElCheckboxButton
+    'ElCheckboxButton': CheckboxButton
   }
 }
 </script>

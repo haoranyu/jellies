@@ -7,7 +7,7 @@
   </el-backtop>
 </template>
 <script>
-import { Backtop as ElBacktop } from 'element-ui';
+import { Backtop } from 'element-ui';
 export default {
   name: 'JskBacktop',
   inheritAttrs: false,
@@ -35,7 +35,7 @@ export default {
     }
   },
   components: {
-    ElBacktop
+    'ElBacktop': Backtop
   }
 }
 </script>

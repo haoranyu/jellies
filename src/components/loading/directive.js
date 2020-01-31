@@ -1,3 +1,3 @@
 import { Loading } from 'element-ui';
-
-export default Loading.directive;
+const LoadingWrapper = Loading;
+export default LoadingWrapper.directive;

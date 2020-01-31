@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { DatePicker as ElDatePicker } from 'element-ui';
+import { DatePicker } from 'element-ui';
 export default {
   name: 'JskDatePicker',
   inheritAttrs: false,
@@ -77,7 +77,7 @@ export default {
     }
   },
   components: {
-    ElDatePicker
+    'ElDatePicker': DatePicker
   }
 }
 </script>

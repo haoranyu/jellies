@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import { Select as ElSelect } from 'element-ui';
+import { Select } from 'element-ui';
 export default {
   name: 'JskSelect',
   inheritAttrs: false,
   components: {
-    ElSelect
+    'ElSelect': Select
   },
   data: function() {
     return {

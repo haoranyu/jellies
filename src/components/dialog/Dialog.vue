@@ -42,21 +42,21 @@
 
 <script>
 import {
-  Dialog as ElDialog,
-  FormItem as ElFormItem,
-  Row as ElRow,
-  Col as ElCol,
+  Dialog,
+  FormItem,
+  Row,
+  Col,
 } from 'element-ui';
 import JskForm from '../form/'
 export default {
   name: 'JskDialog',
   inheritAttrs: false,
   components: {
-    ElDialog,
+    'ElDialog': Dialog,
     JskForm,
-    ElFormItem,
-    ElRow,
-    ElCol
+    'ElFormItem': FormItem,
+    'ElRow': Row,
+    'ElCol': Col
   },
   computed: {
     hasTitle: function() {

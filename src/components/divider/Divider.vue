@@ -6,12 +6,12 @@
   </el-divider>
 </template>
 <script>
-import { Divider as ElDivider } from 'element-ui';
+import { Divider } from 'element-ui';
 export default {
   name: 'JskDivider',
   inheritAttrs: false,
   components: {
-    ElDivider
+    'ElDivider': Divider
   },
   methods: {
     trimAttrs: function(attrs) {

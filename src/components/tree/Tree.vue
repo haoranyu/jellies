@@ -1,24 +1,30 @@
 <script>
-import { Tree } from 'element-ui';
-
-Tree.name = 'JskTree';
-
-Tree.components.ElTreeNode.components.NodeContent.render = function(h) {
+import { Tree } from "element-ui";
+const TreeWrapper = Tree;
+TreeWrapper.components.ElTreeNode.components.NodeContent.render = function(h) {
   const parent = this.$parent;
   const tree = parent.tree;
   const node = this.node;
   const { data, store } = node;
 
-  return (
-    parent.renderContent
-      ? parent.renderContent.call(parent._renderProxy, h, { _self: tree.$vnode.context, node, data, store })
-      : tree.$scopedSlots.default
-        ? tree.$scopedSlots.default({ node, data })
-        : <span class="el-tree-node__label"><i class={ data.icon ? [data.icon, 'el-tree-node__icon'] : '' }></i>{ data.label }</span>
+  return parent.renderContent ? (
+    parent.renderContent.call(parent._renderProxy, h, {
+      _self: tree.$vnode.context,
+      node,
+      data,
+      store
+    })
+  ) : tree.$scopedSlots.default ? (
+    tree.$scopedSlots.default({ node, data })
+  ) : (
+    <span class="el-tree-node__label">
+      <i class={data.icon ? [data.icon, "el-tree-node__icon"] : ""}></i>
+      {data.label}
+    </span>
   );
-}
-
-export default Tree
+};
+TreeWrapper.name = "JskTree";
+export default TreeWrapper;
 </script>
 
 <style>

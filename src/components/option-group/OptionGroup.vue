@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import { OptionGroup as ElOptionGroup } from 'element-ui';
+import { OptionGroup } from 'element-ui';
 export default {
   name: 'JskOptionGroup',
   components: {
-    ElOptionGroup
+    'ElOptionGroup': OptionGroup
   },
   methods: {
     trimAttrs: function(attrs) {

@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import { Radio as ElRadio } from 'element-ui';
+import { Radio } from 'element-ui';
 export default {
   name: 'JskRadio',
   inheritAttrs: false,
   components: {
-    ElRadio
+    'ElRadio': Radio
   },
   data: function() {
     return {
