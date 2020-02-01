@@ -125,6 +125,7 @@ import CodeEditorLockMenu from "./addons/LockMenu";
 import CodeEditorFeedbackTooltip from "./addons/FeedbackTooltip";
 import CodeEditorTranslation from "./configs/translation";
 import CodeEditorCodemirrorOptions from "./configs/options";
+import CodeEditorDefaultSettings from "./configs/settings";
 const _isEqual = require("lodash.isequal");
 const _merge = require("lodash.merge");
 const _cloneDeep = require("lodash.clonedeep");
@@ -160,11 +161,7 @@ export default {
       lockMenuMode: "lock",
       lockMenuPosition: { left: 0, top: 0 },
       selectedLocks: undefined,
-      settings: {
-        theme: "light",
-        indent: "4",
-        mode: "sublime"
-      },
+      settings: CodeEditorDefaultSettings,
       editorOptions: CodeEditorCodemirrorOptions,
       currentActiveIndex: 0
     };
@@ -299,6 +296,8 @@ export default {
       this.editorOptions = _merge(this.editorOptions, this.codeEditorOptions);
       if (this.codeEditorSettings !== undefined) {
         this.settings = this.codeEditorSettings;
+      } else {
+        this.settings = CodeEditorDefaultSettings;
       }
       this.editorOptions.extraKeys["Ctrl-S"] = () => this.saveCurrentFile();
       this.editorOptions.extraKeys["Cmd-S"] = () => this.saveCurrentFile();
