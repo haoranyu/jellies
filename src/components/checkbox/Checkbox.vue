@@ -2,6 +2,7 @@
   <el-checkbox
     v-model="value"
     v-bind="trimAttrs($attrs)"
+    :class="isFullWidth ? 'full-width' : ''"
   >
     <slot></slot>
   </el-checkbox>
@@ -21,7 +22,11 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: Boolean
+    vModel: Boolean,
+    isFullWidth: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -61,5 +66,15 @@ export default {
 }
 .el-checkbox .el-checkbox__inner::before {
   top: 4px !important;
+}
+.el-checkbox__input {
+  vertical-align: top !important;
+  margin: 2px 0 2px 2px !important;
+}
+</style>
+<style scoped>
+.full-width {
+  width: 100%;
+  height: auto !important;
 }
 </style>
