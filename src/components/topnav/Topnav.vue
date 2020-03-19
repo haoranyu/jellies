@@ -44,6 +44,7 @@ export default {
       type: Number,
       default: 0
     },
+    topnavCurrentActive: Number,
     topnavActiveColor: {
       type: String,
       default: '#41B146'
@@ -56,8 +57,10 @@ export default {
     };
   },
   mounted: function() {
-    this.currentActive = this.topnavInitActive;
-    this.currentHover = this.topnavInitActive;
+    if (this.topnavCurrentActive || this.topnavInitActive) {
+      this.currentActive = this.topnavCurrentActive || this.topnavInitActive;
+      this.currentHover = this.topnavCurrentActive || this.topnavInitActive;
+    }
   },
   methods: {
     toItem: function(index) {
@@ -74,6 +77,17 @@ export default {
         return this.topnavHeight;
       }
       return this.topnavHeight + 'px';
+    }
+  },
+  watch: {
+    currentActive: function() {
+      if (this.topnavCurrentActive) {
+        this.$emit('update:topnavCurrentActive', this.currentActive);
+      }
+    },
+    topnavCurrentActive: function() {
+      this.currentActive = this.topnavCurrentActive;
+      this.currentHover = this.topnavCurrentActive;
     }
   }
 }
