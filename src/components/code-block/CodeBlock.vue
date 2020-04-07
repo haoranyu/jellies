@@ -3,6 +3,7 @@
     :class="[
       'jsk-code-block',
       isSelectionAllowed ? '' : 'no-selection',
+      hasLineNumbers ? '' : 'no-line-numbers',
       'jsk-code-block-copy-' + codeBlockCopyButtonTrigger
     ]"
     :style="{
@@ -59,6 +60,7 @@ export default {
   },
   mounted: function() {
     this.cmOption.theme = this.theme;
+    this.cmOption.lineNumbers = this.hasLineNumbers;
     if (!this.isSelectionAllowed) {
       this.disableSelection();
     }
@@ -117,6 +119,10 @@ export default {
     isCopyAllowed: {
       type: Boolean,
       default: false
+    },
+    hasLineNumbers: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -210,6 +216,11 @@ export default {
       &-lines {
         cursor: default;
       }
+    }
+  }
+  &.no-line-numbers {
+    .CodeMirror-lines {
+      padding: 4px;
     }
   }
 }
