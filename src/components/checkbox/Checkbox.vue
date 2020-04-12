@@ -2,7 +2,7 @@
   <el-checkbox
     v-model="value"
     v-bind="trimAttrs($attrs)"
-    :class="isFullWidth ? 'full-width' : ''"
+    :class="{'full-width': isFullWidth}"
   >
     <slot></slot>
   </el-checkbox>
@@ -15,7 +15,7 @@ export default {
   inheritAttrs: false,
   data: function() {
     return {
-      value: ''
+      value: false
     };
   },
   created: function() {
@@ -60,6 +60,9 @@ export default {
 </script>
 
 <style>
+.el-checkbox .el-checkbox__inner:hover {
+  border-color: #AFAFAF;
+}
 .el-checkbox .el-checkbox__inner::after {
   left: 3px;
   top: 0;
@@ -70,6 +73,9 @@ export default {
 .el-checkbox__input {
   vertical-align: top !important;
   margin: 2px 0 2px 2px !important;
+}
+.el-checkbox__input.is-focus.is-checked .el-checkbox__inner {
+  border-color: #399AF4;
 }
 </style>
 <style scoped>

@@ -5,6 +5,7 @@
     v-on:focus="$emit('focus')"
     v-on:blur="$emit('blur')"
     v-on:clear="$emit('clear')"
+    :class="{'full-width': isFullWidth}"
   >
     <slot></slot>
   </el-radio>
@@ -27,7 +28,11 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: String
+    vModel: String,
+    isFullWidth: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -58,7 +63,22 @@ export default {
 </script>
 
 <style>
-.el-radio.is-bordered:hover {
-  border-color: #AFAFAF;
+.el-radio__input {
+  vertical-align: top !important;
+  margin: 
+  2px 0 2px 2px !important;
+}
+.el-radio__label {
+  display: inline-block;
+  line-height: 19px;
+}
+</style>
+<style scoped>
+.full-width {
+  width: 100%;
+  height: auto !important;
+}
+.el-radio.is-bordered {
+  padding: 9px 20px 9px 10px !important;
 }
 </style>
