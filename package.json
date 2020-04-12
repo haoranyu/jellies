@@ -1,6 +1,6 @@
 {
   "name": "jellies",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A UI toolkit for Vue 2.x based on elementUI.",
   "main": "./src/index.js",
   "private": false,
