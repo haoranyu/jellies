@@ -35,28 +35,6 @@ export default {
                             }
                           }
                         },
-                        Backspace: (cm) => {
-                          if (!cm.somethingSelected()) {
-                            let cursorsPos = cm.listSelections().map((selection) => selection.anchor);
-                            let indentUnit = cm.options.indentUnit;
-                            let shouldDelChar = false;
-                            cursorsPos.forEach((cursorPos) => {
-                              let indentation = cm.getStateAfter(cursorPos.line).indented;
-                              if (!(indentation !== 0 &&
-                                 cursorPos.ch <= indentation &&
-                                 cursorPos.ch % indentUnit === 0)) {
-                                shouldDelChar = true;
-                              }
-                            });
-                            if (!shouldDelChar) {
-                              cm.execCommand('indentLess');
-                            } else {
-                              cm.execCommand('delCharBefore');
-                            }
-                          } else {
-                            cm.execCommand('delCharBefore');
-                          }
-                        },
                         'Shift-Tab': (cm) => cm.execCommand('indentLess')
                       }
 };
