@@ -5,7 +5,10 @@
     v-on:focus="$emit('focus')"
     v-on:blur="$emit('blur')"
     v-on:clear="$emit('clear')"
-    :class="{'full-width': isFullWidth}"
+    :class="[
+      'radio-' + radioSize,
+      {'full-width': isFullWidth}
+    ]"
   >
     <slot></slot>
   </el-radio>
@@ -29,6 +32,10 @@ export default {
   },
   props: {
     vModel: String,
+    radioSize: {
+      type: String,
+      default: 'mini'
+    },
     isFullWidth: {
       type: Boolean,
       default: false
@@ -62,15 +69,73 @@ export default {
 }
 </script>
 
-<style>
-.el-radio__input {
-  vertical-align: top !important;
-  margin: 
-  2px 0 2px 2px !important;
-}
-.el-radio__label {
-  display: inline-block;
-  line-height: 19px;
+<style lang="scss">
+.el-radio {
+  &__input {
+    vertical-align: top !important;
+    margin: 2px 0 2px 2px !important;
+  }
+  &__label {
+    display: inline-block;
+    line-height: 19px;
+  }
+  &.radio-small {
+    &.is-bordered {
+      height: 42px;
+    }
+    .el-radio {
+      &__label {
+        font-size: 16px;
+        line-height: 21px;
+      }
+      &__inner {
+        width: 16px;
+        height: 16px;
+        &:after {
+          width: 5px;
+          height: 5px;
+        }
+      }
+    }
+  }
+  &.radio-medium {
+    &.is-bordered {
+      height: 44px;
+    }
+    .el-radio {
+      &__label {
+        font-size: 18px;
+        line-height: 23px;
+      }
+      &__inner {
+        width: 18px;
+        height: 18px;
+        &:after {
+          width: 6px;
+          height: 6px;
+        }
+      }
+    }
+  }
+  &.radio-large {
+    &.is-bordered {
+      height: 46px;
+    }
+    .el-radio {
+      &__label {
+        font-size: 20px;
+        line-height: 25px;
+      }
+      &__inner {
+        width: 20px;
+        height: 20px;
+        &:after {
+          width: 7px;
+          height: 7px;
+        }
+      }
+    }
+  }
 }
 </style>
 <style scoped>

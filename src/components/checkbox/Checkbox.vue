@@ -2,7 +2,11 @@
   <el-checkbox
     v-model="value"
     v-bind="trimAttrs($attrs)"
-    :class="{'full-width': isFullWidth}"
+    :class="[
+      'checkbox-' + checkboxSize,
+      {'full-width': isFullWidth}
+    ]"
+    style=""
   >
     <slot></slot>
   </el-checkbox>
@@ -23,6 +27,10 @@ export default {
   },
   props: {
     vModel: Boolean,
+    checkboxSize: {
+      type: String,
+      default: 'mini'
+    },
     isFullWidth: {
       type: Boolean,
       default: false
@@ -58,24 +66,92 @@ export default {
   }
 }
 </script>
-
-<style>
-.el-checkbox .el-checkbox__inner:hover {
-  border-color: #AFAFAF;
-}
-.el-checkbox .el-checkbox__inner::after {
-  left: 3px;
-  top: 0;
-}
-.el-checkbox .el-checkbox__inner::before {
-  top: 4px !important;
-}
-.el-checkbox__input {
-  vertical-align: top !important;
-  margin: 2px 0 2px 2px !important;
-}
-.el-checkbox__input.is-focus.is-checked .el-checkbox__inner {
-  border-color: #399AF4;
+<style lang="scss">
+.el-checkbox {
+  &__input {
+    vertical-align: top !important;
+    margin: 2px 0 2px 2px !important;
+    .el-checkbox__inner {
+      &:hover {
+        border-color: #AFAFAF;
+      }
+      &::before {
+        top: 4px !important;
+      }
+    }
+    &.is-focus.is-checked {
+      .el-checkbox__inner {
+        border-color: #399AF4;
+      }
+    }
+  }
+  &.checkbox-mini {
+    .el-checkbox__inner:after {
+      height: 7px;
+      left: 3px;
+      top: 0
+    }
+  }
+  &.checkbox-small {
+    &.is-bordered {
+      height: 42px;
+    }
+    .el-checkbox {
+      &__label {
+        font-size: 16px;
+        line-height: 21px;
+      }
+      &__inner {
+        width: 16px;
+        height: 16px;
+        &:after {
+          height: 8px;
+          left: 4px;
+          top: 0
+        }
+      }
+    }
+  }
+  &.checkbox-medium {
+    &.is-bordered {
+      height: 44px;
+    }
+    .el-checkbox {
+      &__label {
+        font-size: 18px;
+        line-height: 23px;
+      }
+      &__inner {
+        width: 18px;
+        height: 18px;
+        &:after {
+          height: 9px;
+          left: 5px;
+          top: 1px;
+        }
+      }
+    }
+  }
+  &.checkbox-large {
+    &.is-bordered {
+      height: 46px;
+    }
+    .el-checkbox {
+      &__label {
+        font-size: 20px;
+        line-height: 25px;
+      }
+      &__inner {
+        width: 20px;
+        height: 20px;
+        &:after {
+          height: 10px;
+          left: 6px;
+          top: 1px;
+        }
+      }
+    }
+  }
 }
 </style>
 <style scoped>
