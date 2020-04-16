@@ -64,3 +64,11 @@ export default {
   }
 }
 </script>
+<style>
+.el-checkbox-group {
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 0;
+}
+</style>
