@@ -1,6 +1,6 @@
 <script>
 import { BreadcrumbItem } from "element-ui";
 const BreadcrumbItemWrapper = BreadcrumbItem;
-BreadcrumbItemWrapper.name = "JskBreadcrumbItemWrapper";
+BreadcrumbItemWrapper.name = "JskBreadcrumbItem";
 export default BreadcrumbItemWrapper;
 </script>
