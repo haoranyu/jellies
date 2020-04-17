@@ -68,6 +68,7 @@ export default {
 </script>
 <style lang="scss">
 .el-checkbox {
+  line-height: 1;
   &__input {
     vertical-align: top !important;
     margin: 2px 0 2px 2px !important;
