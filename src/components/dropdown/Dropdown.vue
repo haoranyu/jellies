@@ -8,7 +8,7 @@ DropdownWrapper.props = {
     default: "hover"
   },
   dropdownType: String,
-  dropdownMenuSize: {
+  dropdownSize: {
     type: String,
     default: ""
   },
@@ -45,7 +45,10 @@ DropdownWrapper.computed = {
     return this.dropdownType;
   },
   size: function() {
-    return this.dropdownMenuSize;
+    return this.dropdownSize;
+  },
+  dropdownMenuSize: function() {
+    return this.dropdownSize;
   },
   splitButton: function() {
     return this.isSplitButton;
