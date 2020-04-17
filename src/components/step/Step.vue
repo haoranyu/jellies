@@ -8,19 +8,17 @@ StepWrapper.props = {
   stepIcon: String,
   stepStatus: String
 };
-StepWrapper.computed = {
-  title: function() {
-    return this.stepTitle;
-  },
-  description: function() {
-    return this.stepDescription;
-  },
-  icon: function() {
-    return this.stepIcon;
-  },
-  status: function() {
-    return this.stepStatus;
-  }
+StepWrapper.computed.title = function() {
+  return this.stepTitle;
+};
+StepWrapper.computed.description = function() {
+  return this.stepDescription;
+};
+StepWrapper.computed.icon = function() {
+  return this.stepIcon;
+};
+StepWrapper.computed.status = function() {
+  return this.stepStatus;
 };
 export default StepWrapper;
 </script>
