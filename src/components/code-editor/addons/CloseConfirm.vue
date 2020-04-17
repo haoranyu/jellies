@@ -1,6 +1,6 @@
 <template>
   <jsk-dialog
-    dialog-width="460px"
+    dialog-width="530px"
     :has-close-button="false"
     :dialog-title="'\'' + closeConfirmFilename + '\' ' + closeConfirmContent.title"
     :visible.sync="visibleProp"

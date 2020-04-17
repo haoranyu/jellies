@@ -38,7 +38,7 @@
         <li v-if="hasSettingsControl">
           <jsk-popover
             popover-placement="bottom-end"
-            popover-width="210"
+            popover-width="240"
             popover-trigger="click"
             popover-offset="40"
           >
@@ -55,7 +55,9 @@
                 :form-item-label="value"
                 :key="key"
               >
-                <jsk-radio-group v-model="settings[key]">
+                <jsk-radio-group
+                  v-model="settings[key]"
+                  radio-group-size="small">
                   <jsk-radio-button
                     v-for="(content, label) in settingsContent[key]"
                     :label="label"
