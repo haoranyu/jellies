@@ -282,6 +282,9 @@ export default {
     },
     initFileDoc(file) {
       file.doc = CodeMirror.Doc(file.code, this.getFileMode(file));
+      if (file.readOnly) {
+        file.doc.cantEdit = true;
+      }
       this.addLocks(file.doc, file.locks);
       this.addFeedbackNotes(file.doc, file.feedbackNotes);
       this.addLineNotes(file.doc, file.lineNotes);
@@ -921,6 +924,9 @@ export default {
     currentFileLocks: function() {
       return this.currentFile.locks;
     },
+    currentFileReadOnly: function() {
+      return this.currentFile.readOnly;
+    },
     editorTheme: function() {
       let themeMapping = {
         dark: "monokai",
@@ -976,6 +982,9 @@ export default {
       handler: function() {
         this.reloadCurrentFile();
       }
+    },
+    currentFileReadOnly: function() {
+      this.reloadCurrentFile();
     }
   }
 };
