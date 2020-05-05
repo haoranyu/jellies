@@ -288,6 +288,7 @@ export default {
       this.addLocks(file.doc, file.locks);
       this.addFeedbackNotes(file.doc, file.feedbackNotes);
       this.addLineNotes(file.doc, file.lineNotes);
+      this.addLineClasses(file.doc, file.lineClasses);
     },
     initFileLocks(file) {
       if (file.locks === undefined) {
@@ -476,6 +477,8 @@ export default {
       this.addFeedbackNotes(file.doc, file.feedbackNotes);
       this.clearLineNotes(file.doc);
       this.addLineNotes(file.doc, file.lineNotes);
+      this.clearLineClasses(file.doc);
+      this.addLineClasses(file.doc, file.lineClasses);
     },
     renderCurrentFile() {
       this.renderDoc(this.currentFile);
@@ -638,6 +641,36 @@ export default {
           mark.className === "feedback-error"
         );
       });
+    },
+
+    //////////////////////////
+    // Line Class Control //
+    //////////////////////////
+    addLineClasses(doc, lineClasses) {
+      if (doc.lineClasses === undefined) {
+        doc.lineClasses = [];
+      }
+      if (lineClasses !== undefined) {
+        lineClasses.forEach((lineClass) => {
+          this.addLineClass(doc, lineClass);
+        });
+      }
+    },
+    addLineClass(doc, lineClass) {
+      doc.addLineClass(lineClass.line, lineClass.where, lineClass.class);
+      doc.lineClasses.push({
+        line: lineClass.line,
+        where: lineClass.where,
+        class: lineClass.class
+      });
+    },
+    clearLineClasses(doc) {
+      if (doc.lineClasses !== undefined) {
+        doc.lineClasses.forEach(lineClass => {
+          doc.removeLineClass(lineClass.line, lineClass.where, lineClass.class);
+        });
+      }
+      doc.lineClasses = undefined;
     },
 
     //////////////////////////
