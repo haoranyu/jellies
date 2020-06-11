@@ -84,6 +84,9 @@ export default {
       default: false
     }
   },
+  mounted: function () {
+    this.currentActive = this.tabsInitActive;
+  },
   computed: {
     height: function() {
       if (typeof(this.tabsHeight) === 'string') {
