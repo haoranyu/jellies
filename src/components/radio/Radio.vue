@@ -76,6 +76,7 @@ export default {
     margin: 2px 0 2px 2px !important;
   }
   &__label {
+    white-space: normal;
     display: inline-block;
     line-height: 19px;
   }
