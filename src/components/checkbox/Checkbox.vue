@@ -6,7 +6,6 @@
       'checkbox-' + checkboxSize,
       {'full-width': isFullWidth}
     ]"
-    style=""
   >
     <slot></slot>
   </el-checkbox>
@@ -85,6 +84,9 @@ export default {
         border-color: #399AF4;
       }
     }
+  }
+  &__label {
+    white-space: normal;
   }
   &.checkbox-mini {
     .el-checkbox__inner:after {
