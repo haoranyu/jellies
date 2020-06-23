@@ -444,7 +444,7 @@ export default {
       return mode;
     },
     saveCurrentFile() {
-      this.saveFile(this.currentActiveIndex);
+      return this.saveFile(this.currentActiveIndex);
     },
     saveFile(index) {
       let file = this.files[index];
