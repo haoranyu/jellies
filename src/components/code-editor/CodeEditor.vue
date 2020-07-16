@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="jsk-code-editor-container">
     <jsk-tabs
       ref="tabs"
       :tabs-init-active="0"
@@ -252,9 +252,9 @@ export default {
   },
   created: function() {
     this.initEditorOptions();
-    this.initFiles();
   },
   mounted: function() {
+    this.initFiles();
     this.initEditorListeners();
     this.setActiveTab(this.codeEditorInitActive);
     this.switchToCurrentFile();
@@ -268,7 +268,9 @@ export default {
         this.createAndSwitchToNewFile();
       } else {
         this.files.forEach(file => {
-          this.initFile(file);
+          if (!file.isInitialized) {
+            this.initFile(file);
+          }
         });
       }
     },
@@ -279,6 +281,7 @@ export default {
       this.initFileDoc(file);
       this.$set(file, "codeInit", file.code);
       this.$set(file, "locksInit", _cloneDeep(file.locks));
+      this.$set(file, "isInitialized", true);
     },
     initFileDoc(file) {
       file.doc = CodeMirror.Doc(file.code, this.getFileMode(file));
@@ -377,6 +380,9 @@ export default {
       return false;
     },
     reloadCurrentFile() {
+      if (!this.currentFile) {
+        return;
+      }
       if (!this.currentFile.isModified) {
         this.initFile(this.currentFile);
         this.switchToCurrentFile();
@@ -952,13 +958,22 @@ export default {
       return this.files[this.currentActiveIndex];
     },
     currentFileCode: function() {
-      return this.currentFile.code;
+      if (this.currentFile) {
+        return this.currentFile.code;
+      }
+      return '';
     },
     currentFileLocks: function() {
-      return this.currentFile.locks;
+      if (this.currentFile) {
+        return this.currentFile.locks;
+      }
+      return [];
     },
     currentFileReadOnly: function() {
-      return this.currentFile.readOnly;
+      if (this.currentFile) {
+        return this.currentFile.readOnly;
+      }
+      return false;
     },
     editorTheme: function() {
       let themeMapping = {
@@ -996,6 +1011,9 @@ export default {
     }
   },
   watch: {
+    files: function () {
+      this.initFiles();
+    },
     settings: {
       deep: true,
       handler: function() {
@@ -1032,6 +1050,10 @@ export default {
 }
 </style>
 <style lang="scss">
+.jsk-code-editor-container {
+  display: flex;
+  flex-direction: column;
+}
 .jsk-code-editor {
   font-family: Inconsolata, Monaco, Menlo, Consolas, "Courier New", FontAwesome,
     monospace !important;
@@ -1039,6 +1061,55 @@ export default {
   font-weight: 400;
   overflow-y: auto;
   font-size: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  &-codemirror {
+    height: 100%;
+    .CodeMirror {
+      height: 100%;
+    }
+    .CodeMirror-overlayscroll-horizontal,
+    .CodeMirror-overlayscroll-vertical,
+    .CodeMirror-overlayscroll-horizontal div,
+    .CodeMirror-overlayscroll-vertical div {
+      border-radius: 5px;
+    }
+    .cm-s-monokai {
+      .CodeMirror-matchingbracket {
+        text-decoration: none;
+        padding-bottom: 1px;
+        outline: 1px solid #777777;
+      }
+      .CodeMirror-nonmatchingbracket {
+        color: #f33b29;
+      }
+      .CodeMirror-overlayscroll-horizontal div,
+      .CodeMirror-overlayscroll-vertical div {
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
+    .cm-s-eclipse {
+      .CodeMirror-gutters {
+        border-right: none;
+        background: none;
+      }
+    }
+    .CodeMirror-focused .cm-matchhighlight {
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==");
+      background-position: bottom;
+      background-repeat: repeat-x;
+    }
+    .CodeMirror-selection-highlight-scrollbar {
+      background-color: #399af4;
+    }
+    .CodeMirror-breakpoints {
+      width: 14px;
+    }
+    .CodeMirror-feedback-notes {
+      width: 16px;
+    }
+  }
   .locked-code,
   .locked-code-focus {
     opacity: 0.6;
@@ -1057,46 +1128,6 @@ export default {
   }
   .feedback-warning {
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJFhQXEbhTg7YAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAMklEQVQI12NkgIIvJ3QXMjAwdDN+OaEbysDA4MPAwNDNwMCwiOHLCd1zX07o6kBVGQEAKBANtobskNMAAAAASUVORK5CYII=");
-  }
-  .CodeMirror-overlayscroll-horizontal,
-  .CodeMirror-overlayscroll-vertical,
-  .CodeMirror-overlayscroll-horizontal div,
-  .CodeMirror-overlayscroll-vertical div {
-    border-radius: 5px;
-  }
-  .cm-s-monokai {
-    .CodeMirror-matchingbracket {
-      text-decoration: none;
-      padding-bottom: 1px;
-      outline: 1px solid #777777;
-    }
-    .CodeMirror-nonmatchingbracket {
-      color: #f33b29;
-    }
-    .CodeMirror-overlayscroll-horizontal div,
-    .CodeMirror-overlayscroll-vertical div {
-      background: rgba(255, 255, 255, 0.15);
-    }
-  }
-  .cm-s-eclipse {
-    .CodeMirror-gutters {
-      border-right: none;
-      background: none;
-    }
-  }
-  .CodeMirror-focused .cm-matchhighlight {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==");
-    background-position: bottom;
-    background-repeat: repeat-x;
-  }
-  .CodeMirror-selection-highlight-scrollbar {
-    background-color: #399af4;
-  }
-  .CodeMirror-breakpoints {
-    width: 14px;
-  }
-  .CodeMirror-feedback-notes {
-    width: 16px;
   }
   &-note {
     background: #d1d8e4;
