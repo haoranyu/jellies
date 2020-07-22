@@ -112,6 +112,11 @@ export default {
   watch: {
     value: function() {
       this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
     },
     vModel: function() {
       this.value = this.vModel;
