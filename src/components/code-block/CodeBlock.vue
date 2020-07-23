@@ -175,53 +175,43 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .jsk-code-block {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
   position: relative;
   overflow: hidden;
-  &-copy {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    z-index: 100;
-  }
-  &-codemirror {
-    overflow-y: auto;
-  }
 }
-.jsk-code-block-copy-hover {
-  .jsk-code-block-copy {
-    display: none;
-  }
-  &:hover {
-    .jsk-code-block-copy {
-      display: block;
-    }
-  }
+.jsk-code-block-copy {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 100;
+}
+.jsk-code-block-codemirror {
+  overflow-y: auto;
+}
+.jsk-code-block-copy-hover .jsk-code-block-copy {
+  display: none;
+}
+.jsk-code-block-copy-hover:hover .jsk-code-block-copy {
+  display: block;
 }
 </style>
-<style lang="scss">
+<style>
 .jsk-code-block {
   line-height: 24px;
   overflow-y: auto;
-  .CodeMirror {
-    height: auto;
-  }
-  &.no-selection {
-    .CodeMirror {
-      &-line,
-      &-lines {
-        cursor: default;
-      }
-    }
-  }
-  &.no-line-numbers {
-    .CodeMirror-lines {
-      padding: 4px;
-    }
-  }
+}
+.jsk-code-block .CodeMirror {
+  height: auto;
+}
+.jsk-code-block.no-selection .CodeMirror-line,
+.jsk-code-block.no-selection .CodeMirror-lines {
+  cursor: default;
+}
+.jsk-code-block.no-line-numbers .CodeMirror-lines {
+  padding: 4px;
 }
 </style>

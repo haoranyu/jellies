@@ -5,6 +5,7 @@ node_modules/
 package/
 
 src/components/theme
+src/plugins/**/*.css
 
 # local env files
 .env.local

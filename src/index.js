@@ -76,8 +76,7 @@ import Tooltip from "./components/tooltip";
 import Topnav from "./components/topnav";
 import Tree from "./components/tree";
 import Upload from "./components/upload";
-import "./plugins/element.scss";
-import "./plugins/jellies-icons/index.scss";
+import "./plugins";
 
 const components = [
   Alert,

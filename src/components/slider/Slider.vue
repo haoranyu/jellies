@@ -125,36 +125,34 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
 .el-slider {
   font-size: 14px;
-  .el-slider__stop {
-    width: 6px !important;
-    height: 6px !important;
-    top: 3px;
-    z-index: 201;
-  }
-  .el-slider__button {
-    border: none;
-    background-color: #41B146;
-    box-shadow: 0 0 4px 0 rgba(139, 154, 174, 0.4);
-  }
-  .el-slider__bar {
-    background-image: linear-gradient(to right, rgba(78, 197, 61, 0) 20%, rgba(78, 197, 61, 1) 100%) !important;
-    z-index: 101;
-  }
-  .el-slider__runway {
-    box-shadow: inset 0 1px 1px 0 rgba(139, 154, 174, 0.3);
-  }
-  .disabled {
-    .el-slider__button {
-      background-color: rgba(150, 150, 150, 1);
-    }
-    .el-slider__bar {
-      background-image: linear-gradient(to right, rgba(180, 180, 180, 0) 20%, rgba(180, 180, 180, 1) 100%) !important;
-      z-index: 101;
-    }
-  }
+}
+.el-slider .el-slider__stop {
+  width: 6px !important;
+  height: 6px !important;
+  top: 3px;
+  z-index: 201;
+}
+.el-slider .el-slider__button {
+  border: none;
+  background-color: #41B146;
+  box-shadow: 0 0 4px 0 rgba(139, 154, 174, 0.4);
+}
+.el-slider .el-slider__bar {
+  background-image: linear-gradient(to right, rgba(78, 197, 61, 0) 20%, #4ec53d 100%) !important;
+  z-index: 101;
+}
+.el-slider .el-slider__runway {
+  box-shadow: inset 0 1px 1px 0 rgba(139, 154, 174, 0.3);
+}
+.el-slider .disabled .el-slider__button {
+  background-color: #969696;
+}
+.el-slider .disabled .el-slider__bar {
+  background-image: linear-gradient(to right, rgba(180, 180, 180, 0) 20%, #b4b4b4 100%) !important;
+  z-index: 101;
 }
 </style>
 
