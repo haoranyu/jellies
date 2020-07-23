@@ -1,12 +1,18 @@
 {
   "name": "jellies",
   "version": "1.4.7",
-  "description": "A UI toolkit for Vue 2.x based on elementUI.",
-  "main": "./src/index.js",
   "private": false,
-  "style": "package/index.css",
+  "description": "A UI toolkit for Vue 2.x based on elementUI.",
+  "author": "Haoran Yu",
+  "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "npm run build-theme; npm run build-bundle",
+    "lint": "vue-cli-service lint",
+    "build-bundle": "vue-cli-service build --target lib --name index --dest package ./src/index.js",
+    "build-theme": "node_modules/gulp/bin/gulp.js build"
+  },
+  "main": "./src/index.js",
   "module": "./src/index.js",
-  "repository": "https://github.com/haoranyu/jellies",
   "files": [
     "src/*",
     "package",
@@ -14,14 +20,8 @@
     "*.json",
     "*.js"
   ],
-  "scripts": {
-    "serve": "vue-cli-service serve --open",
-    "build": "npm run build-theme; npm run build-bundle",
-    "build-theme": "node_modules/gulp/bin/gulp.js build",
-    "build-bundle": "vue-cli-service build --target lib --name index --dest package ./src/index.js",
-    "lint": "vue-cli-service lint"
-  },
   "dependencies": {
+    "core-js": "^3.6.5",
     "element-ui": "2.13.1",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
@@ -33,20 +33,20 @@
     "xe-command": "^1.1.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.12.1",
-    "@vue/cli-plugin-eslint": "^3.12.1",
-    "@vue/cli-service": "^3.12.1",
+    "@vue/cli-plugin-babel": "^4.4.6",
+    "@vue/cli-plugin-eslint": "^4.4.6",
+    "@vue/cli-service": "^4.4.6",
     "babel-eslint": "^10.1.0",
     "babel-plugin-component": "^1.1.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.2.3",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-cssmin": "^0.2.0",
     "gulp-sass": "^4.1.0",
     "node-sass": "^4.14.1",
     "node-sass-package-importer": "^5.3.2",
-    "sass-loader": "^7.3.1",
+    "sass-loader": "^9.0.2",
     "vue": "^2.6.11",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.6.11"
@@ -75,6 +75,7 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "author": "Haoran Yu",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "https://github.com/haoranyu/jellies",
+  "style": "package/index.css"
 }

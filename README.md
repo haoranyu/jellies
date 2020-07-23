@@ -14,7 +14,9 @@ npm install --save jellies
 
 Import it to your project. And use it accordingly on your Vue instance.
 
-### Fully import
+### Import completely at once
+
+If you only would like to try Jellies you may import it completely. However, it is not recommended for production since the whole package is quite large.
 
 ```javascript
 import Jellies from "jellies";
@@ -24,11 +26,11 @@ import Jellies from "jellies";
 Vue.use(Jellies);
 ```
 
-### On demand
+### On demand import
 
-With the help of [babel-plugin-component](https://github.com/ElementUI/babel-plugin-component), we can import components we actually need, making the project smaller than otherwise.
+With the help of [babel-plugin-component](https://github.com/ElementUI/babel-plugin-component), we can import components we actually need, making our project smaller than otherwise.
 
-First, install babel-plugin-component:
+First, install `babel-plugin-component`:
 
 ```javascript
 npm install babel-plugin-component -D
