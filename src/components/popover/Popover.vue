@@ -32,10 +32,7 @@ export default {
     this.value = this.vModel;
   },
   props: {
-    vModel: {
-      type: Boolean,
-      default: false
-    },
+    vModel: Boolean,
     isArrowVisible: {
       type: Boolean,
       default: true
@@ -77,11 +74,13 @@ export default {
   watch: {
     value: function() {
       this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
+      if (this.vModel) {
+        this.$nextTick(() => {
+          if (this.value !== this.vModel) {
+            this.value = this.vModel;
+          }
+        });
+      }
     },
     vModel: function() {
       this.value = this.vModel;
