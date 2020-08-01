@@ -4,7 +4,7 @@
     v-bind="trimAttrs($attrs)"
     :visible.sync="visibleProp"
     :width="typeof(modalWidth) === 'string' ? modalWidth : modalWidth + 'px'"
-    :top="0"
+    top="0"
     :modal="hasMask"
     :modal-append-to-body="isMaskOnBody"
     :append-to-body="isOnBody"
