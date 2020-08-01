@@ -4,7 +4,7 @@
     v-bind="trimAttrs($attrs)"
     :visible.sync="visibleProp"
     :width="typeof(modalWidth) === 'string' ? modalWidth : modalWidth + 'px'"
-    :top="typeof(modalTop) === 'string' ? modalTop : modalTop + 'vh'"
+    :top="0"
     :modal="hasMask"
     :modal-append-to-body="isMaskOnBody"
     :append-to-body="isOnBody"
@@ -160,8 +160,14 @@ export default {
 }
 </script>
 <style>
+.el-dialog__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .jsk-modal {
   overflow: hidden;
+  margin-bottom: 0 !important;
 }
 .jsk-modal-title-right {
   text-align: right;

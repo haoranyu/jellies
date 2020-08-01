@@ -4,7 +4,7 @@
     :visible.sync="visibleProp"
     :title="dialogTitle"
     :width="typeof(dialogWidth) === 'string' ? dialogWidth : dialogWidth + 'px'"
-    :top="typeof(dialogTop) === 'string' ? dialogTop : dialogTop + 'vh'"
+    :top="0"
     :modal="hasMask"
     :modal-append-to-body="isMaskOnBody"
     :append-to-body="isOnBody"
@@ -106,10 +106,6 @@ export default {
       type: [String, Number],
       default: '50%'
     },
-    dialogTop: {
-      type: [String, Number],
-      default: '15vh'
-    },
     dialogCustomClass: {
       type: String,
       default: ''
@@ -203,6 +199,14 @@ export default {
 }
 </style>
 <style>
+.el-dialog__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.jsk-dialog {
+  margin-bottom: 0 !important;
+}
 .jsk-dialog.jsk-dialog-padding-left {
   padding-left: 80px !important;
 }
