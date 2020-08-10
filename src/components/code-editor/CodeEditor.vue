@@ -951,6 +951,9 @@ export default {
     }
   },
   computed: {
+    codemirror: function() {
+      return this.$refs.codemirror.codemirror;
+    },
     files: function() {
       return this.codeEditorFiles;
     },
