@@ -248,6 +248,14 @@ export default {
           fileSaved(true);
         });
       }
+    },
+    beforeSaveAllFiles: {
+      type: Function,
+      default: () => {
+        return new Promise(filesSaved => {
+          filesSaved(true);
+        });
+      }
     }
   },
   created: function() {
@@ -460,18 +468,43 @@ export default {
           this.$emit("before-save", index);
           this.beforeSaveFile(file, index).then(fileSaved => {
             if (fileSaved) {
-              file.codeInit = file.doc.getValue();
-              file.code = file.doc.getValue();
-              file.locksInit = this.getLocks(file.doc);
-              file.locks = this.getLocks(file.doc);
-              this.$emit("saved", index);
-              this.setSaving(file, false);
-              this.setModificationState(file);
+              this.updateSavedFile(index);
               saveDone(true);
             }
           });
         });
       }
+    },
+    saveAllFiles() {
+      const fileIndexList = []
+      for (let index = 0; index < this.files.length; index++) {
+        let file = this.files[index];
+        if (file.isModified || file.name === "untitled") {
+          fileIndexList.push(index)
+          this.setSaving(file);
+        }
+      }
+      return new Promise(saveDone => {
+        this.$emit("before-save-all");
+        this.beforeSaveAllFiles().then(filesSaved => {
+          if (filesSaved) {
+            fileIndexList.forEach(index => {
+               this.updateSavedFile(index);
+            })
+            saveDone(true);
+          }
+        });
+      });
+    },
+    updateSavedFile(index) {
+      let file = this.files[index];
+      file.codeInit = file.doc.getValue();
+      file.code = file.doc.getValue();
+      file.locksInit = this.getLocks(file.doc);
+      file.locks = this.getLocks(file.doc);
+      this.$emit("saved", index);
+      this.setSaving(file, false);
+      this.setModificationState(file);
     },
     renderDoc(file) {
       // Suppose that the followings might be changed and need to be rerendered:
