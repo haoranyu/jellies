@@ -15,6 +15,10 @@
     :fullscreen="isFullscreen"
     :lock-scroll="isScrollLocked"
     :custom-class="modalCustomClass + ' jsk-modal'"
+    v-on:open="$emit('open')"
+    v-on:opend="$emit('opend')"
+    v-on:close="$emit('close')"
+    v-on:closed="$emit('closed')"
   >
     <template slot="title">
       <el-row :gutter="12">
@@ -144,6 +148,11 @@ export default {
     },
     changeModalSize: function() {
       this.isFullscreen = !this.isFullscreen;
+      if (this.isFullscreen) {
+        this.$emit('expand');
+      } else {
+        this.$emit('shrink');
+      }
     },
     closeModal: function() {
       this.$refs.dialog.handleClose();

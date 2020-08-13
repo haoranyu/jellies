@@ -14,6 +14,10 @@
     :destroy-on-close="isDestroyedOnClose"
     :lock-scroll="isScrollLocked"
     :custom-class="customClass"
+    v-on:open="$emit('open')"
+    v-on:opend="$emit('opend')"
+    v-on:close="$emit('close')"
+    v-on:closed="$emit('closed')"
   >
     <div class="jsk-dialog-decoration" :style="decorationStyle" v-if="dialogDecoration.src !== null"></div>
     <template slot="title">

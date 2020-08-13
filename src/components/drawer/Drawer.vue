@@ -13,6 +13,10 @@
     :destroy-on-close="isDestroyedOnClose"
     :custom-class="drawerCustomClass"
     :direction="dialogDirection"
+    v-on:open="$emit('open')"
+    v-on:opend="$emit('opend')"
+    v-on:close="$emit('close')"
+    v-on:closed="$emit('closed')"
   >
     <template slot="title">
       <slot name="title"></slot>
