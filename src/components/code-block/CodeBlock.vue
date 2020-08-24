@@ -2,7 +2,7 @@
   <div
     :class="[
       'jsk-code-block',
-      isSelectionAllowed ? '' : 'no-selection',
+      hasSelection ? '' : 'no-selection',
       hasLineNumbers ? '' : 'no-line-numbers',
       'jsk-code-block-copy-' + codeBlockCopyButtonTrigger
     ]"
@@ -13,7 +13,7 @@
   >
     <codemirror
       ref="codemirror"
-      v-model="code"
+      v-model="value"
       :options="cmOption"
       class="jsk-code-block-codemirror"
       :style="{
@@ -55,13 +55,19 @@ export default {
         autoheight: true,
         mode: 'text/plain'
       },
-      isCopied: false
+      isCopied: false,
+      value: ''
     }
   },
   mounted: function() {
+    this.value = this.code;
+    this.cmOption.readOnly = this.readonly;
+    if (!this.readonly) {
+      this.cmOption.cursorBlinkRate = 500;
+    }
     this.cmOption.theme = this.theme;
     this.cmOption.lineNumbers = this.hasLineNumbers;
-    if (!this.isSelectionAllowed) {
+    if (!this.hasSelection) {
       this.disableSelection();
     }
     if (this.codeBlockLanguage !== '') {
@@ -75,7 +81,7 @@ export default {
       });
     },
     onCopy: function() {
-      if (XECommand.copy(this.code)) {
+      if (XECommand.copy(this.value)) {
         this.isCopied = true;
       }
       setTimeout(() => {
@@ -123,6 +129,10 @@ export default {
     hasLineNumbers: {
       type: Boolean,
       default: true
+    },
+    readonly: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -167,6 +177,17 @@ export default {
       }
       return this.codeBlockMaxHeight + 'px';
     },
+    hasSelection: function () {
+      if (this.isSelectionAllowed || !this.readonly) {
+        return true;
+      }
+      return false;
+    }
+  },
+  watch: {
+    value: function(value) {
+      this.$emit('code-updated', value);
+    }
   },
   components: {
     'ElButton': Button,
