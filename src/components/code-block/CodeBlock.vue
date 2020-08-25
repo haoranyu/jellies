@@ -187,6 +187,13 @@ export default {
   watch: {
     value: function(value) {
       this.$emit('code-updated', value);
+    },
+    codeBlockLanguage: function () {
+      if (this.codeBlockLanguage !== '') {
+        this.cmOption.mode = CodeMirror.findModeByName(this.codeBlockLanguage).mime;
+      } else {
+        this.cmOption.mode = 'text/plain';
+      }
     }
   },
   components: {
