@@ -19,6 +19,8 @@
       :style="{
         maxHeight: maxHeight
       }"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
     >
     </codemirror>
     <el-button
