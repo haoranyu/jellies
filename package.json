@@ -1,6 +1,6 @@
 {
   "name": "jellies",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "private": false,
   "description": "A UI toolkit for Vue 2.x based on elementUI.",
   "author": "Haoran Yu",
