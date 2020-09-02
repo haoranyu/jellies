@@ -2,6 +2,9 @@
   <el-dropdown-item
     v-bind="trimAttrs($attrs)"
     :divided="hasDividerAbove"
+    :class="{
+      active: isActive
+    }"
   >
     <slot></slot>
   </el-dropdown-item>
@@ -17,6 +20,10 @@ export default {
   },
   props: {
     hasDividerAbove: {
+      type: Boolean,
+      default: false
+    },
+    isActive: {
       type: Boolean,
       default: false
     }
@@ -41,6 +48,10 @@ export default {
 .el-dropdown-menu__item:not(.is-disabled):hover,
 .el-dropdown-menu__item:focus {
   background: #F2F4F7;
+  color: #333;
+}
+.el-dropdown-menu__item.active {
+  background: #EBEEF3;
   color: #333;
 }
 </style>
