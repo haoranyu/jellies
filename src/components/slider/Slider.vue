@@ -135,6 +135,9 @@ export default {
   top: 3px;
   z-index: 201;
 }
+.el-slider .el-slider__button-wrapper {
+  transition: all 500ms ease 0s;
+}
 .el-slider .el-slider__button {
   border: none;
   background-color: #41B146;
