@@ -62,7 +62,7 @@ export default {
     }
   },
   mounted: function() {
-    this.value = this.code;
+    this.value = this.code.trim();
     this.cmOption.readOnly = this.readonly;
     if (!this.readonly) {
       this.cmOption.cursorBlinkRate = 500;
