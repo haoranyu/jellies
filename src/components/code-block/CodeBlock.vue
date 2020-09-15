@@ -41,7 +41,7 @@ import '../../plugins/codemirror/modes'
 import '../../plugins/codemirror/themes'
 import { Button } from 'element-ui';
 import CodeMirror from 'codemirror';
-import XECommand from 'xe-command'
+import CopyToClipboard from 'copy-to-clipboard';
 export default {
   name: 'JskCodeBlock',
   data: function() {
@@ -83,7 +83,7 @@ export default {
       });
     },
     onCopy: function() {
-      if (XECommand.copy(this.value)) {
+      if (CopyToClipboard(this.value)) {
         this.isCopied = true;
       }
       setTimeout(() => {
