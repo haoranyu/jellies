@@ -163,8 +163,8 @@ export default {
       lockMenuMode: "lock",
       lockMenuPosition: { left: 0, top: 0 },
       selectedLocks: undefined,
-      settings: CodeEditorDefaultSettings,
-      editorOptions: CodeEditorCodemirrorOptions,
+      settings: _cloneDeep(CodeEditorDefaultSettings),
+      editorOptions: _cloneDeep(CodeEditorCodemirrorOptions),
       currentActiveIndex: 0
     };
   },
