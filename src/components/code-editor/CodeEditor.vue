@@ -1091,7 +1091,6 @@ export default {
   flex-direction: column;
 }
 .jsk-code-editor {
-  font-family: Inconsolata, Monaco, Menlo, Consolas, "Courier New", FontAwesome, monospace !important;
   line-height: 24px;
   font-weight: 400;
   overflow-y: auto;
@@ -1105,6 +1104,7 @@ export default {
 }
 .jsk-code-editor-codemirror .CodeMirror {
   height: 100%;
+  font-family: Inconsolata, Monaco, Menlo, Consolas, "Courier New", monospace !important;
 }
 .jsk-code-editor-codemirror .CodeMirror-overlayscroll-horizontal,
 .jsk-code-editor-codemirror .CodeMirror-overlayscroll-vertical,

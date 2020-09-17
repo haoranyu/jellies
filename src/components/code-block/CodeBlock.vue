@@ -62,7 +62,7 @@ export default {
     }
   },
   mounted: function() {
-    this.value = this.code.trim();
+    this.value = this.code;
     this.cmOption.readOnly = this.readonly;
     if (!this.readonly) {
       this.cmOption.cursorBlinkRate = 500;
@@ -234,8 +234,9 @@ export default {
   line-height: 24px;
   overflow-y: auto;
 }
-.jsk-code-block .CodeMirror {
+.jsk-code-block-codemirror .CodeMirror {
   height: auto;
+  font-family: Inconsolata, Monaco, Menlo, Consolas, "Courier New", monospace !important;
 }
 .jsk-code-block.no-selection .CodeMirror-line,
 .jsk-code-block.no-selection .CodeMirror-lines {
