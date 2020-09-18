@@ -86,4 +86,9 @@ export default {
   background: #F2F4F7 !important;
   box-shadow: inset 0 1px 1px 0 rgba(139, 154, 174, 0.3);
 }
+.el-progress-bar .el-progress-bar__inner {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
 </style>
