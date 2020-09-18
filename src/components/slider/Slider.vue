@@ -137,6 +137,10 @@ export default {
 }
 .el-slider .el-slider__button-wrapper {
   transition: all 500ms ease 0s;
+  top: -2px;
+}
+.el-slider .el-slider__button-wrapper .el-tooltip {
+  display: block;
 }
 .el-slider .el-slider__button {
   border: none;
