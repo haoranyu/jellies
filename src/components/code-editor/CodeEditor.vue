@@ -634,7 +634,7 @@ export default {
           doc.feedbackNotesGutterMarkers.forEach(feedbackNotesGutterMarker => {
             doc.setGutterMarker(
               feedbackNotesGutterMarker.lineNo(),
-              "CodeMirror-breakpoints",
+              "CodeMirror-feedback-notes",
               null
             );
           });
