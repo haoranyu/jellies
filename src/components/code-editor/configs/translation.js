@@ -10,6 +10,11 @@ export default {
       content: '如果你选择加载外部修改，你当前做出的修改将丢失。',
       buttons: ['取消', '重新加载']
     },
+    lockConfirm: {
+      title: '你希望如何处理？',
+      content: '现在的加锁操作涉及到开头或结尾边缘情况，请你选择你希望锁住的位置。',
+      buttons: ['开头和末尾', '开头', '结尾', '不锁边缘']
+    },
     settings: {
       labels: {
         mode: '编辑模式',
@@ -43,6 +48,11 @@ export default {
       title: 'has changed on disk. Do you want to reload it?',
       content: 'Your changes will be lost if you decide to reload the new version.',
       buttons: ['Cancel', 'Reload']
+    },
+    lockConfirm: {
+      title: 'Which way would you like us to proceed',
+      content: 'You are now adding lock with the edge case on starting or ending postions. Please choose with position(s) you would like to lock.',
+      buttons: ['Lock Both', 'Lock Start', 'Lock End', 'Lock Non-edge']
     },
     settings: {
       labels: {

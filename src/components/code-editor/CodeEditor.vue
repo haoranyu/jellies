@@ -106,6 +106,11 @@
       :reload-confirm-content="reloadConfirmContent"
       :visible.sync="reloadConfirmVisiable"
     ></code-editor-reload-confirm>
+    <code-editor-lock-confirm
+      :lock-confirm-content="lockConfirmContent"
+      :lock-confirm-positions="lockConfirmPositions"
+      :visible.sync="lockConfirmVisiable"
+    ></code-editor-lock-confirm>
   </div>
 </template>
 
@@ -123,6 +128,7 @@ import "../../plugins/codemirror";
 import CodeMirror from "codemirror";
 import CodeEditorCloseConfirm from "./addons/CloseConfirm";
 import CodeEditorReloadConfirm from "./addons/ReloadConfirm";
+import CodeEditorLockConfirm from "./addons/LockConfirm";
 import CodeEditorLockMenu from "./addons/LockMenu";
 import CodeEditorFeedbackTooltip from "./addons/FeedbackTooltip";
 import CodeEditorTranslation from "./configs/translation";
@@ -136,6 +142,7 @@ export default {
   components: {
     CodeEditorCloseConfirm,
     CodeEditorReloadConfirm,
+    CodeEditorLockConfirm,
     CodeEditorLockMenu,
     CodeEditorFeedbackTooltip,
     codemirror,
@@ -155,6 +162,8 @@ export default {
       closeConfirmFileName: undefined,
       reloadConfirmVisiable: false,
       reloadConfirmFileName: undefined,
+      lockConfirmVisiable: false,
+      lockConfirmPositions: [], 
       feedbackTooltipPlacement: undefined,
       feedbackTooltipVisiable: false,
       feedbackTooltipContent: undefined,
@@ -171,6 +180,7 @@ export default {
   props: {
     codeEditorCloseConfirmContent: Object,
     codeEditorReloadConfirmContent: Object,
+    codeEditorLockConfirmContent: Object,
     codeEditorSettingsContent: Object,
     codeEditorSettings: Object,
     codeEditorFiles: {
@@ -287,6 +297,7 @@ export default {
       this.$set(file, "isModified", false);
       this.initFileLocks(file);
       this.initFileDoc(file);
+      this.initFileLocksBoundary(file);
       this.$set(file, "codeInit", file.code);
       this.$set(file, "locksInit", _cloneDeep(file.locks));
       this.$set(file, "isInitialized", true);
@@ -308,6 +319,10 @@ export default {
       file.locks.forEach(lock => {
         lock.hide = lock.hide === true;
       });
+    },
+    initFileLocksBoundary(file) {
+      this.$set(file, "lockStart", this.isFileLockedAtStart(file));
+      this.$set(file, "lockEnd", this.isFileLockedAtEnd(file));
     },
     initEditorOptions() {
       this.editorOptions = _merge(this.editorOptions, this.codeEditorOptions);
@@ -367,7 +382,7 @@ export default {
     },
     setModificationState(file) {
       let isCodeChanged = file.codeInit !== file.doc.getValue();
-      let areLocksChanged = !_isEqual(file.locksInit, this.getLocks(file.doc));
+      let areLocksChanged = !_isEqual(file.locksInit, this.getLocks(file));
       this.isAfterSwapDoc = false;
       file.isModified = isCodeChanged || areLocksChanged;
     },
@@ -500,8 +515,8 @@ export default {
       let file = this.files[index];
       file.codeInit = file.doc.getValue();
       file.code = file.doc.getValue();
-      file.locksInit = this.getLocks(file.doc);
-      file.locks = this.getLocks(file.doc);
+      file.locksInit = this.getLocks(file);
+      file.locks = this.getLocks(file);
       this.$emit("saved", index);
       this.setSaving(file, false);
       this.setModificationState(file);
@@ -815,17 +830,51 @@ export default {
     /////////////////////////
     // Lock Control /////////
     /////////////////////////
-    getLocks(doc) {
-      let allMarks = this.getMarks(doc, "locked-code");
+    getLocks(file) {
+      let allMarks = this.getMarks(file.doc, "locked-code");
       let allLocks = [];
       allMarks.forEach(mark => {
         allLocks.push({
-          from: this.makePosition(mark.find().from),
-          to: this.makePosition(mark.find().to),
+          from: this.getLockMarkFromPosition(mark, file),
+          to: this.getLockMarkToPosition(mark, file),
           hide: mark.collapsed === true
         });
       });
       return allLocks;
+    },
+    getLockMarkFromPosition(mark, file) {
+      let from = this.makePosition(mark.find().from);
+      if (from.line === 0 && from.ch === 0 && file.lockStart) {
+        from.ch -= 1;
+      }
+      return from;
+    },
+    getLockMarkToPosition(mark, file) {
+      let to = this.makePosition(mark.find().to);
+      let last = this.getLastPosition(file.doc);
+      if (to.line === last.line && to.ch === last.ch && file.lockEnd) {
+        to.ch += 1;
+      }
+      return to;
+    },
+    isFileLockedAtStart(file) {
+      let fileLockedAtStart = false;
+      file.locks.forEach(lock => {
+        if (lock.from.line === 0 && lock.from.ch < 0) {
+          fileLockedAtStart = true;
+        }
+      });
+      return fileLockedAtStart;
+    },
+    isFileLockedAtEnd(file) {
+      let fileLockedAtEnd = false;
+      file.locks.forEach(lock => {
+        let last = this.getLastPosition(file.doc);
+        if (lock.to.line === last.line && lock.to.ch > last.ch) {
+          fileLockedAtEnd = true;
+        }
+      });
+      return fileLockedAtEnd;
     },
     addLocks(doc, locks) {
       if (doc.locks === undefined) {
@@ -838,22 +887,22 @@ export default {
       }
     },
     addLock(doc, lock) {
-      let size = doc.size;
       let first = { line: 0, ch: 0 };
-      let last = { line: size - 1, ch: doc.getLine(size - 1).length };
+      let last = this.getLastPosition(doc);
+      let isInvisible = (lock.hide === true);
       let options = {
         readOnly: true,
         className: "locked-code",
-        collapsed: lock.hide === true
+        collapsed: isInvisible
       };
-      if (lock.hide === true) {
+      if (isInvisible) {
         options.replacedWith = this.hiddenCodeReplacement();
         options.handleMouseEvents = true;
       }
-      if (lock.from.line === first.line && lock.from.ch === first.ch) {
+      if (lock.from.line === first.line && lock.from.ch < first.ch) {
         options.inclusiveLeft = true;
       }
-      if (lock.to.line === last.line && lock.to.ch === last.ch) {
+      if (lock.to.line === last.line && lock.to.ch > last.ch) {
         options.inclusiveRight = true;
       }
       let lockMark = doc.markText(lock.from, lock.to, options);
@@ -867,12 +916,42 @@ export default {
     },
     lockSelectedCode(hide = false) {
       let cm = this.$refs.codemirror.cminstance;
-      let newLocks = cm.listSelections().map(selection => {
-        let lock = this.removeSelectionDirection(selection);
-        lock.hide = hide;
-        return lock;
+      let newLock = cm.listSelections()[0];
+      let lock = this.removeSelectionDirection(newLock);
+      lock.hide = hide;
+      this.checkLockEdgeCases(lock).then(position => {
+        if (position === "left" || position === "both") {
+          lock.from.ch -= 1;
+          this.currentFile.lockStart = true;
+        }
+        if (position === "right" || position === "both") {
+          lock.to.ch += 1;
+          this.currentFile.lockEnd = true;
+        }
+        this.lockConfirmVisiable = false;
+        this.addLocks(cm.doc, [lock]);
       });
-      this.addLocks(cm.doc, newLocks);
+    },
+    checkLockEdgeCases(lock) {
+      let cm = this.$refs.codemirror.cminstance;
+      let last = this.getLastPosition(cm.doc);
+      this.lockConfirmPositions = [];
+      if (lock.from.line === 0 && lock.from.ch === 0) {
+        this.lockConfirmPositions.push("start");
+      }
+      if (lock.to.line === last.line && lock.to.ch === last.ch) {
+        this.lockConfirmPositions.push("end");
+      }
+      return new Promise(resolve => {
+        if (this.lockConfirmPositions.length > 0) {
+          this.lockConfirmVisiable = true;
+          this.$on("lock-confirm", position => {
+            resolve(position);
+          });
+        } else {
+          resolve("none");
+        }
+      })
     },
     getLocksAtSelection() {
       let cm = this.$refs.codemirror.cminstance;
@@ -976,6 +1055,10 @@ export default {
       }
       return allMarks;
     },
+    getLastPosition(doc) {
+      const size = doc.size;
+      return { line: size - 1, ch: doc.getLine(size - 1).length }
+    },
     tooltip(file) {
       if (file.path !== undefined) {
         return file.path;
@@ -1038,6 +1121,12 @@ export default {
         return this.codeEditorReloadConfirmContent;
       }
       return CodeEditorTranslation[this.codeEditorLanguage].reloadConfirm;
+    },
+    lockConfirmContent: function() {
+      if (this.codeEditorLockConfirmContent !== undefined) {
+        return this.codeEditorLockConfirmContent;
+      }
+      return CodeEditorTranslation[this.codeEditorLanguage].lockConfirm;
     },
     settingsContent: function() {
       if (this.codeEditorSettingsContent !== undefined) {
