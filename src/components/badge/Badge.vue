@@ -1,6 +1,6 @@
 <template>
   <el-badge v-bind="trimAttrs($attrs)">
-    <slot></slot>
+    <slot />
   </el-badge>
 </template>
 
@@ -8,6 +8,9 @@
 import { Badge } from 'element-ui';
 export default {
   name: 'JskBadge',
+  components: {
+    ElBadge: Badge
+  },
   inheritAttrs: false,
   methods: {
     trimAttrs: function(attrs) {
@@ -21,9 +24,6 @@ export default {
       })
       return attrs;
     }
-  },
-  components: {
-    'ElBadge': Badge
   }
 }
 </script>

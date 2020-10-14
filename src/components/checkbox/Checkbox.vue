@@ -7,7 +7,7 @@
       {'full-width': isFullWidth}
     ]"
   >
-    <slot></slot>
+    <slot />
   </el-checkbox>
 </template>
 
@@ -15,14 +15,13 @@
 import { Checkbox } from 'element-ui';
 export default {
   name: 'JskCheckbox',
-  inheritAttrs: false,
-  data: function() {
-    return {
-      value: false
-    };
+  components: {
+    ElCheckbox: Checkbox
   },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: Boolean,
@@ -35,22 +34,10 @@ export default {
       default: false
     }
   },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'checkbox-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
+  data: function() {
+    return {
+      value: false
+    };
   },
   watch: {
     value: function() {
@@ -65,8 +52,21 @@ export default {
       this.value = this.vModel;
     }
   },
-  components: {
-    'ElCheckbox': Checkbox
+  created: function() {
+    this.value = this.vModel;
+  },
+  methods: {
+    trimAttrs: function(attrs) {
+      Object.keys(attrs).forEach((key) => {
+        let prefixs = ['is-', 'has-', 'checkbox-'];
+        prefixs.forEach((prefix) => {
+          if (key.substr(0, prefix.length) === prefix) {
+            attrs[key.substr(prefix.length)] = attrs[key];
+          }
+        })
+      })
+      return attrs;
+    }
   }
 }
 </script>

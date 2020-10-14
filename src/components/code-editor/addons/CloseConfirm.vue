@@ -25,17 +25,13 @@
   </jsk-dialog>
 </template>
 <script>
-import JskDialog from "../../dialog/Dialog";
-import JskButton from "../../button/Button";
+import JskDialog from '../../dialog/Dialog';
+import JskButton from '../../button/Button';
 export default {
-  name: "JskCodeEditorCloseConfirm",
-  data: function() {
-    return {
-      visibleProp: false
-    };
-  },
-  created: function() {
-    this.visibleProp = this.visible;
+  name: 'JskCodeEditorCloseConfirm',
+  components: {
+    JskDialog,
+    JskButton
   },
   props: {
     visible: {
@@ -44,21 +40,25 @@ export default {
     },
     closeConfirmFilename: {
       type: String,
-      default: "The file"
+      default: 'The file'
     },
     closeConfirmContent: Object
   },
+  data: function() {
+    return {
+      visibleProp: false
+    };
+  },
   watch: {
     visibleProp: function() {
-      this.$emit("update:visible", this.visibleProp);
+      this.$emit('update:visible', this.visibleProp);
     },
     visible: function() {
       this.visibleProp = this.visible;
     }
   },
-  components: {
-    JskDialog,
-    JskButton
+  created: function() {
+    this.visibleProp = this.visible;
   }
 };
 </script>

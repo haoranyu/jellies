@@ -1,12 +1,12 @@
 <script>
-import { Steps } from "element-ui";
+import { Steps } from 'element-ui';
 const StepsWrapper = Steps;
 StepsWrapper.name = 'JskSteps';
 StepsWrapper.props = {
   stepsSpace: [String, Number],
   stepsDirection: {
     type: String,
-    default: "horizontal"
+    default: 'horizontal'
   },
   stepsActiveIndex: {
     type: Number,
@@ -14,11 +14,11 @@ StepsWrapper.props = {
   },
   stepsCurrentStatus: {
     type: String,
-    default: "process"
+    default: 'process'
   },
   stepsFinishStatus: {
     type: String,
-    default: "finish"
+    default: 'finish'
   },
   isCenterAligned: {
     type: Boolean,

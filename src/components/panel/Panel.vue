@@ -1,13 +1,19 @@
 <template>
   <div :class="panelTheme">
-    <div :class="panelHeaderTheme" v-if="hasHeaderSlot">
-      <slot name="header"></slot>
+    <div
+      v-if="hasHeaderSlot"
+      :class="panelHeaderTheme"
+    >
+      <slot name="header" />
     </div>
     <div class="panel-body">
-      <slot></slot>
+      <slot />
     </div>
-    <div :class="panelFooterTheme" v-if="hasFooterSlot">
-      <slot name="footer"></slot>
+    <div
+      v-if="hasFooterSlot"
+      :class="panelFooterTheme"
+    >
+      <slot name="footer" />
     </div>
   </div>
 </template>
@@ -15,6 +21,32 @@
 <script>
 export default {
   name: 'JskPanel',
+  props: {
+    panelType: {
+      type: String,
+      default: 'info'
+    },
+    panelHeader: {
+      type: Object,
+      default: () => {
+        return {
+          padding: true,
+          background: true,
+          border: true
+        }
+      }
+    },
+    panelFooter: {
+      type: Object,
+      default: () => {
+        return {
+          padding: true,
+          background: true,
+          border: true
+        }
+      }
+    }
+  },
   computed: {
     hasFooterSlot: function() {
       return !!this.$slots['footer'];
@@ -42,32 +74,6 @@ export default {
         this.panelFooter.border === false ? 'no-border' : '',
         this.panelFooter.padding === false ? 'no-padding' : ''
       ];
-    }
-  },
-  props: {
-    panelType: {
-      type: String,
-      default: 'info'
-    },
-    panelHeader: {
-      type: Object,
-      default: () => {
-        return {
-          padding: true,
-          background: true,
-          border: true
-        }
-      }
-    },
-    panelFooter: {
-      type: Object,
-      default: () => {
-        return {
-          padding: true,
-          background: true,
-          border: true
-        }
-      }
     }
   }
 }

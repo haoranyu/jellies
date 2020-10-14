@@ -5,24 +5,22 @@
     :visible-arrow="isArrowVisible"
     :manual="isManual"
     :enterable="isMouseEnterable"
-    :effect="tooltipTheme">
+    :effect="tooltipTheme"
+  >
     <template slot="content">
-      <slot name="content"></slot>
+      <slot name="content" />
     </template>
-    <slot></slot>
+    <slot />
   </el-tooltip>
 </template>
 <script>
 import { Tooltip } from 'element-ui';
 export default {
   name: 'JskTooltip',
-  inheritAttrs: false,
   components: {
-    'ElTooltip': Tooltip
+    ElTooltip: Tooltip
   },
-  created: function() {
-    this.value = this.isVisible;
-  },
+  inheritAttrs: false,
   props: {
     isVisible: {
       type: Boolean,
@@ -44,6 +42,9 @@ export default {
       type: String,
       default: 'dark'
     }
+  },
+  created: function() {
+    this.value = this.isVisible;
   },
   methods: {
     trimAttrs: function(attrs) {

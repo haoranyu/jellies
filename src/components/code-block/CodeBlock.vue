@@ -21,14 +21,13 @@
       }"
       @focus="$emit('focus')"
       @blur="$emit('blur')"
-    >
-    </codemirror>
+    />
     <el-button
+      v-if="isCopyAllowed"
       :type="buttonType"
       size="mini"
-      v-if="isCopyAllowed"
-      @click="onCopy"
       class="jsk-code-block-copy"
+      @click="onCopy"
       v-text="buttonText"
     />
   </div>
@@ -44,52 +43,9 @@ import CodeMirror from 'codemirror';
 import CopyToClipboard from 'copy-to-clipboard';
 export default {
   name: 'JskCodeBlock',
-  data: function() {
-    return {
-      cmOption: {
-        lineNumbers: true,
-        readOnly: true,
-        height: 'auto',
-        lineWrapping: true,
-        tabSize: 4,
-        theme: 'eclipse',
-        cursorBlinkRate: -1,
-        autoheight: true,
-        mode: 'text/plain'
-      },
-      isCopied: false,
-      value: ''
-    }
-  },
-  mounted: function() {
-    this.value = this.code;
-    this.cmOption.readOnly = this.readonly;
-    if (!this.readonly) {
-      this.cmOption.cursorBlinkRate = 500;
-    }
-    this.cmOption.theme = this.theme;
-    this.cmOption.lineNumbers = this.hasLineNumbers;
-    if (!this.hasSelection) {
-      this.disableSelection();
-    }
-    if (this.codeBlockLanguage !== '') {
-      this.cmOption.mode = CodeMirror.findModeByName(this.codeBlockLanguage).mime;
-    }
-  },
-  methods: {
-    disableSelection: function() {
-      this.$refs.codemirror.cminstance.on('mousedown', function(cm, event) {
-        event.preventDefault();
-      });
-    },
-    onCopy: function() {
-      if (CopyToClipboard(this.value)) {
-        this.isCopied = true;
-      }
-      setTimeout(() => {
-        this.isCopied = false;
-      }, 3000);
-    }
+  components: {
+    ElButton: Button,
+    codemirror
   },
   props: {
     codeBlockTheme: {
@@ -137,6 +93,23 @@ export default {
       default: true
     }
   },
+  data: function() {
+    return {
+      cmOption: {
+        lineNumbers: true,
+        readOnly: true,
+        height: 'auto',
+        lineWrapping: true,
+        tabSize: 4,
+        theme: 'eclipse',
+        cursorBlinkRate: -1,
+        autoheight: true,
+        mode: 'text/plain'
+      },
+      isCopied: false,
+      value: ''
+    }
+  },
   computed: {
     code: function() {
       if (this.$slots.default) {
@@ -146,8 +119,8 @@ export default {
     },
     theme: function() {
       let themeMapping = {
-        'dark': 'monokai',
-        'light': 'eclipse'
+        dark: 'monokai',
+        light: 'eclipse'
       };
       return themeMapping[this.codeBlockTheme];
     },
@@ -198,9 +171,35 @@ export default {
       }
     }
   },
-  components: {
-    'ElButton': Button,
-    codemirror
+  mounted: function() {
+    this.value = this.code;
+    this.cmOption.readOnly = this.readonly;
+    if (!this.readonly) {
+      this.cmOption.cursorBlinkRate = 500;
+    }
+    this.cmOption.theme = this.theme;
+    this.cmOption.lineNumbers = this.hasLineNumbers;
+    if (!this.hasSelection) {
+      this.disableSelection();
+    }
+    if (this.codeBlockLanguage !== '') {
+      this.cmOption.mode = CodeMirror.findModeByName(this.codeBlockLanguage).mime;
+    }
+  },
+  methods: {
+    disableSelection: function() {
+      this.$refs.codemirror.cminstance.on('mousedown', function(cm, event) {
+        event.preventDefault();
+      });
+    },
+    onCopy: function() {
+      if (CopyToClipboard(this.value)) {
+        this.isCopied = true;
+      }
+      setTimeout(() => {
+        this.isCopied = false;
+      }, 3000);
+    }
   }
 }
 </script>

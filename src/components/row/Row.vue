@@ -2,7 +2,7 @@
   <el-row
     v-bind="trimAttrs($attrs)"
   >
-    <slot></slot>
+    <slot />
   </el-row>
 </template>
 
@@ -10,10 +10,10 @@
 import { Row } from 'element-ui';
 export default {
   name: 'JskRow',
-  inheritAttrs: false,
   components: {
-    'ElRow': Row
+    ElRow: Row
   },
+  inheritAttrs: false,
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {

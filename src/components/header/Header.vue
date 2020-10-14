@@ -1,15 +1,25 @@
 <template>
   <div>
-    <header :style="{ height: headerHeight + 'px', background: headerBackgroundColor }" :class="isFixedTop ? 'header-fixed-top' : ''">
-      <el-container direction="horizontal" :style="{
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        maxWidth: width
-      }">
-        <slot></slot>
+    <header
+      :style="{ height: headerHeight + 'px', background: headerBackgroundColor }"
+      :class="isFixedTop ? 'header-fixed-top' : ''"
+    >
+      <el-container
+        direction="horizontal"
+        :style="{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          maxWidth: width
+        }"
+      >
+        <slot />
       </el-container>
     </header>
-    <div class="header-position" v-if="isFixedTop" :style="{ height: headerHeight + 'px' }"></div>
+    <div
+      v-if="isFixedTop"
+      class="header-position"
+      :style="{ height: headerHeight + 'px' }"
+    />
   </div>
 </template>
 
@@ -19,7 +29,7 @@ import { Container } from 'element-ui';
 export default {
   name: 'JskHeader',
   components: {
-    'ElContainer': Container
+    ElContainer: Container
   },
   props: {
     headerHeight: {

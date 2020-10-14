@@ -4,32 +4,28 @@
     v-bind="trimAttrs($attrs)"
     :trigger="triggerValue"
     :visible-arrow="isArrowVisible"
-    v-on:show="$emit('show')"
-    v-on:after-enter="$emit('after-enter')"
-    v-on:hide="$emit('hide')"
-    v-on:after-leave="$emit('after-leave')"
-    >
+    @show="$emit('show')"
+    @after-enter="$emit('after-enter')"
+    @hide="$emit('hide')"
+    @after-leave="$emit('after-leave')"
+  >
     <template slot="reference">
-      <slot name="reference"></slot>
+      <slot name="reference" />
     </template>
-    <slot></slot>
+    <slot />
   </el-popover>
 </template>
 <script>
 import { Popover } from 'element-ui';
 export default {
   name: 'JskPopover',
-  inheritAttrs: false,
   components: {
-    'ElPopover': Popover
+    ElPopover: Popover
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: Boolean,
@@ -46,6 +42,11 @@ export default {
       default: 'click'
     }
   },
+  data: function() {
+    return {
+      value: ''
+    };
+  },
   computed: {
     triggerValue: function() {
       if (this.isManual) {
@@ -53,23 +54,6 @@ export default {
       }
       return this.popoverTrigger;
     }
-  },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'popover-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
   },
   watch: {
     value: function() {
@@ -84,6 +68,22 @@ export default {
     },
     vModel: function() {
       this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
+  methods: {
+    trimAttrs: function(attrs) {
+      Object.keys(attrs).forEach((key) => {
+        let prefixs = ['is-', 'has-', 'popover-'];
+        prefixs.forEach((prefix) => {
+          if (key.substr(0, prefix.length) === prefix) {
+            attrs[key.substr(prefix.length)] = attrs[key];
+          }
+        })
+      })
+      return attrs;
     }
   }
 }

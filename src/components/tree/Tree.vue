@@ -1,5 +1,5 @@
 <script>
-import { Tree } from "element-ui";
+import { Tree } from 'element-ui';
 const TreeWrapper = Tree;
 TreeWrapper.components.ElTreeNode.components.NodeContent.render = function(h) {
   const parent = this.$parent;
@@ -18,12 +18,12 @@ TreeWrapper.components.ElTreeNode.components.NodeContent.render = function(h) {
     tree.$scopedSlots.default({ node, data })
   ) : (
     <span class="el-tree-node__label">
-      <i class={data.icon ? [data.icon, "el-tree-node__icon"] : ""}></i>
+      <i class={data.icon ? [data.icon, 'el-tree-node__icon'] : ''}></i>
       {data.label}
     </span>
   );
 };
-TreeWrapper.name = "JskTree";
+TreeWrapper.name = 'JskTree';
 export default TreeWrapper;
 </script>
 

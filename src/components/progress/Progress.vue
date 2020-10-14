@@ -7,8 +7,7 @@
     :show-text="hasValue ? true : false"
     :width="progressDiameter"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-progress>
 </template>
 
@@ -16,10 +15,10 @@
 import { Progress } from 'element-ui';
 export default {
   name: 'JskProgress',
-  inheritAttrs: false,
   components: {
-    'ElProgress': Progress
+    ElProgress: Progress
   },
+  inheritAttrs: false,
   props: {
     progressShape: {
       type: String,

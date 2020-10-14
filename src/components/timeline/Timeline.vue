@@ -3,7 +3,7 @@
     v-bind="trimAttrs($attrs)"
     :reverse="isReversed"
   >
-    <slot></slot>
+    <slot />
   </el-timeline>
 </template>
 
@@ -11,10 +11,10 @@
 import { Timeline } from 'element-ui';
 export default {
   name: 'JskTimeline',
-  inheritAttrs: false,
   components: {
-    'ElTimeline': Timeline
+    ElTimeline: Timeline
   },
+  inheritAttrs: false,
   props: {
     isReversed: {
       type: Boolean,

@@ -4,15 +4,14 @@
       ref="datePicker"
       v-model="value"
       v-bind="trimAttrs($attrs)"
-      v-on:focus="$emit('focus')"
-      v-on:blur="$emit('blur')"
       :arrow-control="hasArrowsInPanel"
       :align="datePickerTextAlign"
       :picker-options="datePickerOptions"
       :unlink-panels="!isPanelsLinked"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
     >
-      <slot>
-      </slot>
+      <slot />
     </el-date-picker>
   </div>
 </template>
@@ -21,14 +20,13 @@
 import { DatePicker } from 'element-ui';
 export default {
   name: 'JskDatePicker',
-  inheritAttrs: false,
-  data: function() {
-    return {
-      value: ''
-    };
+  components: {
+    ElDatePicker: DatePicker
   },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: [Date, String, Array],
@@ -48,6 +46,27 @@ export default {
       default: true
     }
   },
+  data: function() {
+    return {
+      value: ''
+    };
+  },
+  watch: {
+    value: function() {
+      this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
+    },
+    vModel: function() {
+      this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -63,26 +82,6 @@ export default {
     focus: function() {
       this.$refs.datePicker.focus();
     }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
-    },
-    vModel: function() {
-      this.value = this.vModel;
-    }
-  },
-  components: {
-    'ElDatePicker': DatePicker
   }
 }
 </script>

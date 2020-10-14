@@ -1,23 +1,31 @@
 <template>
   <div
-  class="tabs-bar"
-  :style="{
-    background: outerBackgroundColor,
-    height: height,
-    lineHeight: height
-  }">
-    <ul class="tabs" :style="{
+    class="tabs-bar"
+    :style="{
+      background: outerBackgroundColor,
       height: height,
-      width: outerLeftWidth,
-      color: innerTextColor
-    }">
-      <slot></slot>
+      lineHeight: height
+    }"
+  >
+    <ul
+      class="tabs"
+      :style="{
+        height: height,
+        width: outerLeftWidth,
+        color: innerTextColor
+      }"
+    >
+      <slot />
     </ul>
-    <div class="options" v-if="hasOptions" :style="{
-      width: outerRightWidth,
-      color: innerTextColor
-    }">
-      <slot name="options"></slot>
+    <div
+      v-if="hasOptions"
+      class="options"
+      :style="{
+        width: outerRightWidth,
+        color: innerTextColor
+      }"
+    >
+      <slot name="options" />
     </div>
   </div>
 </template>
@@ -25,11 +33,6 @@
 <script>
 export default {
   name: 'JskTabs',
-  data: function() {
-    return {
-      currentActive: 0
-    }
-  },
   props: {
     tabsBackgroundColor: String,
     tabsActiveTabBackgroundColor: String,
@@ -84,8 +87,10 @@ export default {
       default: false
     }
   },
-  mounted: function () {
-    this.currentActive = this.tabsInitActive;
+  data: function() {
+    return {
+      currentActive: 0
+    }
   },
   computed: {
     height: function() {
@@ -155,6 +160,9 @@ export default {
         return 'dark';
       }
     }
+  },
+  mounted: function () {
+    this.currentActive = this.tabsInitActive;
   },
   methods: {
     changeActive: function(index) {

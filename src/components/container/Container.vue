@@ -1,6 +1,10 @@
 <template>
-  <el-container :style="{ maxWidth: width }" :class="['container', isCentered ? 'centered' : '', isFullScreen ? 'fullscreen' : '', hasBleed ? 'bleed' : '']" :direction="(isFullScreen || isHorizontal) ? 'horizontal' : 'vertical'">
-    <slot></slot>
+  <el-container
+    :style="{ maxWidth: width }"
+    :class="['container', isCentered ? 'centered' : '', isFullScreen ? 'fullscreen' : '', hasBleed ? 'bleed' : '']"
+    :direction="(isFullScreen || isHorizontal) ? 'horizontal' : 'vertical'"
+  >
+    <slot />
   </el-container>
 </template>
 
@@ -9,6 +13,9 @@
 import { Container } from 'element-ui';
 export default {
   name: 'JskContainer',
+  components: {
+    ElContainer: Container
+  },
   props: {
     containerWidth: {
       type: [String, Number],
@@ -38,9 +45,6 @@ export default {
       }
       return this.containerWidth + 'px';
     }
-  },
-  components: {
-    'ElContainer': Container
   }
 }
 </script>

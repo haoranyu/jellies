@@ -1,7 +1,7 @@
 <script>
-import { Form } from "element-ui";
+import { Form } from 'element-ui';
 const FormWrapper = Form;
-FormWrapper.name = "JskForm";
+FormWrapper.name = 'JskForm';
 FormWrapper.props = {
   formModel: Object,
   formRules: Object,
@@ -11,15 +11,15 @@ FormWrapper.props = {
   },
   formLabelWidth: {
     type: [String, Number],
-    default: "auto"
+    default: 'auto'
   },
   formLabelPosition: {
     type: String,
-    default: "right"
+    default: 'right'
   },
   formLabelSuffix: {
     type: String,
-    default: ""
+    default: ''
   },
   formSize: String,
   hasRequiredIndicator: {
@@ -61,10 +61,10 @@ FormWrapper.computed = {
     return this.formLabelPosition;
   },
   labelWidth: function() {
-    if (typeof this.formLabelWidth === "string") {
+    if (typeof this.formLabelWidth === 'string') {
       return this.formLabelWidth;
     }
-    return this.formLabelWidth + "px";
+    return this.formLabelWidth + 'px';
   },
   labelSuffix: function() {
     return this.formLabelSuffix;

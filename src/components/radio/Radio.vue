@@ -2,15 +2,15 @@
   <el-radio
     v-model="value"
     v-bind="trimAttrs($attrs)"
-    v-on:focus="$emit('focus')"
-    v-on:blur="$emit('blur')"
-    v-on:clear="$emit('clear')"
     :class="[
       'radio-' + radioSize,
       {'full-width': isFullWidth}
     ]"
+    @focus="$emit('focus')"
+    @blur="$emit('blur')"
+    @clear="$emit('clear')"
   >
-    <slot></slot>
+    <slot />
   </el-radio>
 </template>
 
@@ -18,17 +18,13 @@
 import { Radio } from 'element-ui';
 export default {
   name: 'JskRadio',
-  inheritAttrs: false,
   components: {
-    'ElRadio': Radio
+    ElRadio: Radio
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: String,
@@ -41,22 +37,10 @@ export default {
       default: false
     }
   },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'radio-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
+  data: function() {
+    return {
+      value: ''
+    };
   },
   watch: {
     value: function() {
@@ -69,6 +53,22 @@ export default {
     },
     vModel: function() {
       this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
+  methods: {
+    trimAttrs: function(attrs) {
+      Object.keys(attrs).forEach((key) => {
+        let prefixs = ['is-', 'has-', 'radio-'];
+        prefixs.forEach((prefix) => {
+          if (key.substr(0, prefix.length) === prefix) {
+            attrs[key.substr(prefix.length)] = attrs[key];
+          }
+        })
+      })
+      return attrs;
     }
   }
 }

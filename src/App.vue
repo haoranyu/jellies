@@ -1,5 +1,8 @@
 <template>
-  <jsk-rate v-model="value" is-half-ratable></jsk-rate>
+  <jsk-rate
+    v-model="value"
+    is-half-ratable
+  />
 </template>
 <script>
   export default {

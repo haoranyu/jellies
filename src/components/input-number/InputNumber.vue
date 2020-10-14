@@ -4,27 +4,22 @@
     v-model="value"
     v-bind="trimAttrs($attrs)"
     :controls-position="isRightControls ? 'right' : ''"
-    v-on:focus="$emit('focus')"
-    v-on:blur="$emit('blur')"
-  >
-  </el-input-number>
+    @focus="$emit('focus')"
+    @blur="$emit('blur')"
+  />
 </template>
 
 <script>
 import { InputNumber } from 'element-ui';
 export default {
   name: 'JskInputNumber',
-  inheritAttrs: false,
   components: {
-    'ElInputNumber': InputNumber
+    ElInputNumber: InputNumber
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: Number,
@@ -32,6 +27,27 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  data: function() {
+    return {
+      value: ''
+    };
+  },
+  watch: {
+    value: function() {
+      this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
+    },
+    vModel: function() {
+      this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -50,23 +66,6 @@ export default {
     },
     select: function() {
       this.$refs.inputNumber.select();
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
-    },
-    vModel: function() {
-      this.value = this.vModel;
     }
   }
 }

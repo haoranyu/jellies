@@ -1,16 +1,16 @@
 <script>
-import { Dropdown } from "element-ui";
+import { Dropdown } from 'element-ui';
 const DropdownWrapper = Dropdown;
-DropdownWrapper.name = "JskDropdown";
+DropdownWrapper.name = 'JskDropdown';
 DropdownWrapper.props = {
   dropdownTrigger: {
     type: String,
-    default: "hover"
+    default: 'hover'
   },
   dropdownType: String,
   dropdownSize: {
     type: String,
-    default: ""
+    default: ''
   },
   dropdownShowTimeout: {
     type: Number,
@@ -26,7 +26,7 @@ DropdownWrapper.props = {
   },
   dropdownPlacement: {
     type: String,
-    default: "bottom-end"
+    default: 'bottom-end'
   },
   isSplitButton: Boolean,
   isItemClickCollapsible: {

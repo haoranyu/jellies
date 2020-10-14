@@ -4,15 +4,14 @@
       ref="timePicker"
       v-model="value"
       v-bind="trimAttrs($attrs)"
-      v-on:focus="$emit('focus')"
-      v-on:blur="$emit('blur')"
       :is-range="isIntervalSelection"
       :arrow-control="hasArrowsInPanel"
       :align="timePickerTextAlign"
       :picker-options="timePickerOptions"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
     >
-      <slot>
-      </slot>
+      <slot />
     </el-time-picker>
   </div>
 </template>
@@ -21,17 +20,13 @@
 import { TimePicker } from 'element-ui';
 export default {
   name: 'JskTimePicker',
-  inheritAttrs: false,
   components: {
-    'ElTimePicker': TimePicker
+    ElTimePicker: TimePicker
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: [Date, String, Array],
@@ -51,6 +46,27 @@ export default {
       default: 'left'
     }
   },
+  data: function() {
+    return {
+      value: ''
+    };
+  },
+  watch: {
+    value: function() {
+      this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
+    },
+    vModel: function() {
+      this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -65,23 +81,6 @@ export default {
     },
     focus: function() {
       this.$refs.timePicker.focus();
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
-    },
-    vModel: function() {
-      this.value = this.vModel;
     }
   }
 }

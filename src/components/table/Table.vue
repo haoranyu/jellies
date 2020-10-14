@@ -1,7 +1,7 @@
 <script>
-import { Table } from "element-ui";
+import { Table } from 'element-ui';
 const TableWrapper = Table;
-TableWrapper.name = "JskTable";
+TableWrapper.name = 'JskTable';
 export default TableWrapper;
 </script>
 

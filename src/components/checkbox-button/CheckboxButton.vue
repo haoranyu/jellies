@@ -2,8 +2,7 @@
   <el-checkbox-button
     v-bind="trimAttrs($attrs)"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-checkbox-button>
 </template>
 
@@ -11,6 +10,9 @@
 import { CheckboxButton } from 'element-ui';
 export default {
   name: 'JskCheckboxButton',
+  components: {
+    ElCheckboxButton: CheckboxButton
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -23,9 +25,6 @@ export default {
       })
       return attrs;
     }
-  },
-  components: {
-    'ElCheckboxButton': CheckboxButton
   }
 }
 </script>

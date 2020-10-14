@@ -1,5 +1,8 @@
 <template>
-  <jsk-button-group v-if="lockMenuMode === 'lock'" class="lock-menu">
+  <jsk-button-group
+    v-if="lockMenuMode === 'lock'"
+    class="lock-menu"
+  >
     <jsk-button
       button-size="small"
       button-icon="el-icon-lock"
@@ -8,7 +11,7 @@
         this.$emit('lock');
         this.$emit('lock-change');
       }"
-    ></jsk-button>
+    />
     <jsk-button
       button-size="small"
       button-icon="el-icon-view"
@@ -17,7 +20,7 @@
         this.$emit('hide');
         this.$emit('lock-change');
       }"
-    ></jsk-button>
+    />
   </jsk-button-group>
   <jsk-button
     v-else
@@ -29,22 +32,22 @@
       this.$emit('unlock');
       this.$emit('lock-change');
     }"
-  ></jsk-button>
+  />
 </template>
 <script>
-import JskButton from "../../button/Button";
-import JskButtonGroup from "../../button-group/ButtonGroup";
+import JskButton from '../../button/Button';
+import JskButtonGroup from '../../button-group/ButtonGroup';
 export default {
-  name: "JskCodeEditorLockMenu",
-  props: {
-    lockMenuMode: {
-      type: String,
-      default: "lock"
-    }
-  },
+  name: 'JskCodeEditorLockMenu',
   components: {
     JskButton,
     JskButtonGroup
+  },
+  props: {
+    lockMenuMode: {
+      type: String,
+      default: 'lock'
+    }
   }
 };
 </script>

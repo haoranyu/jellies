@@ -14,30 +14,38 @@
     :destroy-on-close="isDestroyedOnClose"
     :lock-scroll="isScrollLocked"
     :custom-class="customClass"
-    v-on:open="$emit('open')"
-    v-on:opend="$emit('opend')"
-    v-on:close="$emit('close')"
-    v-on:closed="$emit('closed')"
+    @open="$emit('open')"
+    @opend="$emit('opend')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
   >
-    <div class="jsk-dialog-decoration" :style="decorationStyle" v-if="dialogDecoration.src !== null"></div>
+    <div
+      v-if="dialogDecoration.src !== null"
+      class="jsk-dialog-decoration"
+      :style="decorationStyle"
+    />
     <template slot="title">
-      <slot name="title"></slot>
+      <slot name="title" />
     </template>
-    <slot></slot>
+    <slot />
     <template slot="footer">
       <jsk-form
         size="small"
-        @submit.native.prevent>
+        @submit.native.prevent
+      >
         <el-form-item class="jsk-dialog-footer">
           <el-row :gutter="12">
-            <el-col :span="12" class="jsk-dialog-footer-left">
-              <slot name="footer-left"></slot>
+            <el-col
+              :span="12"
+              class="jsk-dialog-footer-left"
+            >
+              <slot name="footer-left" />
             </el-col>
             <el-col :span="12">
-              <slot name="footer-right"></slot>
+              <slot name="footer-right" />
             </el-col>
           </el-row>
-          <slot name="footer"></slot>
+          <slot name="footer" />
         </el-form-item>
       </jsk-form>
     </template>
@@ -54,49 +62,14 @@ import {
 import JskForm from '../form/'
 export default {
   name: 'JskDialog',
-  inheritAttrs: false,
   components: {
-    'ElDialog': Dialog,
+    ElDialog: Dialog,
     JskForm,
-    'ElFormItem': FormItem,
-    'ElRow': Row,
-    'ElCol': Col
+    ElFormItem: FormItem,
+    ElRow: Row,
+    ElCol: Col
   },
-  computed: {
-    hasTitle: function() {
-      if (this.$slots.title || this.dialogTitle !== '') {
-        return true;
-      }
-      return false;
-    },
-    decorationStyle: function() {
-      return {
-        top: this.dialogDecoration.top,
-        left: this.dialogDecoration.left,
-        backgroundImage: 'url(' + this.dialogDecoration.src + ')',
-        width: this.dialogDecoration.width,
-        height: this.dialogDecoration.height,
-        backgroundPosition: this.dialogDecoration.backgroundPosition || 'center center'
-      }
-    },
-    customClass: function() {
-      let classList = [
-        this.dialogCustomClass,
-        'jsk-dialog',
-        (this.dialogDecoration.src !== null ? 'jsk-dialog-padding-left' : ''),
-        (this.hasTitle ? '' : ' jsk-hide-header')
-      ];
-      return classList.join(' ');
-    }
-  },
-  data: function() {
-    return {
-      visibleProp: false
-    };
-  },
-  created: function() {
-    this.visibleProp = this.visible;
-  },
+  inheritAttrs: false,
   props: {
     visible: {
       type: Boolean,
@@ -165,6 +138,49 @@ export default {
       default: true
     }
   },
+  data: function() {
+    return {
+      visibleProp: false
+    };
+  },
+  computed: {
+    hasTitle: function() {
+      if (this.$slots.title || this.dialogTitle !== '') {
+        return true;
+      }
+      return false;
+    },
+    decorationStyle: function() {
+      return {
+        top: this.dialogDecoration.top,
+        left: this.dialogDecoration.left,
+        backgroundImage: 'url(' + this.dialogDecoration.src + ')',
+        width: this.dialogDecoration.width,
+        height: this.dialogDecoration.height,
+        backgroundPosition: this.dialogDecoration.backgroundPosition || 'center center'
+      }
+    },
+    customClass: function() {
+      let classList = [
+        this.dialogCustomClass,
+        'jsk-dialog',
+        (this.dialogDecoration.src !== null ? 'jsk-dialog-padding-left' : ''),
+        (this.hasTitle ? '' : ' jsk-hide-header')
+      ];
+      return classList.join(' ');
+    }
+  },
+  watch: {
+    visibleProp: function() {
+      this.$emit('update:visible', this.visibleProp);
+    },
+    visible: function() {
+      this.visibleProp = this.visible;
+    }
+  },
+  created: function() {
+    this.visibleProp = this.visible;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -176,14 +192,6 @@ export default {
         })
       })
       return attrs;
-    }
-  },
-  watch: {
-    visibleProp: function() {
-      this.$emit('update:visible', this.visibleProp);
-    },
-    visible: function() {
-      this.visibleProp = this.visible;
     }
   }
 }

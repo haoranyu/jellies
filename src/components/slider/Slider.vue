@@ -3,10 +3,6 @@
     <el-slider
       v-model="value"
       v-bind="trimAttrs($attrs)"
-      v-on:focus="$emit('focus')"
-      v-on:blur="$emit('blur')"
-      v-on:clear="$emit('clear')"
-      v-on:change="finishedLimitationTrigger"
       :min="sliderMinStep"
       :max="sliderMaxStep"
       :step="sliderStepLength"
@@ -14,12 +10,24 @@
       :show-tooltip="hasTooltip"
       :format-tooltip="sliderTooltipFormat"
       :range="isIntervalSelection"
-    >
-    </el-slider>
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
+      @clear="$emit('clear')"
+      @change="finishedLimitationTrigger"
+    />
     <div class="upper-layer">
-      <div class="finished" :style="{ width: finishedBarLength() }"></div>
-      <ul class="dots" v-show="isStopsVisible">
-        <li v-for="(v, k) in (new Array(((this.sliderMaxStep - this.sliderMinStep) / sliderStepLength) + 1))" v-bind:key="k"></li>
+      <div
+        class="finished"
+        :style="{ width: finishedBarLength() }"
+      />
+      <ul
+        v-show="isStopsVisible"
+        class="dots"
+      >
+        <li
+          v-for="(v, k) in (new Array(((sliderMaxStep - sliderMinStep) / sliderStepLength) + 1))"
+          :key="k"
+        />
       </ul>
     </div>
   </div>
@@ -29,17 +37,13 @@
 import { Slider } from 'element-ui';
 export default {
   name: 'JskSlider',
-  inheritAttrs: false,
   components: {
-    'ElSlider': Slider
+    ElSlider: Slider
   },
-  data: function() {
-    return {
-      value: 0
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: [Number, Array],
@@ -76,6 +80,27 @@ export default {
       default: false
     }
   },
+  data: function() {
+    return {
+      value: 0
+    };
+  },
+  watch: {
+    value: function() {
+      this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
+    },
+    vModel: function() {
+      this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -103,23 +128,6 @@ export default {
       if (this.value >= this.sliderFinishedStep) {
         this.value = this.sliderFinishedStep;
       }
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
-    },
-    vModel: function() {
-      this.value = this.vModel;
     }
   }
 }

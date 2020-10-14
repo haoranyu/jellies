@@ -11,25 +11,20 @@
     :show-text="rateIndication === 'text'"
     :show-score="rateIndication === 'score'"
     :text-color="rateTextColor"
-  >
-  </el-rate>
+  />
 </template>
 
 <script>
 import { Rate } from 'element-ui';
 export default {
   name: 'JskRate',
-  inheritAttrs: false,
   components: {
-    'ElRate': Rate
+    ElRate: Rate
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: Number,
@@ -66,22 +61,10 @@ export default {
       default: '#FFB020'
     }
   },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'rate-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
+  data: function() {
+    return {
+      value: ''
+    };
   },
   watch: {
     value: function() {
@@ -94,6 +77,22 @@ export default {
     },
     vModel: function() {
       this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
+  methods: {
+    trimAttrs: function(attrs) {
+      Object.keys(attrs).forEach((key) => {
+        let prefixs = ['is-', 'has-', 'rate-'];
+        prefixs.forEach((prefix) => {
+          if (key.substr(0, prefix.length) === prefix) {
+            attrs[key.substr(prefix.length)] = attrs[key];
+          }
+        })
+      })
+      return attrs;
     }
   }
 }

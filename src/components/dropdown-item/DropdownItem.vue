@@ -6,7 +6,7 @@
       active: isActive
     }"
   >
-    <slot></slot>
+    <slot />
   </el-dropdown-item>
 </template>
 
@@ -14,10 +14,10 @@
 import { DropdownItem } from 'element-ui';
 export default {
   name: 'JskDropdownItem',
-  inheritAttrs: false,
   components: {
-    'ElDropdownItem': DropdownItem
+    ElDropdownItem: DropdownItem
   },
+  inheritAttrs: false,
   props: {
     hasDividerAbove: {
       type: Boolean,

@@ -3,8 +3,7 @@
     :separator="breadcrumbSeparatorChar"
     :separator-class="breadcrumbSeparatorIconClass"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-breadcrumb>
 </template>
 
@@ -12,6 +11,9 @@
 import { Breadcrumb } from 'element-ui';
 export default {
   name: 'JskBreadcrumb',
+  components: {
+    ElBreadcrumb: Breadcrumb
+  },
   props: {
     breadcrumbSeparatorChar: {
       type: String,
@@ -21,9 +23,6 @@ export default {
       type: String,
       default: ''
     }
-  },
-  components: {
-    'ElBreadcrumb': Breadcrumb
   }
 }
 </script>

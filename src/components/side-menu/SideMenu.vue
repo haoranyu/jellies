@@ -1,7 +1,8 @@
 <template>
   <aside
     :style="outerStyle"
-    :class="hasCollapse ? 'jsk-side-menu-collapse-enabled' : ''">
+    :class="hasCollapse ? 'jsk-side-menu-collapse-enabled' : ''"
+  >
     <el-menu
       ref="menu"
       v-bind="trimAttrs($attrs)"
@@ -9,22 +10,23 @@
       :collapse.sync="isCollapsedProp"
       :router="hasRouter"
       :collapse-transition="hasCollapseAnimation"
-      v-on:select="selectEvent"
-      v-on:open="openEvent"
-      v-on:close="closeEvent"
       :style="innerStyle"
+      @select="selectEvent"
+      @open="openEvent"
+      @close="closeEvent"
     >
-      <slot></slot>
-      <div style="height: 56px"></div>
+      <slot />
+      <div style="height: 56px" />
       <el-menu-item
         v-if="hasCollapse"
         class="jsk-side-menu-collapse-option"
-        @click="isCollapsedProp = !isCollapsedProp">
-        <i :class="this.collapseIcon"></i>
+        @click="isCollapsedProp = !isCollapsedProp"
+      >
+        <i :class="collapseIcon" />
         <span
           slot="title"
-          v-text="this.collapseText">
-        </span>
+          v-text="collapseText"
+        />
       </el-menu-item>
     </el-menu>
   </aside>
@@ -37,16 +39,11 @@ import {
 } from 'element-ui';
 export default {
   name: 'JskSideMenu',
-  inheritAttrs: false,
   components: {
-    'ElMenu': Menu,
-    'ElMenuItem': MenuItem
+    ElMenu: Menu,
+    ElMenuItem: MenuItem
   },
-  data: function() {
-    return {
-      isCollapsedProp: false
-    }
-  },
+  inheritAttrs: false,
   props: {
     sideMenuMinHeight: {
       type: [String, Number],
@@ -89,8 +86,10 @@ export default {
       default: true
     }
   },
-  created: function() {
-    this.isCollapsedProp = this.isCollapsed;
+  data: function() {
+    return {
+      isCollapsedProp: false
+    }
   },
   computed: {
     maxHeight: function() {
@@ -138,6 +137,17 @@ export default {
       return this.sideMenuCollapseHideText;
     }
   },
+  watch: {
+    isCollapsedProp: function() {
+      this.$emit('update:isCollapsed', this.isCollapsedProp);
+    },
+    visible: function() {
+      this.isCollapsedProp = this.isCollapsed;
+    }
+  },
+  created: function() {
+    this.isCollapsedProp = this.isCollapsed;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -164,14 +174,6 @@ export default {
     },
     closeEvent: function(index, indexPath) {
       this.$emit('close', index, indexPath);
-    }
-  },
-  watch: {
-    isCollapsedProp: function() {
-      this.$emit('update:isCollapsed', this.isCollapsedProp);
-    },
-    visible: function() {
-      this.isCollapsedProp = this.isCollapsed;
     }
   }
 }

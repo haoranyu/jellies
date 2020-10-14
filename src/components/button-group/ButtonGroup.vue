@@ -1,7 +1,7 @@
 <script>
-import { ButtonGroup } from "element-ui";
+import { ButtonGroup } from 'element-ui';
 const ButtonGroupWrapper = ButtonGroup;
-ButtonGroupWrapper.name = "JskButtonGroup";
+ButtonGroupWrapper.name = 'JskButtonGroup';
 export default ButtonGroupWrapper;
 </script>
 

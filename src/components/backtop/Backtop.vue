@@ -2,14 +2,18 @@
   <el-backtop
     v-bind="trimAttrs($attrs)"
     :right="backtopMarginRight"
-    :bottom="backtopMarginBottom">
-    <slot></slot>
+    :bottom="backtopMarginBottom"
+  >
+    <slot />
   </el-backtop>
 </template>
 <script>
 import { Backtop } from 'element-ui';
 export default {
   name: 'JskBacktop',
+  components: {
+    ElBacktop: Backtop
+  },
   inheritAttrs: false,
   props: {
     backtopMarginRight: {
@@ -33,9 +37,6 @@ export default {
       })
       return attrs;
     }
-  },
-  components: {
-    'ElBacktop': Backtop
   }
 }
 </script>

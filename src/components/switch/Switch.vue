@@ -7,25 +7,20 @@
     :inactive-color="switchInactiveColor"
     :active-icon-class="switchActiveIcon"
     :inactive-icon-class="switchInactiveIcon"
-  >
-  </el-switch>
+  />
 </template>
 
 <script>
 import { Switch } from 'element-ui';
 export default {
   name: 'JskSwitch',
-  inheritAttrs: false,
   components: {
-    'ElSwitch': Switch
+    ElSwitch: Switch
   },
-  data: function() {
-    return {
-      value: true
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: Boolean,
@@ -46,6 +41,27 @@ export default {
       default: ''
     }
   },
+  data: function() {
+    return {
+      value: true
+    };
+  },
+  watch: {
+    value: function() {
+      this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
+    },
+    vModel: function() {
+      this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -60,23 +76,6 @@ export default {
     },
     focus: function() {
       this.$refs.switch.focus();
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
-    },
-    vModel: function() {
-      this.value = this.vModel;
     }
   }
 }

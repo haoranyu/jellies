@@ -3,9 +3,9 @@
     v-bind="trimAttrs($attrs)"
   >
     <template slot="title">
-      <slot name="title"></slot>
+      <slot name="title" />
     </template>
-    <slot></slot>
+    <slot />
   </el-menu-item-group>
 </template>
 
@@ -13,10 +13,10 @@
 import { MenuItemGroup } from 'element-ui';
 export default {
   name: 'JskMenuItemGroup',
-  inheritAttrs: false,
   components: {
-    'ElMenuItemGroup': MenuItemGroup
+    ElMenuItemGroup: MenuItemGroup
   },
+  inheritAttrs: false,
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {

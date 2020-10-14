@@ -1,5 +1,5 @@
 export default {
-  theme: "light",
-  indent: "4",
-  mode: "sublime"
+  theme: 'light',
+  indent: '4',
+  mode: 'sublime'
 };

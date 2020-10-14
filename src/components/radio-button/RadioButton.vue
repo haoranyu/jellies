@@ -2,8 +2,7 @@
   <el-radio-button
     v-bind="trimAttrs($attrs)"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-radio-button>
 </template>
 
@@ -12,7 +11,7 @@ import { RadioButton } from 'element-ui';
 export default {
   name: 'JskRadioButton',
   components: {
-    'ElRadioButton': RadioButton
+    ElRadioButton: RadioButton
   },
   methods: {
     trimAttrs: function(attrs) {

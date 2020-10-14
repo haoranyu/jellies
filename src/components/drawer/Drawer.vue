@@ -13,15 +13,15 @@
     :destroy-on-close="isDestroyedOnClose"
     :custom-class="drawerCustomClass"
     :direction="dialogDirection"
-    v-on:open="$emit('open')"
-    v-on:opend="$emit('opend')"
-    v-on:close="$emit('close')"
-    v-on:closed="$emit('closed')"
+    @open="$emit('open')"
+    @opend="$emit('opend')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
   >
     <template slot="title">
-      <slot name="title"></slot>
+      <slot name="title" />
     </template>
-    <slot></slot>
+    <slot />
   </el-drawer>
 </template>
 
@@ -29,29 +29,10 @@
 import { Drawer } from 'element-ui';
 export default {
   name: 'JskDrawer',
-  inheritAttrs: false,
   components: {
-    'ElDrawer': Drawer
+    ElDrawer: Drawer
   },
-  computed: {
-    dialogDirection: function() {
-      const direction = {
-        'right': 'rtl',
-        'left': 'ltr',
-        'top': 'ttb',
-        'bottom': 'btt'
-      };
-      return direction[this.drawerPosition];
-    }
-  },
-  data: function() {
-    return {
-      visibleProp: false
-    };
-  },
-  created: function() {
-    this.visibleProp = this.visible;
-  },
+  inheritAttrs: false,
   props: {
     visible: {
       type: Boolean,
@@ -102,6 +83,33 @@ export default {
       default: true
     },
   },
+  data: function() {
+    return {
+      visibleProp: false
+    };
+  },
+  computed: {
+    dialogDirection: function() {
+      const direction = {
+        right: 'rtl',
+        left: 'ltr',
+        top: 'ttb',
+        bottom: 'btt'
+      };
+      return direction[this.drawerPosition];
+    }
+  },
+  watch: {
+    visibleProp: function() {
+      this.$emit('update:visible', this.visibleProp);
+    },
+    visible: function() {
+      this.visibleProp = this.visible;
+    }
+  },
+  created: function() {
+    this.visibleProp = this.visible;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -113,14 +121,6 @@ export default {
         })
       })
       return attrs;
-    }
-  },
-  watch: {
-    visibleProp: function() {
-      this.$emit('update:visible', this.visibleProp);
-    },
-    visible: function() {
-      this.visibleProp = this.visible;
     }
   }
 }

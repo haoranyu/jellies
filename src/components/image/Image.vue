@@ -4,14 +4,14 @@
     :lazy="lazyload === 'on'"
     :scroll-container="imageContainer"
     :fit="objectFit"
-    v-on:load="$emit('load')"
-    v-on:error="$emit('error')"
+    @load="$emit('load')"
+    @error="$emit('error')"
   >
     <template slot="placeholder">
-      <slot name="placeholder"></slot>
+      <slot name="placeholder" />
     </template>
     <template slot="error">
-      <slot name="error"></slot>
+      <slot name="error" />
     </template>
   </el-image>
 </template>
@@ -20,10 +20,10 @@
 import { Image } from 'element-ui';
 export default {
   name: 'JskImage',
-  inheritAttrs: false,
   components: {
-    'ElImage': Image
+    ElImage: Image
   },
+  inheritAttrs: false,
   props: {
     lazyload: {
       type: String,

@@ -4,10 +4,9 @@
     :fit="objectFit"
     :src-set="srcset"
     :style="avatarStyle"
-    v-on:error="$emit('error')"
+    @error="$emit('error')"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-avatar>
 </template>
 
@@ -16,11 +15,34 @@
 import { Avatar } from 'element-ui';
 export default {
   name: 'JskAvatar',
+  components: {
+    ElAvatar: Avatar
+  },
   props: {
-    avatarBackgroundColor: String,
-    avatarTextColor: String,
-    srcset: String,
-    objectFit: String
+    avatarBackgroundColor: {
+      type: String,
+      default: '#FFFFFF'
+    },
+    avatarTextColor: {
+      type: String,
+      default: '#333333'
+    },
+    srcset: {
+      type: String,
+      default: ''
+    },
+    objectFit: {
+      type: String,
+      default: 'cover'
+    }
+  },
+  computed: {
+    avatarStyle: function() {
+      return {
+        background: this.avatarBackgroundColor,
+        color: this.avatarTextColor,
+      };
+    },
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -34,17 +56,6 @@ export default {
       })
       return attrs;
     },
-  },
-  computed: {
-    avatarStyle: function() {
-      return {
-        background: this.avatarBackgroundColor,
-        color: this.avatarTextColor,
-      };
-    },
-  },
-  components: {
-    'ElAvatar': Avatar
   }
 }
 </script>

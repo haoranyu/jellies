@@ -2,7 +2,7 @@
   <el-col
     v-bind="trimAttrs($attrs)"
   >
-    <slot></slot>
+    <slot />
   </el-col>
 </template>
 
@@ -10,6 +10,9 @@
 import { Col } from 'element-ui';
 export default {
   name: 'JskCol',
+  components: {
+    ElCol: Col
+  },
   inheritAttrs: false,
   methods: {
     trimAttrs: function(attrs) {
@@ -23,9 +26,6 @@ export default {
       })
       return attrs;
     }
-  },
-  components: {
-    'ElCol': Col
   }
 }
 </script>

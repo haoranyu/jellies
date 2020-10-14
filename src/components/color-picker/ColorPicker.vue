@@ -3,11 +3,11 @@
     <el-input
       v-model="value"
       v-bind="trimAttrs($attrs)"
-      v-on:focus="$emit('focus')"
-      v-on:blur="$emit('blur')"
-      v-on:clear="$emit('clear')"
       :size="colorPickerSize"
       :readonly="isPickerOnly"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
+      @clear="$emit('clear')"
     >
       <el-color-picker
         slot="prefix"
@@ -17,7 +17,7 @@
         :color-format="colorPickerFormat"
         :popper-class="colorPickerPopperClass"
         :predefine="colorPickerPredefinedColors"
-      ></el-color-picker>
+      />
     </el-input>
   </div>
 </template>
@@ -29,14 +29,14 @@ import {
 } from 'element-ui';
 export default {
   name: 'JskColorPicker',
-  inheritAttrs: false,
-  data: function() {
-    return {
-      value: ''
-    };
+  components: {
+    ElInput: Input,
+    ElColorPicker: ColorPicker
   },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: String,
@@ -65,22 +65,10 @@ export default {
       default: false
     }
   },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'color-picker-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
+  data: function() {
+    return {
+      value: ''
+    };
   },
   watch: {
     value: function() {
@@ -95,9 +83,21 @@ export default {
       this.value = this.vModel;
     }
   },
-  components: {
-    'ElInput': Input,
-    'ElColorPicker': ColorPicker
+  created: function() {
+    this.value = this.vModel;
+  },
+  methods: {
+    trimAttrs: function(attrs) {
+      Object.keys(attrs).forEach((key) => {
+        let prefixs = ['is-', 'has-', 'color-picker-'];
+        prefixs.forEach((prefix) => {
+          if (key.substr(0, prefix.length) === prefix) {
+            attrs[key.substr(prefix.length)] = attrs[key];
+          }
+        })
+      })
+      return attrs;
+    }
   }
 }
 </script>

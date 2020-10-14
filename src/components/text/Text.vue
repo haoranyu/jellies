@@ -1,11 +1,16 @@
 <template>
-  <span v-if="!isLink || disabled" :class="theme">
-    <slot>
-    </slot>
+  <span
+    v-if="!isLink || disabled"
+    :class="theme"
+  >
+    <slot />
   </span>
-  <a v-else :href="href" :class="theme">
-    <slot>
-    </slot>
+  <a
+    v-else
+    :href="href"
+    :class="theme"
+  >
+    <slot />
   </a>
 </template>
 

@@ -5,12 +5,11 @@
     :closable="isClearable"
     :hit="hasBorder"
     :color="tagBackgroundColor"
-    v-on:close="clearTag"
-    v-on:click="$emit('click')"
     :style="{color: tagTextColor}"
+    @close="clearTag"
+    @click="$emit('click')"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-tag>
 </template>
 
@@ -18,10 +17,10 @@
 import { Tag } from 'element-ui';
 export default {
   name: 'JskTag',
-  inheritAttrs: false,
   components: {
-    'ElTag': Tag
+    ElTag: Tag
   },
+  inheritAttrs: false,
   props: {
     hasAnimation: {
       type: Boolean,

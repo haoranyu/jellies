@@ -21,19 +21,38 @@
         @switch="switchToTab"
         @close="closeTab"
       >
-        <div slot="mark" class="saving-mark" v-if="file.isSaving">
-          <i class="el-icon-j-loading"></i>
+        <div
+          v-if="file.isSaving"
+          slot="mark"
+          class="saving-mark"
+        >
+          <i class="el-icon-j-loading" />
         </div>
-        <div slot="mark" class="modified-mark" v-else-if="file.isModified">●</div>
+        <div
+          v-else-if="file.isModified"
+          slot="mark"
+          class="modified-mark"
+        >
+          ●
+        </div>
         {{ file.name }}
       </jsk-tab>
-      <ul slot="options" class="jsk-code-editor-control">
-        <slot name="controls"></slot>
+      <ul
+        slot="options"
+        class="jsk-code-editor-control"
+      >
+        <slot name="controls" />
         <li v-if="hasNewFileControl">
-          <i class="el-icon-j-plus" @click="createAndSwitchToNewFile"></i>
+          <i
+            class="el-icon-j-plus"
+            @click="createAndSwitchToNewFile"
+          />
         </li>
         <li v-if="hasSaveCurrentFileControl">
-          <i class="el-icon-j-save" @click="saveCurrentFile"></i>
+          <i
+            class="el-icon-j-save"
+            @click="saveCurrentFile"
+          />
         </li>
         <li v-if="hasSettingsControl">
           <jsk-popover
@@ -52,21 +71,27 @@
             >
               <jsk-form-item
                 v-for="(value, key) in settingsContent.labels"
-                :form-item-label="value"
                 :key="key"
+                :form-item-label="value"
               >
                 <jsk-radio-group
                   v-model="settings[key]"
-                  radio-group-size="small">
+                  radio-group-size="small"
+                >
                   <jsk-radio-button
                     v-for="(content, label) in settingsContent[key]"
-                    :label="label"
                     :key="label"
-                  >{{ content }}</jsk-radio-button>
+                    :label="label"
+                  >
+                    {{ content }}
+                  </jsk-radio-button>
                 </jsk-radio-group>
               </jsk-form-item>
             </jsk-form>
-            <i class="el-icon-j-gear" slot="reference"></i>
+            <i
+              slot="reference"
+              class="el-icon-j-gear"
+            />
           </jsk-popover>
         </li>
       </ul>
@@ -78,7 +103,7 @@
         class="jsk-code-editor-codemirror"
         @input="setCurrentFileModificationState"
         @gutterContextMenu="setBreakpoint"
-      ></codemirror>
+      />
       <code-editor-lock-menu
         v-show="lockMenuVisiable"
         :style="lockMenuPosition"
@@ -87,58 +112,58 @@
         @lock="lockSelectedCode"
         @unlock="unlockLockedCode"
         @hide="lockSelectedCode(true)"
-      ></code-editor-lock-menu>
+      />
       <code-editor-feedback-tooltip
         :feedback-tooltip-placement="feedbackTooltipPlacement"
         :feedback-tooltip-position="feedbackTooltipPosition"
         :feedback-tooltip-visiable="feedbackTooltipVisiable"
         :feedback-tooltip-theme="feedbackTooltipTheme"
         :feedback-tooltip-content="feedbackTooltipContent"
-      ></code-editor-feedback-tooltip>
+      />
     </div>
     <code-editor-close-confirm
       :close-confirm-filename="closeConfirmFileName"
       :close-confirm-content="closeConfirmContent"
       :visible.sync="closeConfirmVisiable"
-    ></code-editor-close-confirm>
+    />
     <code-editor-reload-confirm
       :reload-confirm-filename="reloadConfirmFileName"
       :reload-confirm-content="reloadConfirmContent"
       :visible.sync="reloadConfirmVisiable"
-    ></code-editor-reload-confirm>
+    />
     <code-editor-lock-confirm
       :lock-confirm-content="lockConfirmContent"
       :lock-confirm-positions="lockConfirmPositions"
       :visible.sync="lockConfirmVisiable"
-    ></code-editor-lock-confirm>
+    />
   </div>
 </template>
 
 <script>
-import JskTab from "../tab/Tab";
-import JskTabs from "../tabs/Tabs";
-import JskForm from "../form/Form";
-import JskPopover from "../popover/Popover";
-import JskFormItem from "../form-item/FormItem";
-import JskRadioButton from "../radio-button/RadioButton";
-import JskRadioGroup from "../radio-group/RadioGroup";
-import { codemirror } from "vue-codemirror";
-import "codemirror/lib/codemirror.css";
-import "../../plugins/codemirror";
-import CodeMirror from "codemirror";
-import CodeEditorCloseConfirm from "./addons/CloseConfirm";
-import CodeEditorReloadConfirm from "./addons/ReloadConfirm";
-import CodeEditorLockConfirm from "./addons/LockConfirm";
-import CodeEditorLockMenu from "./addons/LockMenu";
-import CodeEditorFeedbackTooltip from "./addons/FeedbackTooltip";
-import CodeEditorTranslation from "./configs/translation";
-import CodeEditorCodemirrorOptions from "./configs/options";
-import CodeEditorDefaultSettings from "./configs/settings";
-const _isEqual = require("lodash.isequal");
-const _merge = require("lodash.merge");
-const _cloneDeep = require("lodash.clonedeep");
+import JskTab from '../tab/Tab';
+import JskTabs from '../tabs/Tabs';
+import JskForm from '../form/Form';
+import JskPopover from '../popover/Popover';
+import JskFormItem from '../form-item/FormItem';
+import JskRadioButton from '../radio-button/RadioButton';
+import JskRadioGroup from '../radio-group/RadioGroup';
+import { codemirror } from 'vue-codemirror';
+import 'codemirror/lib/codemirror.css';
+import '../../plugins/codemirror';
+import CodeMirror from 'codemirror';
+import CodeEditorCloseConfirm from './addons/CloseConfirm';
+import CodeEditorReloadConfirm from './addons/ReloadConfirm';
+import CodeEditorLockConfirm from './addons/LockConfirm';
+import CodeEditorLockMenu from './addons/LockMenu';
+import CodeEditorFeedbackTooltip from './addons/FeedbackTooltip';
+import CodeEditorTranslation from './configs/translation';
+import CodeEditorCodemirrorOptions from './configs/options';
+import CodeEditorDefaultSettings from './configs/settings';
+const _isEqual = require('lodash.isequal');
+const _merge = require('lodash.merge');
+const _cloneDeep = require('lodash.clonedeep');
 export default {
-  name: "JskCodeEditor",
+  name: 'JskCodeEditor',
   components: {
     CodeEditorCloseConfirm,
     CodeEditorReloadConfirm,
@@ -154,29 +179,6 @@ export default {
     JskRadioButton,
     JskRadioGroup
   },
-  data: function() {
-    return {
-      isSwithcingTab: false,
-      value: null,
-      closeConfirmVisiable: false,
-      closeConfirmFileName: undefined,
-      reloadConfirmVisiable: false,
-      reloadConfirmFileName: undefined,
-      lockConfirmVisiable: false,
-      lockConfirmPositions: [], 
-      feedbackTooltipPlacement: undefined,
-      feedbackTooltipVisiable: false,
-      feedbackTooltipContent: undefined,
-      feedbackTooltipPosition: { left: 0, top: 0 },
-      lockMenuVisiable: false,
-      lockMenuMode: "lock",
-      lockMenuPosition: { left: 0, top: 0 },
-      selectedLocks: undefined,
-      settings: _cloneDeep(CodeEditorDefaultSettings),
-      editorOptions: _cloneDeep(CodeEditorCodemirrorOptions),
-      currentActiveIndex: 0
-    };
-  },
   props: {
     codeEditorCloseConfirmContent: Object,
     codeEditorReloadConfirmContent: Object,
@@ -191,7 +193,7 @@ export default {
     },
     codeEditorLanguage: {
       type: String,
-      default: "en"
+      default: 'en'
     },
     codeEditorOptions: {
       type: Object,
@@ -268,6 +270,126 @@ export default {
       }
     }
   },
+  data: function() {
+    return {
+      isSwithcingTab: false,
+      value: null,
+      closeConfirmVisiable: false,
+      closeConfirmFileName: undefined,
+      reloadConfirmVisiable: false,
+      reloadConfirmFileName: undefined,
+      lockConfirmVisiable: false,
+      lockConfirmPositions: [], 
+      feedbackTooltipPlacement: undefined,
+      feedbackTooltipVisiable: false,
+      feedbackTooltipContent: undefined,
+      feedbackTooltipPosition: { left: 0, top: 0 },
+      lockMenuVisiable: false,
+      lockMenuMode: 'lock',
+      lockMenuPosition: { left: 0, top: 0 },
+      selectedLocks: undefined,
+      settings: _cloneDeep(CodeEditorDefaultSettings),
+      editorOptions: _cloneDeep(CodeEditorCodemirrorOptions),
+      currentActiveIndex: 0
+    };
+  },
+  computed: {
+    codemirror: function() {
+      return this.$refs.codemirror.codemirror;
+    },
+    files: function() {
+      return this.codeEditorFiles;
+    },
+    currentFile: function() {
+      return this.files[this.currentActiveIndex];
+    },
+    currentFileCode: function() {
+      if (this.currentFile) {
+        return this.currentFile.code;
+      }
+      return '';
+    },
+    currentFileLocks: function() {
+      if (this.currentFile) {
+        return this.currentFile.locks;
+      }
+      return [];
+    },
+    currentFileReadOnly: function() {
+      if (this.currentFile) {
+        return this.currentFile.readOnly;
+      }
+      return false;
+    },
+    editorTheme: function() {
+      let themeMapping = {
+        dark: 'monokai',
+        light: 'eclipse'
+      };
+      return themeMapping[this.settings.theme];
+    },
+    feedbackTooltipTheme: function() {
+      return this.settings.theme === 'light' ? 'dark' : 'light';
+    },
+    controlWidth: function() {
+      if (typeof this.codeEditorControlPanelWidth === 'string') {
+        return this.codeEditorControlPanelWidth;
+      }
+      return this.codeEditorControlPanelWidth + 'px';
+    },
+    closeConfirmContent: function() {
+      if (this.codeEditorCloseConfirmContent !== undefined) {
+        return this.codeEditorCloseConfirmContent;
+      }
+      return CodeEditorTranslation[this.codeEditorLanguage].closeConfirm;
+    },
+    reloadConfirmContent: function() {
+      if (this.codeEditorReloadConfirmContent !== undefined) {
+        return this.codeEditorReloadConfirmContent;
+      }
+      return CodeEditorTranslation[this.codeEditorLanguage].reloadConfirm;
+    },
+    lockConfirmContent: function() {
+      if (this.codeEditorLockConfirmContent !== undefined) {
+        return this.codeEditorLockConfirmContent;
+      }
+      return CodeEditorTranslation[this.codeEditorLanguage].lockConfirm;
+    },
+    settingsContent: function() {
+      if (this.codeEditorSettingsContent !== undefined) {
+        return this.codeEditorSettingsContent;
+      }
+      return CodeEditorTranslation[this.codeEditorLanguage].settings;
+    }
+  },
+  watch: {
+    files: function () {
+      this.initFiles();
+    },
+    settings: {
+      deep: true,
+      handler: function() {
+        this.editorOptions.theme = this.editorTheme;
+        this.setEditorIndentSize(this.settings.indent);
+        this.setEditorMode(this.settings.mode);
+        if (!_isEqual(this.settings, this.codeEditorSettings)) {
+          this.$emit('update:codeEditorSettings', this.settings);
+        }
+      }
+    },
+    currentFileCode: function() {
+      this.reloadCurrentFile();
+    },
+    currentFileLocks: {
+      deep: true,
+      handler: function() {
+        this.reloadCurrentFile();
+      }
+    },
+    currentFileReadOnly: function() {
+      this.reloadCurrentFile();
+    }
+  },
   created: function() {
     this.initEditorOptions();
   },
@@ -293,14 +415,14 @@ export default {
       }
     },
     initFile(file) {
-      this.$set(file, "isSaving", false);
-      this.$set(file, "isModified", false);
+      this.$set(file, 'isSaving', false);
+      this.$set(file, 'isModified', false);
       this.initFileLocks(file);
       this.initFileDoc(file);
       this.initFileLocksBoundary(file);
-      this.$set(file, "codeInit", file.code);
-      this.$set(file, "locksInit", _cloneDeep(file.locks));
-      this.$set(file, "isInitialized", true);
+      this.$set(file, 'codeInit', file.code);
+      this.$set(file, 'locksInit', _cloneDeep(file.locks));
+      this.$set(file, 'isInitialized', true);
     },
     initFileDoc(file) {
       file.doc = CodeMirror.Doc(file.code, this.getFileMode(file));
@@ -314,15 +436,15 @@ export default {
     },
     initFileLocks(file) {
       if (file.locks === undefined) {
-        this.$set(file, "locks", []);
+        this.$set(file, 'locks', []);
       }
       file.locks.forEach(lock => {
         lock.hide = lock.hide === true;
       });
     },
     initFileLocksBoundary(file) {
-      this.$set(file, "lockStart", this.isFileLockedAtStart(file));
-      this.$set(file, "lockEnd", this.isFileLockedAtEnd(file));
+      this.$set(file, 'lockStart', this.isFileLockedAtStart(file));
+      this.$set(file, 'lockEnd', this.isFileLockedAtEnd(file));
     },
     initEditorOptions() {
       this.editorOptions = _merge(this.editorOptions, this.codeEditorOptions);
@@ -331,8 +453,8 @@ export default {
       } else {
         this.settings = CodeEditorDefaultSettings;
       }
-      this.editorOptions.extraKeys["Ctrl-S"] = () => this.saveCurrentFile();
-      this.editorOptions.extraKeys["Cmd-S"] = () => this.saveCurrentFile();
+      this.editorOptions.extraKeys['Ctrl-S'] = () => this.saveCurrentFile();
+      this.editorOptions.extraKeys['Cmd-S'] = () => this.saveCurrentFile();
       if (this.hasRepeatWordsAnnotations) {
         this.editorOptions.highlightSelectionMatches = {
           trim: true,
@@ -349,7 +471,7 @@ export default {
     },
     initLockControlListener(cm) {
       if (this.hasLockControl) {
-        cm.on("contextmenu", (cm, e) => {
+        cm.on('contextmenu', (cm, e) => {
           e.preventDefault();
           setTimeout(() => {
             if (cm.somethingSelected()) {
@@ -359,7 +481,7 @@ export default {
             }
           }, 101);
         });
-        cm.on("update", cm => {
+        cm.on('update', cm => {
           this.lockMenuVisiable = false;
           cm.focus();
         });
@@ -416,12 +538,12 @@ export default {
         this.reloadConfirmFileName = this.currentFile.name;
         this.reloadConfirmVisiable = true;
         new Promise(resolve => {
-          this.$on("reload-confirm", result => {
+          this.$on('reload-confirm', result => {
             resolve(result);
           });
         }).then(result => {
           this.reloadConfirmVisiable = false;
-          if (result === "reload") {
+          if (result === 'reload') {
             this.initFile(this.currentFile);
             this.switchToCurrentFile();
           }
@@ -444,8 +566,8 @@ export default {
     },
     createAndSwitchToNewFile() {
       let newFile = {
-        name: "untitled",
-        code: ""
+        name: 'untitled',
+        code: ''
       };
       this.initFile(newFile);
       this.files.push(newFile);
@@ -460,14 +582,14 @@ export default {
       }
     },
     getFileMode(file) {
-      let mode = "text/plain";
+      let mode = 'text/plain';
       if (file.language !== undefined) {
         mode = CodeMirror.findModeByName(file.language).mime;
       } else {
         if (CodeMirror.findModeByFileName(file.name) !== undefined) {
           mode = CodeMirror.findModeByFileName(file.name).mime;
         } else {
-          mode = "text/plain";
+          mode = 'text/plain';
         }
       }
       return mode;
@@ -477,10 +599,10 @@ export default {
     },
     saveFile(index) {
       let file = this.files[index];
-      if (file.isModified || file.name === "untitled") {
+      if (file.isModified || file.name === 'untitled') {
         this.setSaving(file);
         return new Promise(saveDone => {
-          this.$emit("before-save", index);
+          this.$emit('before-save', index);
           this.beforeSaveFile(file, index).then(fileSaved => {
             if (fileSaved) {
               this.updateSavedFile(index);
@@ -494,13 +616,13 @@ export default {
       const fileIndexList = []
       for (let index = 0; index < this.files.length; index++) {
         let file = this.files[index];
-        if (file.isModified || file.name === "untitled") {
+        if (file.isModified || file.name === 'untitled') {
           fileIndexList.push(index)
           this.setSaving(file);
         }
       }
       return new Promise(saveDone => {
-        this.$emit("before-save-all");
+        this.$emit('before-save-all');
         this.beforeSaveAllFiles().then(filesSaved => {
           if (filesSaved) {
             fileIndexList.forEach(index => {
@@ -517,7 +639,7 @@ export default {
       file.code = file.doc.getValue();
       file.locksInit = this.getLocks(file);
       file.locks = this.getLocks(file);
-      this.$emit("saved", index);
+      this.$emit('saved', index);
       this.setSaving(file, false);
       this.setModificationState(file);
     },
@@ -526,7 +648,7 @@ export default {
       // - line notes
       // - errors and warnings
       // - file mode
-      file.doc.cm.setOption("mode", this.getFileMode(file));
+      file.doc.cm.setOption('mode', this.getFileMode(file));
       this.clearFeedbackNotes(file.doc);
       this.addFeedbackNotes(file.doc, file.feedbackNotes);
       this.clearLineNotes(file.doc);
@@ -577,15 +699,15 @@ export default {
             this.closeConfirmFileName = file.name;
             this.closeConfirmVisiable = true;
             new Promise(resolve => {
-              this.$on("close-confirm", result => {
+              this.$on('close-confirm', result => {
                 resolve(result);
               });
             }).then(result => {
               this.closeConfirmVisiable = false;
-              if (result === "cancel") {
+              if (result === 'cancel') {
                 returnToTab(false);
               } else {
-                if (result === "save") {
+                if (result === 'save') {
                   this.saveFile(index).then(saveDone => {
                     if (saveDone) {
                       returnToTab(true);
@@ -621,7 +743,7 @@ export default {
     },
     addFeedbackNote(doc, feedbackNote) {
       let feedbackNoteMark = doc.markText(feedbackNote.from, feedbackNote.to, {
-        className: "feedback-" + feedbackNote.type,
+        className: 'feedback-' + feedbackNote.type,
         attributes: {
           content: feedbackNote.content
         }
@@ -635,10 +757,10 @@ export default {
     },
     addFeedbackNoteGutterMark(doc, feedbackNote) {
       let line = feedbackNote.from.line;
-      let element = document.createElement("div");
-      element.className = "jsk-code-editor-feedback-note-marker";
+      let element = document.createElement('div');
+      element.className = 'jsk-code-editor-feedback-note-marker';
       element.innerHTML = '<i class="' + feedbackNote.type + '"></i>';
-      return doc.setGutterMarker(line, "CodeMirror-feedback-notes", element);
+      return doc.setGutterMarker(line, 'CodeMirror-feedback-notes', element);
     },
     clearFeedbackNotes(doc) {
       if (this.hasFeedbackNotes) {
@@ -649,7 +771,7 @@ export default {
           doc.feedbackNotesGutterMarkers.forEach(feedbackNotesGutterMarker => {
             doc.setGutterMarker(
               feedbackNotesGutterMarker.lineNo(),
-              "CodeMirror-feedback-notes",
+              'CodeMirror-feedback-notes',
               null
             );
           });
@@ -679,10 +801,10 @@ export default {
       let tooltipPositionY = tooltipPositionRight.top;
       if (tooltipPositionY > window.innerHeight / 2) {
         this.feedbackTooltipPosition.top = `${tooltipPositionY + 10}px`;
-        this.feedbackTooltipPlacement = "top";
+        this.feedbackTooltipPlacement = 'top';
       } else {
         this.feedbackTooltipPosition.top = `${tooltipPositionY - 10}px`;
-        this.feedbackTooltipPlacement = "bottom";
+        this.feedbackTooltipPlacement = 'bottom';
       }
       this.feedbackTooltipPosition.left = `${tooltipPositionX - 10}px`;
     },
@@ -691,8 +813,8 @@ export default {
       let mousePosition = cm.coordsChar({ left: pageX, top: pageY });
       return cm.findMarksAt(mousePosition).filter(mark => {
         return (
-          mark.className === "feedback-warning" ||
-          mark.className === "feedback-error"
+          mark.className === 'feedback-warning' ||
+          mark.className === 'feedback-error'
         );
       });
     },
@@ -743,19 +865,19 @@ export default {
       }
     },
     addLineNote(doc, lineNote) {
-      let element = document.createElement("span");
-      let elementClass = "jsk-code-editor-note";
-      let elementIcon = "";
+      let element = document.createElement('span');
+      let elementClass = 'jsk-code-editor-note';
+      let elementIcon = '';
       if (lineNote.type !== undefined) {
-        elementClass += " jsk-code-editor-note-" + lineNote.type;
+        elementClass += ' jsk-code-editor-note-' + lineNote.type;
       }
       if (lineNote.hasIcon === true) {
-        let iconType = lineNote.type || "info";
+        let iconType = lineNote.type || 'info';
         let icons = {
-          info: "info",
-          warning: "warning",
-          error: "times-o",
-          success: "check-o"
+          info: 'info',
+          warning: 'warning',
+          error: 'times-o',
+          success: 'check-o'
         };
         elementIcon += '<i class="el-icon-j-' + icons[iconType] + '"></i>';
       }
@@ -764,9 +886,9 @@ export default {
         elementClass +
         '">' +
         elementIcon +
-        "<div>" +
+        '<div>' +
         lineNote.content +
-        "</div></div>";
+        '</div></div>';
       let lineNoteWidget = doc.addLineWidget(lineNote.line, element, {
         above: true
       });
@@ -794,7 +916,7 @@ export default {
       let gutterMarkers = cm.lineInfo(line).gutterMarkers;
       let hasBreakpoint = gutterMarkers !== null;
       if (gutterMarkers !== null) {
-        if (!gutterMarkers["CodeMirror-breakpoints"]) {
+        if (!gutterMarkers['CodeMirror-breakpoints']) {
           hasBreakpoint = false;
         }
       }
@@ -814,14 +936,14 @@ export default {
       }
     },
     addBreakpoint(doc, line) {
-      let element = document.createElement("div");
-      element.className = "jsk-code-editor-breakpoint";
-      element.innerHTML = "●";
-      doc.setGutterMarker(line, "CodeMirror-breakpoints", element);
+      let element = document.createElement('div');
+      element.className = 'jsk-code-editor-breakpoint';
+      element.innerHTML = '●';
+      doc.setGutterMarker(line, 'CodeMirror-breakpoints', element);
       doc.breakpoints.push(line);
     },
     removeBreakpoint(doc, line) {
-      doc.setGutterMarker(line, "CodeMirror-breakpoints", null);
+      doc.setGutterMarker(line, 'CodeMirror-breakpoints', null);
       doc.breakpoints = doc.breakpoints.filter(function(value) {
         return value !== line;
       });
@@ -831,7 +953,7 @@ export default {
     // Lock Control /////////
     /////////////////////////
     getLocks(file) {
-      let allMarks = this.getMarks(file.doc, "locked-code");
+      let allMarks = this.getMarks(file.doc, 'locked-code');
       let allLocks = [];
       allMarks.forEach(mark => {
         allLocks.push({
@@ -892,7 +1014,7 @@ export default {
       let isInvisible = (lock.hide === true);
       let options = {
         readOnly: true,
-        className: "locked-code",
+        className: 'locked-code',
         collapsed: isInvisible
       };
       if (isInvisible) {
@@ -920,11 +1042,11 @@ export default {
       let lock = this.removeSelectionDirection(newLock);
       lock.hide = hide;
       this.checkLockEdgeCases(lock).then(position => {
-        if (position === "left" || position === "both") {
+        if (position === 'left' || position === 'both') {
           lock.from.ch -= 1;
           this.currentFile.lockStart = true;
         }
-        if (position === "right" || position === "both") {
+        if (position === 'right' || position === 'both') {
           lock.to.ch += 1;
           this.currentFile.lockEnd = true;
         }
@@ -937,19 +1059,19 @@ export default {
       let last = this.getLastPosition(cm.doc);
       this.lockConfirmPositions = [];
       if (lock.from.line === 0 && lock.from.ch === 0) {
-        this.lockConfirmPositions.push("start");
+        this.lockConfirmPositions.push('start');
       }
       if (lock.to.line === last.line && lock.to.ch === last.ch) {
-        this.lockConfirmPositions.push("end");
+        this.lockConfirmPositions.push('end');
       }
       return new Promise(resolve => {
         if (this.lockConfirmPositions.length > 0) {
           this.lockConfirmVisiable = true;
-          this.$on("lock-confirm", position => {
+          this.$on('lock-confirm', position => {
             resolve(position);
           });
         } else {
-          resolve("none");
+          resolve('none');
         }
       })
     },
@@ -958,7 +1080,7 @@ export default {
       if (cm.listSelections().length === 1) {
         let selection = this.removeSelectionDirection(cm.listSelections()[0]);
         return cm.findMarks(selection.from, selection.to).filter(mark => {
-          return mark.className === "locked-code";
+          return mark.className === 'locked-code';
         });
       }
     },
@@ -966,7 +1088,7 @@ export default {
       let cm = this.$refs.codemirror.cminstance;
       let mousePosition = cm.coordsChar({ left: pageX, top: pageY });
       return cm.findMarksAt(mousePosition).filter(mark => {
-        return mark.className === "locked-code";
+        return mark.className === 'locked-code';
       });
     },
     unlockLockedCode() {
@@ -977,10 +1099,10 @@ export default {
     showLockControlAtSelection(mouse) {
       this.selectedLocks = this.getLocksAtSelection();
       if (this.selectedLocks.length > 0) {
-        this.lockMenuMode = "unlock";
+        this.lockMenuMode = 'unlock';
         this.lockMenuPosition.left = `${mouse.clientX - 15}px`;
       } else {
-        this.lockMenuMode = "lock";
+        this.lockMenuMode = 'lock';
         this.lockMenuPosition.left = `${mouse.clientX - 30}px`;
       }
       this.lockMenuPosition.top = `${mouse.clientY - 15}px`;
@@ -989,14 +1111,14 @@ export default {
     showLockControlAtMouse(mouse) {
       this.selectedLocks = this.getLocksAtMouse(mouse.pageX, mouse.pageY);
       if (this.selectedLocks.length > 0) {
-        this.lockMenuMode = "unlock";
+        this.lockMenuMode = 'unlock';
         this.lockMenuPosition.left = `${mouse.clientX - 30}px`;
         this.lockMenuPosition.top = `${mouse.clientY - 15}px`;
         this.lockMenuVisiable = true;
       }
     },
     hiddenCodeReplacement() {
-      let element = document.createElement("span");
+      let element = document.createElement('span');
       element.innerHTML =
         '<span class="CodeMirror-foldmarker locked-code" title="' +
         CodeEditorTranslation[this.codeEditorLanguage].hiddenLock +
@@ -1008,7 +1130,7 @@ export default {
     // Configuration Functions /////
     ////////////////////////////////
     setEditorMode(mode) {
-      if (mode === "vim") {
+      if (mode === 'vim') {
         this.editorOptions.vimMode = true;
       } else {
         this.editorOptions.vimMode = false;
@@ -1064,103 +1186,6 @@ export default {
         return file.path;
       }
       return file.name;
-    }
-  },
-  computed: {
-    codemirror: function() {
-      return this.$refs.codemirror.codemirror;
-    },
-    files: function() {
-      return this.codeEditorFiles;
-    },
-    currentFile: function() {
-      return this.files[this.currentActiveIndex];
-    },
-    currentFileCode: function() {
-      if (this.currentFile) {
-        return this.currentFile.code;
-      }
-      return '';
-    },
-    currentFileLocks: function() {
-      if (this.currentFile) {
-        return this.currentFile.locks;
-      }
-      return [];
-    },
-    currentFileReadOnly: function() {
-      if (this.currentFile) {
-        return this.currentFile.readOnly;
-      }
-      return false;
-    },
-    editorTheme: function() {
-      let themeMapping = {
-        dark: "monokai",
-        light: "eclipse"
-      };
-      return themeMapping[this.settings.theme];
-    },
-    feedbackTooltipTheme: function() {
-      return this.settings.theme === "light" ? "dark" : "light";
-    },
-    controlWidth: function() {
-      if (typeof this.codeEditorControlPanelWidth === "string") {
-        return this.codeEditorControlPanelWidth;
-      }
-      return this.codeEditorControlPanelWidth + "px";
-    },
-    closeConfirmContent: function() {
-      if (this.codeEditorCloseConfirmContent !== undefined) {
-        return this.codeEditorCloseConfirmContent;
-      }
-      return CodeEditorTranslation[this.codeEditorLanguage].closeConfirm;
-    },
-    reloadConfirmContent: function() {
-      if (this.codeEditorReloadConfirmContent !== undefined) {
-        return this.codeEditorReloadConfirmContent;
-      }
-      return CodeEditorTranslation[this.codeEditorLanguage].reloadConfirm;
-    },
-    lockConfirmContent: function() {
-      if (this.codeEditorLockConfirmContent !== undefined) {
-        return this.codeEditorLockConfirmContent;
-      }
-      return CodeEditorTranslation[this.codeEditorLanguage].lockConfirm;
-    },
-    settingsContent: function() {
-      if (this.codeEditorSettingsContent !== undefined) {
-        return this.codeEditorSettingsContent;
-      }
-      return CodeEditorTranslation[this.codeEditorLanguage].settings;
-    }
-  },
-  watch: {
-    files: function () {
-      this.initFiles();
-    },
-    settings: {
-      deep: true,
-      handler: function() {
-        this.editorOptions.theme = this.editorTheme;
-        this.setEditorIndentSize(this.settings.indent);
-        this.setEditorMode(this.settings.mode);
-        if (!_isEqual(this.settings, this.codeEditorSettings)) {
-          this.$emit("update:codeEditorSettings", this.settings);
-        }
-      }
-    },
-    currentFileCode: function() {
-      this.reloadCurrentFile();
-    },
-    currentFileLocks: {
-      deep: true,
-      handler: function() {
-        this.reloadCurrentFile();
-      }
-    },
-    currentFileReadOnly: function() {
-      this.reloadCurrentFile();
     }
   }
 };

@@ -2,8 +2,7 @@
   <el-option
     v-bind="trimAttrs($attrs)"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-option>
 </template>
 
@@ -12,7 +11,7 @@ import { Option } from 'element-ui';
 export default {
   name: 'JskOption',
   components: {
-    'ElOption': Option
+    ElOption: Option
   },
   methods: {
     trimAttrs: function(attrs) {

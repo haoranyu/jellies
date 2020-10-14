@@ -38,7 +38,7 @@ export default {
     },
     hiddenLock: '这部分代码片段已被隐藏'
   },
-  'en': {
+  en: {
     closeConfirm: {
       title: 'has changes, do you want to save them?',
       content: 'Your changes will be lost if you close this item without saving.',

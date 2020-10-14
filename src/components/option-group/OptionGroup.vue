@@ -2,8 +2,7 @@
   <el-option-group
     v-bind="trimAttrs($attrs)"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-option-group>
 </template>
 
@@ -12,7 +11,7 @@ import { OptionGroup } from 'element-ui';
 export default {
   name: 'JskOptionGroup',
   components: {
-    'ElOptionGroup': OptionGroup
+    ElOptionGroup: OptionGroup
   },
   methods: {
     trimAttrs: function(attrs) {

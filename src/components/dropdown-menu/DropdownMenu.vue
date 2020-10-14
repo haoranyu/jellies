@@ -20,10 +20,10 @@
 import { DropdownMenu } from 'element-ui';
 export default {
   name: 'JskDropdownMenu',
-  inheritAttrs: false,
   components: {
-    'ElDropdownMenu': DropdownMenu
+    ElDropdownMenu: DropdownMenu
   },
+  inheritAttrs: false,
   inject: ['dropdown'],
   provide: function () {
     return {

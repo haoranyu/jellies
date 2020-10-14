@@ -2,25 +2,24 @@
   <el-input
     v-model="value"
     v-bind="trimAttrs($attrs)"
-    v-on:focus="$emit('focus')"
-    v-on:blur="$emit('blur')"
-    v-on:clear="$emit('clear')"
     :class="isUnderline ? 'underline' : ''"
     :show-word-limit="hasLengthLimitHint"
+    @focus="$emit('focus')"
+    @blur="$emit('blur')"
+    @clear="$emit('clear')"
   >
     <template slot="prepend">
-      <slot name="prepend"></slot>
+      <slot name="prepend" />
     </template>
     <template slot="prefix">
-      <slot name="prefix"></slot>
+      <slot name="prefix" />
     </template>
-    <slot>
-    </slot>
+    <slot />
     <template slot="suffix">
-      <slot name="suffix"></slot>
+      <slot name="suffix" />
     </template>
     <template slot="append">
-      <slot name="append"></slot>
+      <slot name="append" />
     </template>
   </el-input>
 </template>
@@ -29,17 +28,13 @@
 import { Input } from 'element-ui';
 export default {
   name: 'JskInput',
-  inheritAttrs: false,
   components: {
-    'ElInput': Input
+    ElInput: Input
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: String,
@@ -52,22 +47,10 @@ export default {
       default: false
     }
   },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'input-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
+  data: function() {
+    return {
+      value: ''
+    };
   },
   watch: {
     value: function() {
@@ -80,6 +63,22 @@ export default {
     },
     vModel: function() {
       this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
+  methods: {
+    trimAttrs: function(attrs) {
+      Object.keys(attrs).forEach((key) => {
+        let prefixs = ['is-', 'has-', 'input-'];
+        prefixs.forEach((prefix) => {
+          if (key.substr(0, prefix.length) === prefix) {
+            attrs[key.substr(prefix.length)] = attrs[key];
+          }
+        })
+      })
+      return attrs;
     }
   }
 }

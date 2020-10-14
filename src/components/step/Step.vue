@@ -1,5 +1,5 @@
 <script>
-import { Step } from "element-ui";
+import { Step } from 'element-ui';
 const StepWrapper = Step;
 StepWrapper.name = 'JskStep';
 StepWrapper.props = {

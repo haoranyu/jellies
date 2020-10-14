@@ -57,12 +57,15 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/recommended",
       "eslint:recommended"
     ],
-    "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
+    },
+    "rules": {
+      "quotes": [2, "single"],
+      "quote-props": [2, "as-needed"]
     }
   },
   "postcss": {

@@ -15,24 +15,38 @@
     :fullscreen="isFullscreen"
     :lock-scroll="isScrollLocked"
     :custom-class="modalCustomClass + ' jsk-modal'"
-    v-on:open="$emit('open')"
-    v-on:opend="$emit('opend')"
-    v-on:close="$emit('close')"
-    v-on:closed="$emit('closed')"
+    @open="$emit('open')"
+    @opend="$emit('opend')"
+    @close="$emit('close')"
+    @closed="$emit('closed')"
   >
     <template slot="title">
       <el-row :gutter="12">
         <el-col :span="18">
           {{ modalTitle }}
         </el-col>
-        <el-col :span="6" class="jsk-modal-title-right">
-          <i @click="closeModal" class="el-icon-j-times-square jsk-modal-option jsk-modal-option-close" v-if="hasCloseButton"></i>
-          <i @click="changeModalSize" :class="['el-icon-j-' + modalSizeOption + '-square', 'jsk-modal-option', 'jsk-modal-option-size']" v-if="hasSizeButton"></i>
+        <el-col
+          :span="6"
+          class="jsk-modal-title-right"
+        >
+          <i
+            v-if="hasCloseButton"
+            class="el-icon-j-times-square jsk-modal-option jsk-modal-option-close"
+            @click="closeModal"
+          />
+          <i
+            v-if="hasSizeButton"
+            :class="['el-icon-j-' + modalSizeOption + '-square', 'jsk-modal-option', 'jsk-modal-option-size']"
+            @click="changeModalSize"
+          />
         </el-col>
       </el-row>
     </template>
-    <div class="jsk-modal-body" :style="{maxHeight: modalBodyMaxHeight, padding: modalPadding + 'px'}">
-      <slot></slot>
+    <div
+      class="jsk-modal-body"
+      :style="{maxHeight: modalBodyMaxHeight, padding: modalPadding + 'px'}"
+    >
+      <slot />
     </div>
   </el-dialog>
 </template>
@@ -45,33 +59,12 @@ import {
 } from 'element-ui';
 export default {
   name: 'JskModal',
-  inheritAttrs: false,
   components: {
-    'ElDialog': Dialog,
-    'ElRow': Row,
-    'ElCol': Col
+    ElDialog: Dialog,
+    ElRow: Row,
+    ElCol: Col
   },
-  computed: {
-    modalSizeOption: function() {
-      return this.isFullscreen ? 'shrink' : 'expand';
-    },
-    modalBodyMaxHeight: function() {
-      let topHeight = parseInt(this.modalTop);
-      if (this.isFullscreen) {
-        return 'calc(100vh - 40px)';
-      }
-      return 'calc(' + (100 - topHeight * 2) + 'vh - 42px)';
-    }
-  },
-  data: function() {
-    return {
-      visibleProp: false,
-      isFullscreen: false
-    };
-  },
-  created: function() {
-    this.visibleProp = this.visible;
-  },
+  inheritAttrs: false,
   props: {
     visible: {
       type: Boolean,
@@ -134,6 +127,35 @@ export default {
       default: true
     }
   },
+  data: function() {
+    return {
+      visibleProp: false,
+      isFullscreen: false
+    };
+  },
+  computed: {
+    modalSizeOption: function() {
+      return this.isFullscreen ? 'shrink' : 'expand';
+    },
+    modalBodyMaxHeight: function() {
+      let topHeight = parseInt(this.modalTop);
+      if (this.isFullscreen) {
+        return 'calc(100vh - 40px)';
+      }
+      return 'calc(' + (100 - topHeight * 2) + 'vh - 42px)';
+    }
+  },
+  watch: {
+    visibleProp: function() {
+      this.$emit('update:visible', this.visibleProp);
+    },
+    visible: function() {
+      this.visibleProp = this.visible;
+    }
+  },
+  created: function() {
+    this.visibleProp = this.visible;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -156,14 +178,6 @@ export default {
     },
     closeModal: function() {
       this.$refs.dialog.handleClose();
-    }
-  },
-  watch: {
-    visibleProp: function() {
-      this.$emit('update:visible', this.visibleProp);
-    },
-    visible: function() {
-      this.visibleProp = this.visible;
     }
   }
 }

@@ -3,9 +3,9 @@
     v-bind="trimAttrs($attrs)"
   >
     <template slot="title">
-      <slot name="title"></slot>
+      <slot name="title" />
     </template>
-    <slot></slot>
+    <slot />
   </el-collapse-item>
 </template>
 
@@ -13,6 +13,9 @@
 import { CollapseItem } from 'element-ui';
 export default {
   name: 'JskCollapseItem',
+  components: {
+    ElCollapseItem: CollapseItem
+  },
   inheritAttrs: false,
   methods: {
     trimAttrs: function(attrs) {
@@ -26,9 +29,6 @@ export default {
       })
       return attrs;
     }
-  },
-  components: {
-    'ElCollapseItem' : CollapseItem
   }
 }
 </script>

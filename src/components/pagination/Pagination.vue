@@ -3,15 +3,14 @@
     background
     :small="paginationSize === 'small'"
     v-bind="trimAttrs($attrs)"
-    v-on:size-change="sizeChange"
-    v-on:current-change="currentChange"
-    v-on:prev-click="prevClick"
-    v-on:next-click="nextClick"
     :current-page="currentPage"
     :page-size="pageSize"
+    @size-change="sizeChange"
+    @current-change="currentChange"
+    @prev-click="prevClick"
+    @next-click="nextClick"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-pagination>
 </template>
 
@@ -19,16 +18,10 @@
 import { Pagination } from 'element-ui';
 export default {
   name: 'JskPagination',
-  inheritAttrs: false,
   components: {
-    'ElPagination': Pagination
+    ElPagination: Pagination
   },
-  data: function() {
-    return {
-      currentPage: this.paginationCurrentPage,
-      pageSize: this.paginationPageSize
-    };
-  },
+  inheritAttrs: false,
   props: {
     paginationCurrentPage: {
       type: Number,
@@ -41,6 +34,20 @@ export default {
     paginationSize: {
       type: String,
       default: 'large'
+    }
+  },
+  data: function() {
+    return {
+      currentPage: this.paginationCurrentPage,
+      pageSize: this.paginationPageSize
+    };
+  },
+  watch: {
+    paginationCurrentPage: function() {
+      this.currentPage = this.paginationCurrentPage;
+    },
+    paginationPageSize: function() {
+      this.pageSize = this.paginationPageSize;
     }
   },
   methods: {
@@ -70,14 +77,6 @@ export default {
     nextClick: function(currentPage) {
       this.currentPage = currentPage;
       this.$emit('next-click', currentPage);
-    }
-  },
-  watch: {
-    paginationCurrentPage: function() {
-      this.currentPage = this.paginationCurrentPage;
-    },
-    paginationPageSize: function() {
-      this.pageSize = this.paginationPageSize;
     }
   }
 }

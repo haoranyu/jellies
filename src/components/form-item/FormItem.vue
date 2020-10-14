@@ -7,9 +7,9 @@
     :inline-message="isMessageInline"
   >
     <template slot="label">
-      <slot name="label"></slot>
+      <slot name="label" />
     </template>
-    <slot></slot>
+    <slot />
   </el-form-item>
 </template>
 
@@ -17,10 +17,10 @@
 import { FormItem } from 'element-ui';
 export default {
   name: 'JskFormItem',
-  inheritAttrs: false,
   components: {
-    'ElFormItem': FormItem
+    ElFormItem: FormItem
   },
+  inheritAttrs: false,
   props: {
     formItemLabelWidth: [
       Number,

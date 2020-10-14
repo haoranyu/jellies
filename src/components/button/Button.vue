@@ -1,7 +1,19 @@
 <template>
-  <el-button :type="buttonType" :size="buttonSize" :circle="isCircular" :icon="buttonPrefixIcon + buttonIcon" :disabled="disabled" :native-type="type" v-on:click="$emit('click')" :style="buttonStyle">
-    <slot></slot>
-    <i v-if="buttonSuffixIcon !== ''" :class="['el-icon--right', buttonSuffixIcon]"></i>
+  <el-button
+    :type="buttonType"
+    :size="buttonSize"
+    :circle="isCircular"
+    :icon="buttonPrefixIcon + buttonIcon"
+    :disabled="disabled"
+    :native-type="type"
+    :style="buttonStyle"
+    @click="$emit('click')"
+  >
+    <slot />
+    <i
+      v-if="buttonSuffixIcon !== ''"
+      :class="['el-icon--right', buttonSuffixIcon]"
+    />
   </el-button>
 </template>
 
@@ -9,18 +21,8 @@
 import { Button } from 'element-ui';
 export default {
   name: 'JskButton',
-  computed: {
-    buttonStyle: function() {
-      let buttonStyleValue = {}
-      if (this.buttonBackgroundColor !== '') {
-        buttonStyleValue.background = this.buttonBackgroundColor;
-        buttonStyleValue.borderColor = this.buttonBackgroundColor;
-      }
-      if (this.buttonTextColor !== '') {
-        buttonStyleValue.color = this.buttonTextColor;
-      }
-      return buttonStyleValue;
-    }
+  components: {
+    ElButton: Button
   },
   props: {
     buttonType: {
@@ -64,8 +66,18 @@ export default {
       default: ''
     }
   },
-  components: {
-    'ElButton': Button
+  computed: {
+    buttonStyle: function() {
+      let buttonStyleValue = {}
+      if (this.buttonBackgroundColor !== '') {
+        buttonStyleValue.background = this.buttonBackgroundColor;
+        buttonStyleValue.borderColor = this.buttonBackgroundColor;
+      }
+      if (this.buttonTextColor !== '') {
+        buttonStyleValue.color = this.buttonTextColor;
+      }
+      return buttonStyleValue;
+    }
   }
 }
 </script>

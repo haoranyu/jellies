@@ -4,20 +4,19 @@
     v-bind="trimAttrs($attrs)"
     :show-all-levels="!isUsingLeafNode"
     :debounce="cascaderDebounceTime"
-    v-on:focus="$emit('focus')"
-    v-on:blur="$emit('blur')"
-    v-on:visible-change="visibleChange"
-    v-on:expand-change="expandChange"
-    v-on:remove-tag="removeTag"
+    @focus="$emit('focus')"
+    @blur="$emit('blur')"
+    @visible-change="visibleChange"
+    @expand-change="expandChange"
+    @remove-tag="removeTag"
   >
     <template slot="prefix">
-      <slot name="prefix"></slot>
+      <slot name="prefix" />
     </template>
     <template slot="empty">
-      <slot name="empty"></slot>
+      <slot name="empty" />
     </template>
-    <slot>
-    </slot>
+    <slot />
   </el-cascader>
 </template>
 
@@ -25,14 +24,13 @@
 import { Cascader } from 'element-ui';
 export default {
   name: 'JskCascader',
-  inheritAttrs: false,
-  data: function() {
-    return {
-      value: ''
-    };
+  components: {
+    ElCascader: Cascader
   },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: [String, Array],
@@ -44,6 +42,27 @@ export default {
       type: Number,
       default: 300
     }
+  },
+  data: function() {
+    return {
+      value: ''
+    };
+  },
+  watch: {
+    value: function() {
+      this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
+    },
+    vModel: function() {
+      this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -66,26 +85,6 @@ export default {
     removeTag: function(para) {
       this.$emit('remove-tag', para);
     }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
-    },
-    vModel: function() {
-      this.value = this.vModel;
-    }
-  },
-  components: {
-    'ElCascader': Cascader
   }
 }
 </script>

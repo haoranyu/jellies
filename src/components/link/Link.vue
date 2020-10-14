@@ -4,8 +4,7 @@
     is-link
     v-bind="trimAttrs($attrs)"
   >
-    <slot>
-    </slot>
+    <slot />
   </jsk-text>
 </template>
 
@@ -13,6 +12,15 @@
 import JskText from '../text/Text.vue';
 export default {
   name: 'JskLink',
+  components: {
+    JskText
+  },
+  props: {
+    linkType: {
+      type: String,
+      default: 'default'
+    }
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -25,15 +33,6 @@ export default {
       })
       return attrs;
     }
-  },
-  props: {
-    linkType: {
-      type: String,
-      default: 'default'
-    }
-  },
-  components: {
-    JskText
   }
 };
 </script>

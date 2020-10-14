@@ -1,7 +1,13 @@
 <template>
   <div class="price">
-    <del class="original-number" v-if="priceOriginal !== ''">{{ priceOriginal }}</del>
-    <span class="number" v-if="priceCurrent !== ''">{{ priceCurrent }}</span>
+    <del
+      v-if="priceOriginal !== ''"
+      class="original-number"
+    >{{ priceOriginal }}</del>
+    <span
+      v-if="priceCurrent !== ''"
+      class="number"
+    >{{ priceCurrent }}</span>
     <span class="unit">{{ hasUnit ? '/ ' + priceUnit : '' }}</span>
   </div>
 </template>

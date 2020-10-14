@@ -6,20 +6,19 @@
     :allow-create="isAddingAllowed"
     :default-first-option="isFirstMatchingAllowed"
     :reserve-keyword="isKeywordReserved"
-    v-on:focus="$emit('focus')"
-    v-on:blur="$emit('blur')"
-    v-on:clear="$emit('clear')"
-    v-on:visible-change="visibleChange"
-    v-on:remove-tag="removeTag"
+    @focus="$emit('focus')"
+    @blur="$emit('blur')"
+    @clear="$emit('clear')"
+    @visible-change="visibleChange"
+    @remove-tag="removeTag"
   >
     <template slot="prefix">
-      <slot name="prefix"></slot>
+      <slot name="prefix" />
     </template>
     <template slot="empty">
-      <slot name="empty"></slot>
+      <slot name="empty" />
     </template>
-    <slot>
-    </slot>
+    <slot />
   </el-select>
 </template>
 
@@ -27,17 +26,13 @@
 import { Select } from 'element-ui';
 export default {
   name: 'JskSelect',
-  inheritAttrs: false,
   components: {
-    'ElSelect': Select
+    ElSelect: Select
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: [String, Number, Boolean, Array],
@@ -53,6 +48,27 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  data: function() {
+    return {
+      value: ''
+    };
+  },
+  watch: {
+    value: function() {
+      this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
+    },
+    vModel: function() {
+      this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -77,23 +93,6 @@ export default {
     },
     blur: function() {
       this.$refs.select.blur();
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
-    },
-    vModel: function() {
-      this.value = this.vModel;
     }
   }
 }

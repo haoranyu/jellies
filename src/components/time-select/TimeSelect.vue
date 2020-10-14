@@ -4,13 +4,12 @@
       ref="timeSelect"
       v-model="value"
       v-bind="trimAttrs($attrs)"
-      v-on:focus="$emit('focus')"
-      v-on:blur="$emit('blur')"
       :align="timeSelectTextAlign"
       :picker-options="timeSelectOptions"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
     >
-      <slot>
-      </slot>
+      <slot />
     </el-time-select>
   </div>
 </template>
@@ -19,17 +18,13 @@
 import { TimeSelect } from 'element-ui';
 export default {
   name: 'JskTimeSelect',
-  inheritAttrs: false,
   components: {
-    'ElTimeSelect': TimeSelect
+    ElTimeSelect: TimeSelect
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: String,
@@ -49,6 +44,27 @@ export default {
       default: 'left'
     }
   },
+  data: function() {
+    return {
+      value: ''
+    };
+  },
+  watch: {
+    value: function() {
+      this.$emit('change', this.value);
+      this.$nextTick(() => {
+        if (this.value !== this.vModel) {
+          this.value = this.vModel;
+        }
+      });
+    },
+    vModel: function() {
+      this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
@@ -63,23 +79,6 @@ export default {
     },
     focus: function() {
       this.$refs.timeSelect.focus();
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
-  },
-  watch: {
-    value: function() {
-      this.$emit('change', this.value);
-      this.$nextTick(() => {
-        if (this.value !== this.vModel) {
-          this.value = this.vModel;
-        }
-      });
-    },
-    vModel: function() {
-      this.value = this.vModel;
     }
   }
 }

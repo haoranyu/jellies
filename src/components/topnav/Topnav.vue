@@ -2,14 +2,14 @@
   <ul :style="{ height: height, lineHeight: height }">
     <li
       v-for="(item, index) in topnavItems"
+      :key="index"
       :class="index === currentActive ? 'active' : ''"
-      v-bind:key="index"
-      v-on:click="toItem(index)"
-      v-on:mouseover="hoverItem(index)"
-      v-on:mouseout="hoverItem(currentActive)"
       :style="{
-        color: (index === currentActive || index === currentHover)  ? topnavActiveColor : 'inherit'
+        color: (index === currentActive || index === currentHover) ? topnavActiveColor : 'inherit'
       }"
+      @click="toItem(index)"
+      @mouseover="hoverItem(index)"
+      @mouseout="hoverItem(currentActive)"
     >
       {{ item.name }}
       <div
@@ -17,7 +17,7 @@
         :style="{
           background: topnavActiveColor
         }"
-      ></div>
+      />
     </li>
   </ul>
 </template>
@@ -56,21 +56,6 @@ export default {
       currentHover: 0
     };
   },
-  mounted: function() {
-    if (this.topnavCurrentActive || this.topnavInitActive) {
-      this.currentActive = this.topnavCurrentActive || this.topnavInitActive;
-      this.currentHover = this.topnavCurrentActive || this.topnavInitActive;
-    }
-  },
-  methods: {
-    toItem: function(index) {
-      this.currentActive = index;
-      this.topnavItems[index].callback();
-    },
-    hoverItem: function(index) {
-      this.currentHover = index;
-    }
-  },
   computed: {
     height: function() {
       if (typeof(this.topnavHeight) === 'string') {
@@ -88,6 +73,21 @@ export default {
     topnavCurrentActive: function() {
       this.currentActive = this.topnavCurrentActive;
       this.currentHover = this.topnavCurrentActive;
+    }
+  },
+  mounted: function() {
+    if (this.topnavCurrentActive || this.topnavInitActive) {
+      this.currentActive = this.topnavCurrentActive || this.topnavInitActive;
+      this.currentHover = this.topnavCurrentActive || this.topnavInitActive;
+    }
+  },
+  methods: {
+    toItem: function(index) {
+      this.currentActive = index;
+      this.topnavItems[index].callback();
+    },
+    hoverItem: function(index) {
+      this.currentHover = index;
     }
   }
 }

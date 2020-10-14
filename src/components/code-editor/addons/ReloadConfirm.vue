@@ -19,17 +19,13 @@
   </jsk-dialog>
 </template>
 <script>
-import JskDialog from "../../dialog/Dialog";
-import JskButton from "../../button/Button";
+import JskDialog from '../../dialog/Dialog';
+import JskButton from '../../button/Button';
 export default {
-  name: "JskCodeEditorReloadConfirm",
-  data: function() {
-    return {
-      visibleProp: false
-    };
-  },
-  created: function() {
-    this.visibleProp = this.visible;
+  name: 'JskCodeEditorReloadConfirm',
+  components: {
+    JskDialog,
+    JskButton
   },
   props: {
     visible: {
@@ -38,21 +34,25 @@ export default {
     },
     reloadConfirmFilename: {
       type: String,
-      default: "The file"
+      default: 'The file'
     },
     reloadConfirmContent: Object
   },
+  data: function() {
+    return {
+      visibleProp: false
+    };
+  },
   watch: {
     visibleProp: function() {
-      this.$emit("update:visible", this.visibleProp);
+      this.$emit('update:visible', this.visibleProp);
     },
     visible: function() {
       this.visibleProp = this.visible;
     }
   },
-  components: {
-    JskDialog,
-    JskButton
+  created: function() {
+    this.visibleProp = this.visible;
   }
 };
 </script>

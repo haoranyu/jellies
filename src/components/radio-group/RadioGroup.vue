@@ -5,8 +5,7 @@
     :text-color="radioButtonTextColor"
     :fill="radioButtonBackgroundColor"
   >
-    <slot>
-    </slot>
+    <slot />
   </el-radio-group>
 </template>
 
@@ -14,17 +13,13 @@
 import { RadioGroup } from 'element-ui';
 export default {
   name: 'JskRadioGroup',
-  inheritAttrs: false,
   components: {
-    'ElRadioGroup': RadioGroup
+    ElRadioGroup: RadioGroup
   },
-  data: function() {
-    return {
-      value: ''
-    };
-  },
-  created: function() {
-    this.value = this.vModel;
+  inheritAttrs: false,
+  model: {
+    prop: 'vModel',
+    event: 'change'
   },
   props: {
     vModel: String,
@@ -37,22 +32,10 @@ export default {
       default: '#41B146'
     }
   },
-  methods: {
-    trimAttrs: function(attrs) {
-      Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'radio-group-'];
-        prefixs.forEach((prefix) => {
-          if (key.substr(0, prefix.length) === prefix) {
-            attrs[key.substr(prefix.length)] = attrs[key];
-          }
-        })
-      })
-      return attrs;
-    }
-  },
-  model: {
-    prop: 'vModel',
-    event: 'change'
+  data: function() {
+    return {
+      value: ''
+    };
   },
   watch: {
     value: function() {
@@ -65,6 +48,22 @@ export default {
     },
     vModel: function() {
       this.value = this.vModel;
+    }
+  },
+  created: function() {
+    this.value = this.vModel;
+  },
+  methods: {
+    trimAttrs: function(attrs) {
+      Object.keys(attrs).forEach((key) => {
+        let prefixs = ['is-', 'has-', 'radio-group-'];
+        prefixs.forEach((prefix) => {
+          if (key.substr(0, prefix.length) === prefix) {
+            attrs[key.substr(prefix.length)] = attrs[key];
+          }
+        })
+      })
+      return attrs;
     }
   }
 }

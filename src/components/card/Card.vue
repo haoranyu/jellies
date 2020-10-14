@@ -1,29 +1,44 @@
 <template>
-  <a class="card" :href="cardLink" target="_blank">
+  <a
+    class="card"
+    :href="cardLink"
+    target="_blank"
+  >
     <el-card :body-style="{ background: '#F2F4F7' }">
       <div slot="header">
         <h3>{{ cardTitle }}</h3>
         <div class="subtitle">{{ cardSubtitle }}</div>
         <ul class="instructors">
-          <li v-for="(instructor, index) in cardInstructors" v-bind:key="index">
-            <jsk-avatar :avatar-src="instructor.avatar" :avatar-size="60"></jsk-avatar>
+          <li
+            v-for="(instructor, index) in cardInstructors"
+            :key="index"
+          >
+            <jsk-avatar
+              :avatar-src="instructor.avatar"
+              :avatar-size="60"
+            />
             <div class="name">{{ instructor.name }}</div>
           </li>
         </ul>
       </div>
       <el-row>
-        <el-col :span="8" class="detail">
+        <el-col
+          :span="8"
+          class="detail"
+        >
           <span class="first-line">{{ cardDetail.first }}</span>
           <span class="second-line">{{ cardDetail.second }}</span>
         </el-col>
-        <el-col :span="16" class="addon">
+        <el-col
+          :span="16"
+          class="addon"
+        >
           <jsk-price
             :price-original="cardPrice.originalNumber"
             :price-current="cardPrice.number"
             :has-unit="cardPrice.hasUnit"
             :price-unit="cardPrice.unit"
-          >
-          </jsk-price>
+          />
         </el-col>
       </el-row>
     </el-card>
@@ -44,9 +59,9 @@ export default {
   components: {
     JskAvatar,
     JskPrice,
-    'ElCard': Card,
-    'ElCol': Col,
-    'ElRow': Row
+    ElCard: Card,
+    ElCol: Col,
+    ElRow: Row
   },
   props: {
     cardLink: {

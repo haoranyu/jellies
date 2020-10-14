@@ -4,7 +4,7 @@
     :hide-timestamp="isTimeHidden"
     :timestamp="timelineItemTime"
   >
-    <slot></slot>
+    <slot />
   </el-timeline-item>
 </template>
 
@@ -12,10 +12,10 @@
 import { TimelineItem } from 'element-ui';
 export default {
   name: 'JskTimelineItem',
-  inheritAttrs: false,
   components: {
-    'ElTimelineItem': TimelineItem
+    ElTimelineItem: TimelineItem
   },
+  inheritAttrs: false,
   props: {
     isTimeHidden: {
       type: Boolean,

@@ -5,23 +5,42 @@
     :drag="isDraggable"
     :show-file-list="hasFileList"
     :auto-upload="isAutoUpload"
-    :limit="uploadFileMax">
+    :limit="uploadFileMax"
+  >
     <template slot="trigger">
-      <slot name="trigger"></slot>
+      <slot name="trigger" />
     </template>
     <template slot="tip">
-      <slot name="tip"></slot>
+      <slot name="tip" />
     </template>
-    <slot></slot>
+    <slot />
   </el-upload>
 </template>
 <script>
 import { Upload } from 'element-ui';
 export default {
   name: 'JskUpload',
-  inheritAttrs: false,
   components: {
-    'ElUpload': Upload
+    ElUpload: Upload
+  },
+  inheritAttrs: false,
+  props: {
+    isDraggable: {
+      type: Boolean,
+      default: false
+    },
+    hasFileList: {
+      type: Boolean,
+      default: true
+    },
+    isAutoUpload: {
+      type: Boolean,
+      default: true
+    },
+    uploadFileMax: {
+      type: Number,
+      default: 1
+    }
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -43,24 +62,6 @@ export default {
     },
     submit: function() {
       this.$refs.upload.submit();
-    }
-  },
-  props: {
-    isDraggable: {
-      type: Boolean,
-      default: false
-    },
-    hasFileList: {
-      type: Boolean,
-      default: true
-    },
-    isAutoUpload: {
-      type: Boolean,
-      default: true
-    },
-    uploadFileMax: {
-      type: Number,
-      default: 1
     }
   }
 }
