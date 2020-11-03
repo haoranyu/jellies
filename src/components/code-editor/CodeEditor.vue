@@ -678,14 +678,14 @@ export default {
     },
     switchToPreviousTab() {
       this.setActiveTab(this.currentActiveIndex - 1);
-      if (this.currentActiveIndex < 0) {
-        this.setActiveTab(0);
-      }
     },
     setActiveTab(index) {
+      if (index < 0) {
+        index = 0;
+      }
       this.currentActiveIndex = index;
-      this.$refs.tabs.changeActive(this.currentActiveIndex);
-      this.$emit('switch-tab', this.currentActiveIndex);
+      this.$refs.tabs.changeActive(index);
+      this.$emit('switch-tab', index);
     },
     closeTab(index) {
       this.files.splice(index, 1);
