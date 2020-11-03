@@ -677,6 +677,7 @@ export default {
     setActiveTab(index) {
       this.currentActiveIndex = index;
       this.$refs.tabs.changeActive(this.currentActiveIndex);
+      this.$emit('switch-tab', this.currentActiveIndex);
     },
     closeTab(index) {
       this.files.splice(index, 1);
