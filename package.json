@@ -1,6 +1,6 @@
 {
   "name": "jellies",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "private": false,
   "description": "A UI toolkit for Vue 2.x based on elementUI.",
   "author": "Haoran Yu",
@@ -27,15 +27,15 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.2",
-    "sass": "^1.27.0",
-    "splitpanes": "^2.3.3",
+    "sass": "^1.28.0",
+    "splitpanes": "^2.3.4",
     "vue-codemirror": "^4.0.6",
     "vue-katex-auto-render": "^0.1.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.7",
-    "@vue/cli-plugin-eslint": "^4.5.7",
-    "@vue/cli-service": "^4.5.7",
+    "@vue/cli-plugin-babel": "^4.5.8",
+    "@vue/cli-plugin-eslint": "^4.5.8",
+    "@vue/cli-service": "^4.5.8",
     "babel-eslint": "^10.1.0",
     "babel-plugin-component": "^1.1.1",
     "eslint": "^6.7.2",
@@ -64,8 +64,14 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "quotes": [2, "single"],
-      "quote-props": [2, "as-needed"]
+      "quotes": [
+        2,
+        "single"
+      ],
+      "quote-props": [
+        2,
+        "as-needed"
+      ]
     }
   },
   "postcss": {
