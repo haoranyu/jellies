@@ -607,6 +607,9 @@ export default {
             if (fileSaved) {
               this.updateSavedFile(index);
               saveDone(true);
+            } else {
+              this.setSaving(file, false);
+              saveDone(false);
             }
           });
         });
@@ -626,9 +629,14 @@ export default {
         this.beforeSaveAllFiles().then(filesSaved => {
           if (filesSaved) {
             fileIndexList.forEach(index => {
-               this.updateSavedFile(index);
+              this.updateSavedFile(index);
             })
             saveDone(true);
+          } else {
+            fileIndexList.forEach(index => {
+              this.setSaving(this.files[index], false);
+            })
+            saveDone(false);
           }
         });
       });
@@ -712,6 +720,8 @@ export default {
                   this.saveFile(index).then(saveDone => {
                     if (saveDone) {
                       returnToTab(true);
+                    } else {
+                      returnToTab(false);
                     }
                   });
                 } else {
