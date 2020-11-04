@@ -540,6 +540,7 @@ export default {
         new Promise(resolve => {
           this.$on('reload-confirm', result => {
             resolve(result);
+            this.$off('reload-confirm');
           });
         }).then(result => {
           this.reloadConfirmVisiable = false;
@@ -710,6 +711,7 @@ export default {
             new Promise(resolve => {
               this.$on('close-confirm', result => {
                 resolve(result);
+                this.$off('close-confirm');
               });
             }).then(result => {
               this.closeConfirmVisiable = false;
@@ -1080,6 +1082,7 @@ export default {
           this.lockConfirmVisiable = true;
           this.$on('lock-confirm', position => {
             resolve(position);
+            this.$off('lock-confirm');
           });
         } else {
           resolve('none');
