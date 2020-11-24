@@ -5,7 +5,7 @@
   >
     <jsk-button
       button-size="small"
-      button-icon="el-icon-lock"
+      button-icon="el-icon-j-lock"
       is-circular
       @click="() => {
         this.$emit('lock');
@@ -26,7 +26,7 @@
     v-else
     class="lock-menu"
     button-size="small"
-    button-icon="el-icon-unlock"
+    button-icon="el-icon-j-unlock"
     is-circular
     @click="() => {
       this.$emit('unlock');
