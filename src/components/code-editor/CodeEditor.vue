@@ -2,6 +2,7 @@
   <div class="jsk-code-editor-container">
     <jsk-tabs
       ref="tabs"
+      class="tabs"
       :tabs-init-active="0"
       :tabs-theme="settings.theme"
       tabs-height="35px"
@@ -1205,6 +1206,10 @@ export default {
 };
 </script>
 <style scoped>
+.tabs {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
 .modified-mark,
 .saving-mark {
   color: #399af4;
@@ -1216,6 +1221,7 @@ export default {
 <style>
 .jsk-code-editor-container {
   display: flex;
+  height: 100%;
   flex-direction: column;
 }
 .jsk-code-editor {
@@ -1225,10 +1231,12 @@ export default {
   font-size: 16px;
   flex-grow: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 .jsk-code-editor-codemirror {
-  height: 100%;
+  height: auto;
+  align-self: stretch;
+  width: 100%;
 }
 .jsk-code-editor-codemirror .CodeMirror {
   height: 100%;
