@@ -71,7 +71,8 @@
       "quote-props": [
         2,
         "as-needed"
-      ]
+      ],
+      "comma-dangle": [2]
     }
   },
   "postcss": {

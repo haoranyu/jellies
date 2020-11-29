@@ -55,7 +55,7 @@
 import {
   Dialog,
   Row,
-  Col,
+  Col
 } from 'element-ui';
 export default {
   name: 'JskModal',

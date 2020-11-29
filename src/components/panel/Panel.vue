@@ -56,7 +56,7 @@ export default {
     },
     panelTheme: function() {
       return [
-        'panel panel-' + this.panelType,
+        'panel panel-' + this.panelType
       ];
     },
     panelHeaderTheme: function() {

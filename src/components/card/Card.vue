@@ -99,7 +99,7 @@ export default {
           unit: '课时'
         };
       }
-    },
+    }
   }
 }
 </script>

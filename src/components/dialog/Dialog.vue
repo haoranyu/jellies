@@ -57,7 +57,7 @@ import {
   Dialog,
   FormItem,
   Row,
-  Col,
+  Col
 } from 'element-ui';
 import JskForm from '../form/'
 export default {

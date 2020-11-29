@@ -67,19 +67,19 @@ export default {
     },
     isFullscreen: {
       type: Boolean,
-      default: false,
+      default: false
     },
     isCollapsed: {
       type: Boolean,
-      default: false,
+      default: false
     },
     hasCollapse: {
       type: Boolean,
-      default: true,
+      default: true
     },
     hasRouter: {
       type: Boolean,
-      default: false,
+      default: false
     },
     hasCollapseAnimation: {
       type: Boolean,

@@ -56,7 +56,7 @@ export default {
       }
       return this.headerCenterWidth + 'px';
     }
-  },
+  }
 }
 </script>
 

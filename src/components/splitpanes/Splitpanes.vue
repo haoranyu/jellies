@@ -20,7 +20,7 @@ export default {
     hasDblclickExpansion: {
       type: Boolean,
       default: true
-    },
+    }
   },
   computed: {
     horizontal: function() {

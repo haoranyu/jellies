@@ -40,9 +40,9 @@ export default {
     avatarStyle: function() {
       return {
         background: this.avatarBackgroundColor,
-        color: this.avatarTextColor,
+        color: this.avatarTextColor
       };
-    },
+    }
   },
   methods: {
     trimAttrs: function(attrs) {
@@ -55,7 +55,7 @@ export default {
         })
       })
       return attrs;
-    },
+    }
   }
 }
 </script>

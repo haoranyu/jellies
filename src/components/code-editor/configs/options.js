@@ -9,7 +9,7 @@ export default {
                         'CodeMirror-breakpoints',
                         'CodeMirror-feedback-notes',
                         'CodeMirror-linenumbers',
-                        'CodeMirror-foldgutter',
+                        'CodeMirror-foldgutter'
                       ],
   tabindex          : 0,
   theme             : 'eclipse',

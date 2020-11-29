@@ -81,7 +81,7 @@ export default {
     hasCloseButton: {
       type: Boolean,
       default: true
-    },
+    }
   },
   data: function() {
     return {

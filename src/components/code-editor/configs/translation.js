@@ -28,12 +28,12 @@ export default {
       },
       theme: {
         dark: '深色风格',
-        light: '浅色风格',
+        light: '浅色风格'
       },
       indent: {
         2: '2 个空格',
         4: '4 个空格',
-        8: '8 个空格',
+        8: '8 个空格'
       }
     },
     hiddenLock: '这部分代码片段已被隐藏'
@@ -67,12 +67,12 @@ export default {
       },
       theme: {
         dark: 'Dark',
-        light: 'Light',
+        light: 'Light'
       },
       indent: {
         2: '2 spaces',
         4: '4 spaces',
-        8: '8 spaces',
+        8: '8 spaces'
       }
     },
     hiddenLock: 'The code piece is hidden'
