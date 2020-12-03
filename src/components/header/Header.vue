@@ -4,8 +4,9 @@
       :style="{ height: headerHeight + 'px', background: headerBackgroundColor }"
       :class="isFixedTop ? 'header-fixed-top' : ''"
     >
-      <el-container
-        direction="horizontal"
+      <jsk-container
+        is-horizontal
+        :has-bleed="hasBleed"
         :style="{
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -13,7 +14,7 @@
         }"
       >
         <slot />
-      </el-container>
+      </jsk-container>
     </header>
     <div
       v-if="isFixedTop"
@@ -25,11 +26,11 @@
 
 
 <script>
-import { Container } from 'element-ui';
+import JskContainer from '../container/Container';
 export default {
   name: 'JskHeader',
   components: {
-    ElContainer: Container
+    JskContainer
   },
   props: {
     headerHeight: {
@@ -45,6 +46,10 @@ export default {
       default: '#41B146'
     },
     isFixedTop: {
+      type: Boolean,
+      default: true
+    },
+    hasBleed: {
       type: Boolean,
       default: true
     }
