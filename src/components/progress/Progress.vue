@@ -102,6 +102,9 @@ export default {
   flex-direction: row-reverse;
   align-items: center;
 }
+.el-progress.is-narrow .el-progress-bar__outer {
+  box-shadow: inset 0 1px 1px 0 rgba(139, 154, 174, 0.2);
+}
 .el-progress.is-narrow .el-progress-bar__innerText {
   height: 14px;
   line-height: 14px;
