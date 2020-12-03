@@ -68,7 +68,7 @@ export default {
 <style scoped>
 header {
   width: 100%;
-  box-shadow: 0 0 8px 0 rgba(139, 154, 174, 0.3);
+  box-shadow: 0 0 8px 0 rgba(139, 154, 174, 0.15);
 }
 .header-fixed-top {
   position: fixed;

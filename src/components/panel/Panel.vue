@@ -84,7 +84,7 @@ export default {
   background: #FFFFFF;
   overflow: hidden;
   border-radius: 5px;
-  box-shadow: 0 0 8px 0 rgba(139, 154, 174, 0.3);
+  box-shadow: 0 0 8px 0 rgba(139, 154, 174, 0.15);
 }
 .panel-body {
   padding: 24px;
