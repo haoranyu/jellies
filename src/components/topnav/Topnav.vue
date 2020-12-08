@@ -88,10 +88,7 @@ export default {
       type: Number,
       default: 0
     },
-    topnavCurrentActive: {
-      type: Number,
-      default: -1
-    },
+    topnavCurrentActive: Number,
     topnavActiveColor: {
       type: String,
       default: '#41B146'
