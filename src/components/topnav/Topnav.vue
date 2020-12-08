@@ -1,31 +1,75 @@
 <template>
   <ul :style="{ height: height, lineHeight: height }">
-    <li
-      v-for="(item, index) in topnavItems"
-      :key="index"
-      :class="index === currentActive ? 'active' : ''"
-      :style="{
-        color: (index === currentActive || index === currentHover) ? topnavActiveColor : 'inherit'
-      }"
-      @click="toItem(index)"
-      @mouseover="hoverItem(index)"
-      @mouseout="hoverItem(currentActive)"
-    >
-      {{ item.name }}
-      <div
-        class="avtive-bar"
+    <template v-for="(item, index) in topnavItems">
+      <li
+        v-if="item.callback"
+        :key="index"
+        :class="index === currentActive ? 'active' : ''"
         :style="{
-          background: topnavActiveColor
+          color: (index === currentActive || index === currentHover) ? topnavActiveColor : 'inherit'
         }"
-      />
-    </li>
+        @click="toItem(index)"
+        @mouseover="hoverItem(index)"
+        @mouseout="hoverItem(currentActive)"
+      >
+        {{ item.name }}
+        <div
+          class="avtive-bar"
+          :style="{
+            background: topnavActiveColor
+          }"
+        />
+      </li>
+      <li
+        v-else
+        :key="index"
+        :class="index === currentActive ? 'active' : ''"
+        :style="{
+          color: (index === currentActive || index === currentHover) ? topnavActiveColor : 'inherit'
+        }"
+        @mouseover="hoverItem(index)"
+        @mouseout="hoverItem(currentActive)"
+      >
+        <jsk-dropdown
+          dropdown-trigger="click"
+          class="dropdown"
+        >
+          <div>
+            {{ item.name }}<i class="el-icon-j-caret-down el-icon--right" />
+          </div>
+          <jsk-dropdown-menu slot="dropdown">
+            <jsk-dropdown-item
+              v-for="(dropdownItem, dropdownIndex) in item.chidrenItems"
+              :key="dropdownIndex"
+              @click.native="toDropdownItem(index, dropdownItem)"
+            >
+              {{ dropdownItem.name }}
+            </jsk-dropdown-item>
+          </jsk-dropdown-menu>
+        </jsk-dropdown>
+        <div
+          class="avtive-bar"
+          :style="{
+            background: topnavActiveColor
+          }"
+        />
+      </li>
+    </template>
   </ul>
 </template>
 
 
 <script>
+import JskDropdown from '../dropdown/Dropdown';
+import JskDropdownMenu from '../dropdown-menu/DropdownMenu';
+import JskDropdownItem from '../dropdown-item/DropdownItem';
 export default {
   name: 'JskTopnav',
+  components: {
+    JskDropdown,
+    JskDropdownMenu,
+    JskDropdownItem
+  },
   props: {
     topnavHeight: {
       type: [String, Number],
@@ -44,7 +88,10 @@ export default {
       type: Number,
       default: 0
     },
-    topnavCurrentActive: Number,
+    topnavCurrentActive: {
+      type: Number,
+      default: -1
+    },
     topnavActiveColor: {
       type: String,
       default: '#41B146'
@@ -88,6 +135,10 @@ export default {
     },
     hoverItem: function(index) {
       this.currentHover = index;
+    },
+    toDropdownItem: function(index, dropdownItem) {
+      this.currentActive = index;
+      dropdownItem.callback();
     }
   }
 }
@@ -123,5 +174,8 @@ ul > li .avtive-bar {
 ul > li.active .avtive-bar {
   width: 20%;
   left: 40%;
+}
+ul > li .dropdown {
+  color: inherit;
 }
 </style>
