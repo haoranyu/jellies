@@ -179,6 +179,7 @@ export default {
     }
     this.cmOption.theme = this.theme;
     this.cmOption.lineNumbers = this.hasLineNumbers;
+    this.cmOption.lineWrapping = this.hasLineNumbers;
     if (!this.hasSelection) {
       this.disableSelection();
     }
