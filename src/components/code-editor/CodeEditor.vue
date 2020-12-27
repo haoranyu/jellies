@@ -226,6 +226,10 @@ export default {
       type: Boolean,
       default: true
     },
+    hasModificationLossConfirm: {
+      type: Boolean,
+      default: false
+    },
     hasLockControl: {
       type: Boolean,
       default: false
@@ -400,6 +404,11 @@ export default {
     this.setActiveTab(this.codeEditorInitActive);
     this.switchToCurrentFile();
   },
+  beforeDestroy: function() {
+    if (this.hasModificationLossConfirm) {
+      window.removeEventListener('beforeunload', this.modificationLossPrevention)
+    }
+  },
   methods: {
     /////////////////////////
     // Initialization ///////
@@ -469,6 +478,9 @@ export default {
       cm.save = this.saveCurrentFile;
       this.initLockControlListener(cm);
       this.initFeedbackTooltipListener(cm);
+      if (this.hasModificationLossConfirm) {
+        window.addEventListener('beforeunload', this.modificationLossPrevention)
+      }
     },
     initLockControlListener(cm) {
       if (this.hasLockControl) {
@@ -495,6 +507,16 @@ export default {
         };
       }
     },
+    modificationLossPrevention(e) {
+      if (this.hasModifiedFile()) {
+        e = e || window.event;
+        if (e) {
+          e.returnValue = '';
+        }
+        return '';
+      }
+      return null;
+    },
 
     /////////////////////////
     // Status Control ///////
@@ -511,6 +533,15 @@ export default {
     },
     setCurrentFileModificationState() {
       return this.setModificationState(this.currentFile);
+    },
+    hasModifiedFile() {
+      for (let index = 0; index < this.files.length; index++) {
+        let file = this.files[index];
+        if (file.isModified) {
+          return true
+        }
+      }
+      return false
     },
 
     ////////////////////////////////
