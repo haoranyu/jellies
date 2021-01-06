@@ -156,6 +156,7 @@ export default {
   box-shadow: 0 0 4px 0 rgba(139, 154, 174, 0.4);
 }
 .el-slider .el-slider__bar {
+  transition: all 500ms ease 0s;
   background-image: linear-gradient(to right, rgba(78, 197, 61, 0) 20%, #4ec53d 100%) !important;
   z-index: 101;
 }
