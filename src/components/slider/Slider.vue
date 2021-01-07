@@ -185,6 +185,7 @@ export default {
   pointer-events: none;
 }
 .finished {
+  transition: all 500ms ease 0s;
   height: 12px;
   width: 100%;
   background: #4EC53D;
