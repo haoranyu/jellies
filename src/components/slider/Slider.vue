@@ -21,7 +21,7 @@
         :style="{ width: finishedBarLength() }"
       />
       <ul
-        v-show="isStopsVisible"
+        v-if="isStopsVisible"
         class="dots"
       >
         <li
