@@ -74,6 +74,7 @@ export default {
 <style scoped>
 .feedback-tooltip {
   position: fixed;
+  pointer-events: none;
   z-index: 500;
   left: 0;
   top: 0;
