@@ -776,8 +776,9 @@ export default {
     addFeedbackNotes(doc, feedbackNotes) {
       if (this.hasFeedbackNotes) {
         if (doc.feedbackNotes === undefined) {
-          doc.feedbackNotes = [];
-          doc.feedbackNotesGutterMarkers = [];
+          doc.feedbackNotePositionMarkers = [];
+          doc.feedbackNoteRangeMarkers = [];
+          doc.feedbackNoteGutterMarkers = [];
         }
         if (feedbackNotes !== undefined) {
           feedbackNotes.forEach(feedbackNote => {
@@ -787,20 +788,35 @@ export default {
       }
     },
     addFeedbackNote(doc, feedbackNote) {
-      let feedbackNoteMark = doc.markText(feedbackNote.from, feedbackNote.to, {
-        className: 'feedback-' + feedbackNote.type,
+      if (_isEqual(feedbackNote.from, feedbackNote.to)) {
+        let feedbackNotePositionMarker = this.addfeedbackNotePositionMarker(doc, feedbackNote);
+        doc.feedbackNotePositionMarkers.push(feedbackNotePositionMarker);
+      } else {
+        let feedbackNoteRangeMarker = this.addFeedbackNoteRangeMarker(doc, feedbackNote);
+        doc.feedbackNoteRangeMarkers.push(feedbackNoteRangeMarker);
+      }
+      let feedbackNoteGutterMarker = this.addFeedbackNoteGutterMarker(doc, feedbackNote);
+      doc.feedbackNoteGutterMarkers.push(feedbackNoteGutterMarker);
+    },
+    addFeedbackNoteRangeMarker(doc, feedbackNote) {
+      return doc.markText(feedbackNote.from, feedbackNote.to, {
+        className: 'feedback-range-' + feedbackNote.type,
         attributes: {
           content: feedbackNote.content
         }
       });
-      let feedbackNoteGutterMark = this.addFeedbackNoteGutterMark(
-        doc,
-        feedbackNote
-      );
-      doc.feedbackNotesGutterMarkers.push(feedbackNoteGutterMark);
-      doc.feedbackNotes.push(feedbackNoteMark);
     },
-    addFeedbackNoteGutterMark(doc, feedbackNote) {
+    addfeedbackNotePositionMarker(doc, feedbackNote) {
+      let element = document.createElement('span');
+      element.setAttribute('data-content', feedbackNote.content);
+      element.className = 'feedback-position-' + feedbackNote.type;
+      element.innerHTML = '';
+      return doc.setBookmark(feedbackNote.from, {
+        widget: element,
+        insertLeft: true
+      });
+    },
+    addFeedbackNoteGutterMarker(doc, feedbackNote) {
       let line = feedbackNote.from.line;
       let element = document.createElement('div');
       element.className = 'jsk-code-editor-feedback-note-marker';
@@ -809,11 +825,14 @@ export default {
     },
     clearFeedbackNotes(doc) {
       if (this.hasFeedbackNotes) {
-        if (doc.feedbackNotes !== undefined) {
-          doc.feedbackNotes.forEach(feedbackNote => feedbackNote.clear());
+        if (doc.feedbackNoteRangeMarkers !== undefined) {
+          doc.feedbackNoteRangeMarkers.forEach(feedbackNoteRangeMarker => feedbackNoteRangeMarker.clear());
         }
-        if (doc.feedbackNotesGutterMarkers !== undefined) {
-          doc.feedbackNotesGutterMarkers.forEach(feedbackNotesGutterMarker => {
+        if (doc.feedbackNotePositionMarkers !== undefined) {
+          doc.feedbackNotePositionMarkers.forEach(feedbackNotePositionMarker => feedbackNotePositionMarker.clear());
+        }
+        if (doc.feedbackNoteGutterMarkers !== undefined) {
+          doc.feedbackNoteGutterMarkers.forEach(feedbackNotesGutterMarker => {
             doc.setGutterMarker(
               feedbackNotesGutterMarker.lineNo(),
               'CodeMirror-feedback-notes',
@@ -821,8 +840,9 @@ export default {
             );
           });
         }
-        doc.feedbackNotesGutterMarkers = undefined;
-        doc.feedbackNotes = undefined;
+        doc.feedbackNoteGutterMarkers = undefined;
+        doc.feedbackNotePositionMarkers = undefined;
+        doc.feedbackNoteRangeMarkers = undefined;
       }
     },
     showFeedbackTooltipAtMouse(mouse) {
@@ -832,18 +852,30 @@ export default {
         mouse.pageY
       );
       if (feedbackNotes.length > 0) {
-        this.setFeedbackTooltipPosition(feedbackNotes[0]);
+        const feedbackNote = feedbackNotes[0];
+        this.setFeedbackTooltipPosition(feedbackNote);
         this.feedbackTooltipVisiable = true;
-        this.feedbackTooltipContent = feedbackNotes[0].attributes.content;
+        if (feedbackNote.type === 'range') {
+          this.feedbackTooltipContent = feedbackNote.attributes.content;
+        } else {
+          this.feedbackTooltipContent = feedbackNote.widgetNode.childNodes[0].dataset.content;
+        }
       }
     },
     setFeedbackTooltipPosition(feedbackNote) {
       let cm = this.$refs.codemirror.cminstance;
-      let tooltipPositionLeft = cm.charCoords(feedbackNote.find().from);
-      let tooltipPositionRight = cm.charCoords(feedbackNote.find().to);
-      let tooltipPositionX =
-        (tooltipPositionLeft.left + tooltipPositionRight.left) / 2;
-      let tooltipPositionY = tooltipPositionRight.top;
+      let tooltipPositionX, tooltipPositionY;
+      if (feedbackNote.type === 'range') {
+        const tooltipPositionLeft = cm.charCoords(feedbackNote.find().from);
+        const tooltipPositionRight = cm.charCoords(feedbackNote.find().to);
+        tooltipPositionY = tooltipPositionRight.top - 3;
+        tooltipPositionX = (tooltipPositionLeft.left + tooltipPositionRight.left) / 2 - 4;
+      } else if (feedbackNote.type === 'bookmark') {
+        const tooltipPosition = cm.charCoords(feedbackNote.find());
+        tooltipPositionY = tooltipPosition.top - 3;
+        tooltipPositionX = tooltipPosition.left - 4;
+      }
+      
       if (tooltipPositionY > window.innerHeight / 2) {
         this.feedbackTooltipPosition.top = `${tooltipPositionY + 10}px`;
         this.feedbackTooltipPlacement = 'top';
@@ -857,10 +889,17 @@ export default {
       let cm = this.$refs.codemirror.cminstance;
       let mousePosition = cm.coordsChar({ left: pageX, top: pageY });
       return cm.findMarksAt(mousePosition).filter(mark => {
-        return (
-          mark.className === 'feedback-warning' ||
-          mark.className === 'feedback-error'
+        const isRangeMarker = (
+          mark.className === 'feedback-range-warning' ||
+          mark.className === 'feedback-range-error'
         );
+        const isPositionMarker = (
+          mark.type === 'bookmark' && (
+            mark.widgetNode.childNodes[0].className === 'feedback-position-warning' ||
+            mark.widgetNode.childNodes[0].className === 'feedback-position-error'
+          )
+        );
+        return isRangeMarker || isPositionMarker;
       });
     },
 
@@ -1317,16 +1356,48 @@ export default {
 .jsk-code-editor .locked-code-focus {
   border-bottom: 1px solid #4ec53d;
 }
-.jsk-code-editor .feedback-error,
-.jsk-code-editor .feedback-warning {
+.jsk-code-editor .feedback-range-error,
+.jsk-code-editor .feedback-range-warning {
   background-position: left bottom;
   background-repeat: repeat-x;
 }
-.jsk-code-editor .feedback-error {
+.jsk-code-editor .feedback-range-error {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg==");
 }
-.jsk-code-editor .feedback-warning {
+.jsk-code-editor .feedback-range-warning {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJFhQXEbhTg7YAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAMklEQVQI12NkgIIvJ3QXMjAwdDN+OaEbysDA4MPAwNDNwMCwiOHLCd1zX07o6kBVGQEAKBANtobskNMAAAAASUVORK5CYII=");
+}
+.jsk-code-editor .feedback-position-error,
+.jsk-code-editor .feedback-position-warning {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 13px;
+  border-left-width: 1px;
+  border-left-style: dotted;
+}
+.jsk-code-editor .feedback-position-error {
+  border-color: #f00;
+}
+.jsk-code-editor .feedback-position-warning {
+  border-color: #e2bb2c;
+}
+.jsk-code-editor .feedback-position-error::after,
+.jsk-code-editor .feedback-position-warning::after {
+  content: "";
+  position: absolute;
+  background-repeat: no-repeat;
+  width: 5px;
+  height: 4px;
+  left: -3px;
+  bottom: -4px;
+  display: block;
+}
+.jsk-code-editor .feedback-position-error::after {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAEAQMAAAB8/WcDAAAABlBMVEUAAAD/AAAb/40iAAAAAXRSTlMAQObYZgAAABBJREFUCNdjUGAoYLjB0AEABigB8ftae1QAAAAASUVORK5CYII=')
+}
+.jsk-code-editor .feedback-position-warning::after {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAEAQMAAAB8/WcDAAAABlBMVEUAAAD201WlOoUKAAAAAXRSTlMAQObYZgAAABBJREFUCNdjUGAoYLjB0AEABigB8ftae1QAAAAASUVORK5CYII=')
 }
 .jsk-code-editor-note {
   background: #d1d8e4;
