@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     ref="dialog"
+    class="jsk-modal-wrapper"
     v-bind="trimAttrs($attrs)"
     :visible.sync="visibleProp"
     :width="typeof(modalWidth) === 'string' ? modalWidth : modalWidth + 'px'"
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+import Draggabilly from 'draggabilly'
 import {
   Dialog,
   Row,
@@ -118,6 +120,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isDraggable: {
+      type: Boolean,
+      default: false
+    },
     hasCloseButton: {
       type: Boolean,
       default: true
@@ -130,7 +136,9 @@ export default {
   data: function() {
     return {
       visibleProp: false,
-      isFullscreen: false
+      isFullscreen: false,
+      draggie: false,
+      position: null
     };
   },
   computed: {
@@ -156,7 +164,25 @@ export default {
   created: function() {
     this.visibleProp = this.visible;
   },
+  mounted: function() {
+    this.initDraggie();
+  },
   methods: {
+    initDraggie: function () {
+      if (this.isDraggable) {
+        let draggabillySettings = {
+          handle: '.el-dialog__header'
+        };
+        if (!this.isClickMaskClosable) {
+          draggabillySettings.containment = '.el-dialog__wrapper';
+        }
+        this.draggie = new Draggabilly(this.$refs.dialog.$refs.dialog, draggabillySettings);
+        this.position = {
+          x: this.draggie.position.x,
+          y: this.draggie.position.y
+        };
+      }
+    },
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
         let prefixs = ['is-', 'has-', 'modal-'];
@@ -171,8 +197,15 @@ export default {
     changeModalSize: function() {
       this.isFullscreen = !this.isFullscreen;
       if (this.isFullscreen) {
+        if (this.isDraggable) {
+          this.draggie.setPosition(this.position.x, this.position.y);
+          this.draggie.disable();
+        }
         this.$emit('expand');
       } else {
+        if (this.isDraggable) {
+          this.draggie.enable();
+        }
         this.$emit('shrink');
       }
     },
@@ -183,10 +216,11 @@ export default {
 }
 </script>
 <style>
-.el-dialog__wrapper {
+.jsk-modal-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden !important;
 }
 .jsk-modal {
   overflow: hidden;

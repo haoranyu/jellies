@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    class="jsk-dialog-wrapper"
     v-bind="trimAttrs($attrs)"
     :visible.sync="visibleProp"
     :title="dialogTitle"
@@ -211,7 +212,7 @@ export default {
 }
 </style>
 <style>
-.el-dialog__wrapper {
+.jsk-dialog-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
