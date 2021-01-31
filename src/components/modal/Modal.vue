@@ -174,7 +174,7 @@ export default {
           handle: '.el-dialog__header'
         };
         if (!this.isClickMaskClosable) {
-          draggabillySettings.containment = '.el-dialog__wrapper';
+          draggabillySettings.containment = this.$refs.dialog;
         }
         this.draggie = new Draggabilly(this.$refs.dialog.$refs.dialog, draggabillySettings);
         this.position = {
