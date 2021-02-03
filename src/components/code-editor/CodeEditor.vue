@@ -864,16 +864,17 @@ export default {
     },
     setFeedbackTooltipPosition(feedbackNote) {
       let cm = this.$refs.codemirror.cminstance;
+      const halfCharWidth = cm.defaultCharWidth() / 2;
       let tooltipPositionX, tooltipPositionY;
       if (feedbackNote.type === 'range') {
         const tooltipPositionLeft = cm.charCoords(feedbackNote.find().from);
         const tooltipPositionRight = cm.charCoords(feedbackNote.find().to);
         tooltipPositionY = tooltipPositionRight.top - 3;
-        tooltipPositionX = (tooltipPositionLeft.left + tooltipPositionRight.left) / 2 - 4;
+        tooltipPositionX = (tooltipPositionLeft.left + tooltipPositionRight.left) / 2 - halfCharWidth;
       } else if (feedbackNote.type === 'bookmark') {
         const tooltipPosition = cm.charCoords(feedbackNote.find());
         tooltipPositionY = tooltipPosition.top - 3;
-        tooltipPositionX = tooltipPosition.left - 4;
+        tooltipPositionX = tooltipPosition.left - halfCharWidth;
       }
       
       if (tooltipPositionY > window.innerHeight / 2) {
@@ -888,6 +889,11 @@ export default {
     getFeedbackNoteMarksAtMouse(pageX, pageY) {
       let cm = this.$refs.codemirror.cminstance;
       let mousePosition = cm.coordsChar({ left: pageX, top: pageY });
+      const halfCharWidth = cm.defaultCharWidth() / 2;
+      const isMouseAtChar = Math.abs(pageX - cm.charCoords(mousePosition).left) < halfCharWidth;
+      if (!isMouseAtChar) {
+        return [];
+      }
       return cm.findMarksAt(mousePosition).filter(mark => {
         const isRangeMarker = (
           mark.className === 'feedback-range-warning' ||
