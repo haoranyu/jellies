@@ -778,7 +778,6 @@ export default {
         if (doc.feedbackNotes === undefined) {
           doc.feedbackNotePositionMarkers = [];
           doc.feedbackNoteRangeMarkers = [];
-          doc.feedbackNoteGutterMarkers = [];
         }
         if (feedbackNotes !== undefined) {
           feedbackNotes.forEach(feedbackNote => {
@@ -795,8 +794,7 @@ export default {
         let feedbackNoteRangeMarker = this.addFeedbackNoteRangeMarker(doc, feedbackNote);
         doc.feedbackNoteRangeMarkers.push(feedbackNoteRangeMarker);
       }
-      let feedbackNoteGutterMarker = this.addFeedbackNoteGutterMarker(doc, feedbackNote);
-      doc.feedbackNoteGutterMarkers.push(feedbackNoteGutterMarker);
+      this.addFeedbackNoteGutterMarker(doc, feedbackNote);
     },
     addFeedbackNoteRangeMarker(doc, feedbackNote) {
       return doc.markText(feedbackNote.from, feedbackNote.to, {
@@ -831,16 +829,7 @@ export default {
         if (doc.feedbackNotePositionMarkers !== undefined) {
           doc.feedbackNotePositionMarkers.forEach(feedbackNotePositionMarker => feedbackNotePositionMarker.clear());
         }
-        if (doc.feedbackNoteGutterMarkers !== undefined) {
-          doc.feedbackNoteGutterMarkers.forEach(feedbackNotesGutterMarker => {
-            doc.setGutterMarker(
-              feedbackNotesGutterMarker.lineNo(),
-              'CodeMirror-feedback-notes',
-              null
-            );
-          });
-        }
-        doc.feedbackNoteGutterMarkers = undefined;
+        doc.clearGutter('CodeMirror-feedback-notes');
         doc.feedbackNotePositionMarkers = undefined;
         doc.feedbackNoteRangeMarkers = undefined;
       }
