@@ -4,7 +4,7 @@
       ref="tabs"
       class="tabs"
       :tabs-init-active="0"
-      :tabs-theme="settings.theme"
+      :tabs-theme="settings.theme || 'light'"
       tabs-height="35px"
       :has-tooltip="hasTabTooltips"
       :is-closable="areTabClosable"
@@ -71,18 +71,18 @@
               :form-label-width="120"
             >
               <jsk-form-item
-                v-for="(value, key) in settingsContent.labels"
+                v-for="(label, key) in settingsContent.labels"
                 :key="key"
-                :form-item-label="value"
+                :form-item-label="label"
               >
                 <jsk-radio-group
                   v-model="settings[key]"
                   radio-group-size="small"
                 >
                   <jsk-radio-button
-                    v-for="(content, label) in settingsContent[key]"
-                    :key="label"
-                    :label="label"
+                    v-for="(content, labelName) in settingsContent[key]"
+                    :key="labelName"
+                    :label="labelName"
                   >
                     {{ content }}
                   </jsk-radio-button>
@@ -277,8 +277,6 @@ export default {
   },
   data: function() {
     return {
-      isSwithcingTab: false,
-      value: null,
       closeConfirmVisiable: false,
       closeConfirmFileName: undefined,
       reloadConfirmVisiable: false,
@@ -331,7 +329,10 @@ export default {
         dark: 'monokai',
         light: 'eclipse'
       };
-      return themeMapping[this.settings.theme];
+      if (this.settings.theme) {
+        return themeMapping[this.settings.theme];
+      }
+      return themeMapping['light'];
     },
     feedbackTooltipTheme: function() {
       return this.settings.theme === 'light' ? 'dark' : 'light';
@@ -889,7 +890,8 @@ export default {
           mark.className === 'feedback-range-error'
         );
         const isPositionMarker = (
-          mark.type === 'bookmark' && (
+          mark.type === 'bookmark' &&
+          mark.widgetNode && (
             mark.widgetNode.childNodes[0].className === 'feedback-position-warning' ||
             mark.widgetNode.childNodes[0].className === 'feedback-position-error'
           )
