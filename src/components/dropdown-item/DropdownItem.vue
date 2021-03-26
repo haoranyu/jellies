@@ -3,7 +3,8 @@
     v-bind="trimAttrs($attrs)"
     :divided="hasDividerAbove"
     :class="{
-      active: isActive
+      active: isActive,
+      header: isHeader,
     }"
   >
     <slot />
@@ -24,6 +25,10 @@ export default {
       default: false
     },
     isActive: {
+      type: Boolean,
+      default: false
+    },
+    isHeader: {
       type: Boolean,
       default: false
     }
@@ -53,6 +58,15 @@ export default {
 .el-dropdown-menu__item.active {
   background: #EBEEF3;
   color: #333;
+}
+.el-dropdown-menu__item.header,
+.el-dropdown-menu__item.header:not(.is-disabled):hover,
+.el-dropdown-menu__item.header:focus,
+.el-dropdown-menu__item.header.active {
+  background: transparent;
+  font-size: 0.8rem;
+  color: #AFAFAF;
+  cursor: default;
 }
 </style>
 
