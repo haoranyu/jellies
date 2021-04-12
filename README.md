@@ -2,7 +2,7 @@
 
 ![Jellies Logo](https://user-images.githubusercontent.com/2560088/70382313-91314180-1994-11ea-8ad3-6c97b1d0a283.png)
 
-This project is a UI toolkit based on [ElementUI](https://github.com/ElemeFE/element) (v2.15.0). A full documentation will come out in a later version and if you would like to use it now you may refer to [a Chinese version](https://www.yuque.com/haoranyu/jellies) of temporary documentation.
+This project is a UI toolkit based on [ElementUI](https://github.com/ElemeFE/element) (v2.15.1). A full documentation will come out in a later version and if you would like to use it now you may refer to [a Chinese version](https://www.yuque.com/haoranyu/jellies) of temporary documentation.
 
 ## How to use
 
