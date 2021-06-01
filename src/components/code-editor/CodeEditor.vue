@@ -120,6 +120,7 @@
         :feedback-tooltip-visiable="feedbackTooltipVisiable"
         :feedback-tooltip-theme="feedbackTooltipTheme"
         :feedback-tooltip-content="feedbackTooltipContent"
+        feedback-tooltip-max-width="25vw"
       />
     </div>
     <code-editor-close-confirm
@@ -869,10 +870,10 @@ export default {
       
       if (tooltipPositionY > window.innerHeight / 2) {
         this.feedbackTooltipPosition.top = `${tooltipPositionY + 10}px`;
-        this.feedbackTooltipPlacement = 'top';
+        this.feedbackTooltipPlacement = 'top-start';
       } else {
         this.feedbackTooltipPosition.top = `${tooltipPositionY - 10}px`;
-        this.feedbackTooltipPlacement = 'bottom';
+        this.feedbackTooltipPlacement = 'bottom-start';
       }
       this.feedbackTooltipPosition.left = `${tooltipPositionX - 10}px`;
     },
