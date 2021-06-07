@@ -4,7 +4,7 @@ const { parallel, src, dest } = require('gulp');
 const sass = require('gulp-sass');
 const packageImporter = require('node-sass-package-importer');
 const autoprefixer = require('gulp-autoprefixer');
-const cssmin = require('gulp-cssmin');
+const cleanCSS = require('gulp-clean-css');
 
 function compile() {
   return src('./src/theme/*.scss')
@@ -14,7 +14,7 @@ function compile() {
         cascade: false
       })
     )
-    .pipe(cssmin())
+    .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(dest('./src/components/theme'));
 }
 
@@ -30,7 +30,7 @@ function compileElement() {
         cascade: false
       })
     )
-    .pipe(cssmin())
+    .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(dest('./src/plugins'));
 }
 
@@ -42,7 +42,7 @@ function compileJelliesIcons() {
         cascade: false
       })
     )
-    .pipe(cssmin())
+    .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(dest('./src/plugins/jellies-icons'));
 }
 
