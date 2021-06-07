@@ -592,6 +592,7 @@ export default {
     flushCurrentFile() {
       let cm = this.$refs.codemirror.cminstance;
       this.currentFile.doc = cm.getDoc();
+      this.currentFile.selections = cm.listSelections();
     },
     switchToCurrentFile() {
       let cm = this.$refs.codemirror.cminstance;
@@ -682,6 +683,7 @@ export default {
       file.code = file.doc.getValue();
       file.locksInit = this.getLocks(file);
       file.locks = this.getLocks(file);
+      file.selections = file.doc.listSelections();
       this.$emit('saved', index);
       this.setSaving(file, false);
       this.setModificationState(file);
@@ -698,6 +700,10 @@ export default {
       this.addLineNotes(file.doc, file.lineNotes);
       this.clearLineClasses(file.doc);
       this.addLineClasses(file.doc, file.lineClasses);
+      if (file.selections) {
+        file.doc.setSelections(file.selections);
+        file.doc.cm.focus();
+      }
     },
     renderCurrentFile() {
       this.renderDoc(this.currentFile);
