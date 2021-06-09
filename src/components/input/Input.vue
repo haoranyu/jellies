@@ -1,5 +1,6 @@
 <template>
   <el-input
+    ref="input"
     v-model="value"
     v-bind="trimAttrs($attrs)"
     :class="isUnderline ? 'underline' : ''"
@@ -79,6 +80,15 @@ export default {
         })
       })
       return attrs;
+    },
+    focus: function() {
+      this.$refs.input.focus()
+    },
+    blur: function() {
+      this.$refs.input.blur()
+    },
+    select: function() {
+      this.$refs.input.select()
     }
   }
 }
