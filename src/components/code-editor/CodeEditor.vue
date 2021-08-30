@@ -619,14 +619,14 @@ export default {
     },
     getFileMode(file) {
       let mode = 'text/plain';
-      if (file.language !== undefined) {
-        mode = CodeMirror.findModeByName(file.language).mime;
-      } else {
+      if (file.language === undefined || CodeMirror.findModeByName(file.language) === undefined) {
         if (CodeMirror.findModeByFileName(file.name) !== undefined) {
           mode = CodeMirror.findModeByFileName(file.name).mime;
         } else {
           mode = 'text/plain';
         }
+      } else {
+        mode = CodeMirror.findModeByName(file.language).mime;
       }
       return mode;
     },
