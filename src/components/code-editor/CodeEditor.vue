@@ -702,7 +702,6 @@ export default {
       this.addLineClasses(file.doc, file.lineClasses);
       if (file.selections) {
         file.doc.setSelections(file.selections);
-        file.doc.cm.focus();
       }
     },
     renderCurrentFile() {
