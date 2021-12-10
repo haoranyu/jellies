@@ -1,6 +1,6 @@
 {
   "name": "jellies",
-  "version": "1.6.34",
+  "version": "1.6.35",
   "private": false,
   "description": "A UI toolkit for Vue 2.x based on elementUI.",
   "author": "Haoran Yu",
@@ -24,7 +24,7 @@
     "copy-to-clipboard": "^3.3.1",
     "core-js": "^3.16.0",
     "draggabilly": "^2.3.0",
-    "element-ui": "^2.15.3",
+    "element-ui": "^2.15.6",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.2",
