@@ -1,6 +1,6 @@
 {
   "name": "jellies",
-  "version": "1.6.35",
+  "version": "1.6.36",
   "private": false,
   "description": "A UI toolkit for Vue 2.x based on elementUI.",
   "author": "Haoran Yu",
@@ -22,13 +22,13 @@
   ],
   "dependencies": {
     "copy-to-clipboard": "^3.3.1",
-    "core-js": "^3.16.0",
-    "draggabilly": "^2.3.0",
+    "core-js": "^3.20.2",
+    "draggabilly": "^2.4.1",
     "element-ui": "^2.15.6",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.2",
-    "sass": "^1.36.0",
+    "sass": "^1.45.2",
     "splitpanes": "^2.3.8",
     "vue-codemirror": "^4.0.6",
     "vue-katex-auto-render": "^0.1.3"
