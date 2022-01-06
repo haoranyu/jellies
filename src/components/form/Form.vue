@@ -70,7 +70,7 @@ FormWrapper.computed = {
     return this.formLabelSuffix;
   },
   hideRequiredAsterisk: function() {
-    return !this.formLabelSuffix;
+    return this.hasRequiredIndicator;
   },
   showMessage: function() {
     return this.hasMessage;

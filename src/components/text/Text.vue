@@ -36,7 +36,7 @@ export default {
     },
     hasHoverUnderline: {
       type: Boolean,
-      default: true
+      default: false
     },
     disabled: {
       type: Boolean,
