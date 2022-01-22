@@ -7,6 +7,7 @@ export default {
   matchTags         : { bothTags: true },
   gutters           : [
                         'CodeMirror-breakpoints',
+                        'CodeMirror-line-arrows',
                         'CodeMirror-feedback-notes',
                         'CodeMirror-linenumbers',
                         'CodeMirror-foldgutter'

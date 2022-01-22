@@ -227,6 +227,10 @@ export default {
       type: Boolean,
       default: true
     },
+    hasLineArrows: {
+      type: Boolean,
+      default: true
+    },
     hasModificationLossConfirm: {
       type: Boolean,
       default: false
@@ -442,6 +446,7 @@ export default {
         file.doc.cantEdit = true;
       }
       this.addLocks(file.doc, file.locks);
+      this.addLineArrows(file.doc, file.lineArrows);
       this.addFeedbackNotes(file.doc, file.feedbackNotes);
       this.addLineNotes(file.doc, file.lineNotes);
       this.addLineClasses(file.doc, file.lineClasses);
@@ -698,6 +703,8 @@ export default {
       file.doc.cm.setOption('mode', this.getFileMode(file));
       this.clearFeedbackNotes(file.doc);
       this.addFeedbackNotes(file.doc, file.feedbackNotes);
+      this.clearLineArrows(file.doc);
+      this.addLineArrows(file.doc, file.lineArrows);
       this.clearLineNotes(file.doc);
       this.addLineNotes(file.doc, file.lineNotes);
       this.clearLineClasses(file.doc);
@@ -782,6 +789,65 @@ export default {
       };
     },
 
+    /////////////////////////
+    // Line Arrows Control //
+    /////////////////////////
+    addLineArrows(doc, lineArrows) {
+      if (this.hasLineArrows) {
+        if (lineArrows !== undefined) {
+          lineArrows.forEach(lineArrow => {
+            this.addLineArrow(doc, lineArrow);
+          });
+        }
+      }
+    },
+    addLineArrow(doc, lineArrow) {
+      this.addLineArrowStartGutterMarker(doc, lineArrow);
+      this.addLineArrowMiddleGutterMarker(doc, lineArrow);
+      this.addLineArrowEndGutterMarker(doc, lineArrow);
+    },
+    addLineArrowStartGutterMarker(doc, lineArrow) {
+      let line = lineArrow.from;
+      let element = document.createElement('div');
+      if (lineArrow.from < lineArrow.to) {
+        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-start-down-marker';
+      } else {
+        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-start-up-marker';
+      }
+      element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
+      doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
+    },
+    addLineArrowMiddleGutterMarker(doc, lineArrow) {
+      let startLine = lineArrow.from
+      let endLine = lineArrow.to
+      if (lineArrow.from > lineArrow.to) {
+        startLine = lineArrow.to
+        endLine = lineArrow.from
+      }
+      for (let line = startLine + 1; line < endLine; line += 1) {
+        let element = document.createElement('div');
+        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-middle-marker';
+        element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
+        doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
+      }
+    },
+    addLineArrowEndGutterMarker(doc, lineArrow) {
+      let line = lineArrow.to;
+      let element = document.createElement('div');
+      if (lineArrow.from < lineArrow.to) {
+        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-end-down-marker';
+      } else {
+        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-end-up-marker';
+      }
+      element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
+      doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
+    },
+    clearLineArrows(doc) {
+      if (this.hasLineArrows) {
+        doc.clearGutter('CodeMirror-line-arrows');
+      }
+    },
+
     ////////////////////////////
     // Feedback Notes Control //
     ////////////////////////////
@@ -800,7 +866,7 @@ export default {
     },
     addFeedbackNote(doc, feedbackNote) {
       if (_isEqual(feedbackNote.from, feedbackNote.to)) {
-        let feedbackNotePositionMarker = this.addfeedbackNotePositionMarker(doc, feedbackNote);
+        let feedbackNotePositionMarker = this.addFeedbackNotePositionMarker(doc, feedbackNote);
         doc.feedbackNotePositionMarkers.push(feedbackNotePositionMarker);
       } else {
         let feedbackNoteRangeMarker = this.addFeedbackNoteRangeMarker(doc, feedbackNote);
@@ -816,7 +882,7 @@ export default {
         }
       });
     },
-    addfeedbackNotePositionMarker(doc, feedbackNote) {
+    addFeedbackNotePositionMarker(doc, feedbackNote) {
       let element = document.createElement('span');
       element.setAttribute('data-content', feedbackNote.content);
       element.className = 'feedback-position-' + feedbackNote.type;
@@ -940,7 +1006,7 @@ export default {
       }
       doc.lineClasses = undefined;
     },
-
+    
     //////////////////////////
     // Line Notes Control //
     //////////////////////////
@@ -1356,6 +1422,9 @@ export default {
 .jsk-code-editor-codemirror .CodeMirror-feedback-notes {
   width: 16px;
 }
+.jsk-code-editor-codemirror .CodeMirror-line-arrows {
+  width: 12px;
+}
 .jsk-code-editor .locked-code,
 .jsk-code-editor .locked-code-focus {
   opacity: 0.6;
@@ -1443,8 +1512,76 @@ export default {
   text-align: right;
   color: #dd2e1d;
 }
-.jsk-code-editor-feedback-note-marker {
+.jsk-code-editor-line-arrow-marker {
   height: 24px;
+  padding-left: 2px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.jsk-code-editor-line-arrow-marker i {
+  width: 8px;
+  display: block;
+  border-style: solid none solid solid;
+  border-right: none;
+  border-width: 1px;
+  height: 100%;
+  position: relative;
+}
+.jsk-code-editor-line-arrow-marker i.warning {
+  border-color: #ffb020;
+}
+.jsk-code-editor-line-arrow-marker i.danger {
+  border-color: #dd2e1d;
+}
+.jsk-code-editor-line-arrow-middle-marker i {
+  height: 100%;
+  width: 6px;
+  display: block;
+  border-style: none;
+  border-left-style: solid;
+}
+.jsk-code-editor-line-arrow-start-down-marker,
+.jsk-code-editor-line-arrow-end-up-marker {
+  padding-top: 11px;
+}
+.jsk-code-editor-line-arrow-start-up-marker,
+.jsk-code-editor-line-arrow-end-down-marker {
+  padding-bottom: 11px;
+}
+.jsk-code-editor-line-arrow-start-down-marker i,
+.jsk-code-editor-line-arrow-end-up-marker i {
+  border-bottom: none;
+  border-top-left-radius: 3px;
+}
+.jsk-code-editor-line-arrow-start-up-marker i,
+.jsk-code-editor-line-arrow-end-down-marker i {
+  border-top: none;
+  border-bottom-left-radius: 3px;
+}
+.jsk-code-editor-line-arrow-end-up-marker i::after,
+.jsk-code-editor-line-arrow-end-down-marker i::after {
+  position: absolute;
+  right: -2px;
+  width: 0;
+  height: 0;
+  display: block;
+  content: " ";
+  border-style: solid;
+  border-width: 3px 0 3px 7px;
+}
+.jsk-code-editor-line-arrow-end-down-marker i::after {
+  bottom: -3px; 
+}
+.jsk-code-editor-line-arrow-end-up-marker i::after {
+  top: -3px;
+}
+.jsk-code-editor-line-arrow-end-up-marker i.warning::after,
+.jsk-code-editor-line-arrow-end-down-marker i.warning::after {
+  border-color: transparent transparent transparent #ffb020;
+}
+.jsk-code-editor-line-arrow-end-up-marker i.danger::after,
+.jsk-code-editor-line-arrow-end-down-marker i.danger::after {
+  border-color: transparent transparent transparent #dd2e1d;
 }
 .jsk-code-editor-feedback-note-marker i {
   margin-top: 5px;
