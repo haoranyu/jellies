@@ -103,6 +103,7 @@
         :options="editorOptions"
         class="jsk-code-editor-codemirror"
         @input="setCurrentFileModificationState"
+        @refresh="renderCurrentFileLineArrows"
         @gutterContextMenu="setBreakpoint"
       />
       <code-editor-lock-menu
@@ -719,6 +720,13 @@ export default {
     renderCurrentFile() {
       this.renderDoc(this.currentFile);
     },
+    renderCurrentFileLineArrows() {
+      const file = this.currentFile;
+      this.clearLineArrows(file.doc);
+      this.$nextTick(() => {
+        this.addLineArrows(file.doc, file.lineArrows);
+      })
+    },
 
     /////////////////////////
     // Tabs Control /////////
@@ -801,6 +809,10 @@ export default {
         }
       }
     },
+    getLineArrowHeight(line) {
+      let cm = this.$refs.codemirror.cminstance;
+      return `${Math.ceil(cm.heightAtLine(line + 1) - cm.heightAtLine(line))}px`;
+    },
     addLineArrow(doc, lineArrow) {
       this.addLineArrowStartGutterMarker(doc, lineArrow);
       this.addLineArrowMiddleGutterMarker(doc, lineArrow);
@@ -814,6 +826,7 @@ export default {
       } else {
         element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-start-up-marker';
       }
+      element.style.height = this.getLineArrowHeight(line);
       element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
       doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
     },
@@ -827,6 +840,7 @@ export default {
       for (let line = startLine + 1; line < endLine; line += 1) {
         let element = document.createElement('div');
         element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-middle-marker';
+        element.style.height = this.getLineArrowHeight(line);
         element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
         doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
       }
@@ -839,6 +853,7 @@ export default {
       } else {
         element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-end-up-marker';
       }
+      element.style.height = this.getLineArrowHeight(line);
       element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
       doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
     },
