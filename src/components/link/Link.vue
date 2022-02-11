@@ -1,7 +1,6 @@
 <template>
   <jsk-text
     :text-type="linkType"
-    :has-hover-underline="true"
     is-link
     v-bind="trimAttrs($attrs)"
   >
