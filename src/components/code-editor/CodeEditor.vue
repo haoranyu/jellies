@@ -18,9 +18,10 @@
         :tab-tooltip="tooltip(file)"
         has-mark
         :before-close="beforeCloseTab(index)"
-        :is-closable="file.isSaving ? false : undefined"
+        :is-closable="isFileClosable(file, index)"
         @switch="switchToTab"
         @close="closeTab"
+        @contextmenu.native.prevent="$emit('context-menu', index)"
       >
         <div
           v-if="file.isSaving"
@@ -279,6 +280,14 @@ export default {
           filesSaved(true);
         });
       }
+    },
+    canCreateNewFile: {
+      type: Boolean,
+      default: true
+    },
+    isFirstFileClosable: {
+      type: Boolean,
+      default: true
     }
   },
   data: function() {
@@ -288,7 +297,7 @@ export default {
       reloadConfirmVisiable: false,
       reloadConfirmFileName: undefined,
       lockConfirmVisiable: false,
-      lockConfirmPositions: [], 
+      lockConfirmPositions: [],
       feedbackTooltipPlacement: undefined,
       feedbackTooltipVisiable: false,
       feedbackTooltipContent: undefined,
@@ -400,6 +409,14 @@ export default {
     },
     currentFileReadOnly: function() {
       this.reloadCurrentFile();
+    },
+    hasLockControl() {
+      const cm = this.$refs.codemirror.cminstance;
+      if (this.hasLockControl) {
+        this.initLockControlListener(cm)
+      } else {
+        this.removeLockControlListener(cm)
+      }
     }
   },
   created: function() {
@@ -490,23 +507,29 @@ export default {
         window.addEventListener('beforeunload', this.modificationLossPrevention)
       }
     },
+    listenCmContextMenuEvent(cm, e) {
+      e.preventDefault();
+      setTimeout(() => {
+        if (cm.somethingSelected()) {
+          this.showLockControlAtSelection(e);
+        } else {
+          this.showLockControlAtMouse(e);
+        }
+      }, 101);
+    },
+    listenCmFocusEvent(cm) {
+      this.lockMenuVisiable = false;
+      cm.focus();
+    },
     initLockControlListener(cm) {
       if (this.hasLockControl) {
-        cm.on('contextmenu', (cm, e) => {
-          e.preventDefault();
-          setTimeout(() => {
-            if (cm.somethingSelected()) {
-              this.showLockControlAtSelection(e);
-            } else {
-              this.showLockControlAtMouse(e);
-            }
-          }, 101);
-        });
-        cm.on('update', cm => {
-          this.lockMenuVisiable = false;
-          cm.focus();
-        });
+        cm.on('contextmenu', this.listenCmContextMenuEvent);
+        cm.on('update', this.listenCmFocusEvent);
       }
+    },
+    removeLockControlListener(cm) {
+      cm.off('contextmenu', this.listenCmContextMenuEvent);
+      cm.off('update', this.listenCmFocusEvent);
     },
     initFeedbackTooltipListener(cm) {
       if (this.hasFeedbackNotes) {
@@ -551,7 +574,13 @@ export default {
       }
       return false
     },
-
+    isFileClosable(file, indexOfFile) {
+      const indexOfFirstFile = 0
+      if (!this.isFirstFileClosable && indexOfFile === indexOfFirstFile ) {
+        return false
+      }
+      return file.isSaving ? false : undefined
+    },
     ////////////////////////////////
     // File Modification Outside ///
     ////////////////////////////////
@@ -608,6 +637,9 @@ export default {
       this.renderCurrentFile();
     },
     createAndSwitchToNewFile() {
+      if (!this.canCreateNewFile) {
+        return this.$emit('create-new-file-error')
+      }
       let newFile = {
         name: 'untitled',
         code: ''
@@ -1021,7 +1053,7 @@ export default {
       }
       doc.lineClasses = undefined;
     },
-    
+
     //////////////////////////
     // Line Notes Control //
     //////////////////////////
@@ -1585,7 +1617,7 @@ export default {
   border-width: 3px 0 3px 7px;
 }
 .jsk-code-editor-line-arrow-end-down-marker i::after {
-  bottom: -3px; 
+  bottom: -3px;
 }
 .jsk-code-editor-line-arrow-end-up-marker i::after {
   top: -3px;
