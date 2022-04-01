@@ -159,7 +159,11 @@ const install = function(Vue, opts = {}) {
   if (install.installed) return;
 
   components.forEach(component => {
-    Vue.component(component.name, component);
+    if (component.name === 'ElCarouselItem') {
+      Vue.component('JskCarouselItem', component);
+    } else {
+      Vue.component(component.name, component);
+    }
   });
 
   Vue.use(Loading.directive);

@@ -2,7 +2,7 @@ import CarouselItem from './CarouselItem';
 
 
 CarouselItem.install = function(Vue) {
-  Vue.component(CarouselItem.name, CarouselItem);
+  Vue.component('JskCarouselItem', CarouselItem);
 };
 
 export default CarouselItem;
