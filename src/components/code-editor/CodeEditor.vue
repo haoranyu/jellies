@@ -1243,21 +1243,25 @@ export default {
     },
     lockSelectedCode(hide = false) {
       let cm = this.$refs.codemirror.cminstance;
-      let newLock = cm.listSelections()[0];
-      let lock = this.removeSelectionDirection(newLock);
-      lock.hide = hide;
-      this.checkLockEdgeCases(lock).then(position => {
-        if (position === 'left' || position === 'both') {
-          lock.from.ch -= 1;
-          this.currentFile.lockStart = true;
+      let newLocks = cm.listSelections().map((selection, index) => {
+        let lock = this.removeSelectionDirection(selection);
+        lock.hide = hide;
+        if (index === 0) {
+          this.checkLockEdgeCases(lock).then(position => {
+            if (position === "left" || position === "both") {
+              lock.from.ch -= 1;
+              this.currentFile.lockStart = true;
+            }
+            if (position === "right" || position === "both") {
+              lock.to.ch += 1;
+              this.currentFile.lockEnd = true;
+            }
+            this.lockConfirmVisiable = false;
+          });
         }
-        if (position === 'right' || position === 'both') {
-          lock.to.ch += 1;
-          this.currentFile.lockEnd = true;
-        }
-        this.lockConfirmVisiable = false;
-        this.addLocks(cm.doc, [lock]);
+        return lock;
       });
+      this.addLocks(cm.doc, newLocks);
     },
     checkLockEdgeCases(lock) {
       let cm = this.$refs.codemirror.cminstance;
