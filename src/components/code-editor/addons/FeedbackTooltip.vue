@@ -1,5 +1,5 @@
 <template>
-  <div v-if="feedbackTooltipVisiable">
+  <div v-if="feedbackTooltipVisible">
     <jsk-tooltip
       :tooltip-placement="feedbackTooltipPlacement"
       :tooltip-theme="feedbackTooltipTheme"
@@ -44,7 +44,7 @@ export default {
       type: String,
       default: 'bottom'
     },
-    feedbackTooltipVisiable: {
+    feedbackTooltipVisible: {
       type: Boolean,
       default: false
     },

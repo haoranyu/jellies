@@ -108,7 +108,7 @@
         @gutterContextMenu="setBreakpoint"
       />
       <code-editor-lock-menu
-        v-show="lockMenuVisiable"
+        v-show="lockMenuVisible"
         :style="lockMenuPosition"
         :lock-menu-mode="lockMenuMode"
         @lock-change="setCurrentFileModificationState"
@@ -119,7 +119,7 @@
       <code-editor-feedback-tooltip
         :feedback-tooltip-placement="feedbackTooltipPlacement"
         :feedback-tooltip-position="feedbackTooltipPosition"
-        :feedback-tooltip-visiable="feedbackTooltipVisiable"
+        :feedback-tooltip-visible="feedbackTooltipVisible"
         :feedback-tooltip-theme="feedbackTooltipTheme"
         :feedback-tooltip-content="feedbackTooltipContent"
         feedback-tooltip-max-width="25vw"
@@ -128,17 +128,17 @@
     <code-editor-close-confirm
       :close-confirm-filename="closeConfirmFileName"
       :close-confirm-content="closeConfirmContent"
-      :visible.sync="closeConfirmVisiable"
+      :visible.sync="closeConfirmVisible"
     />
     <code-editor-reload-confirm
       :reload-confirm-filename="reloadConfirmFileName"
       :reload-confirm-content="reloadConfirmContent"
-      :visible.sync="reloadConfirmVisiable"
+      :visible.sync="reloadConfirmVisible"
     />
     <code-editor-lock-confirm
       :lock-confirm-content="lockConfirmContent"
       :lock-confirm-positions="lockConfirmPositions"
-      :visible.sync="lockConfirmVisiable"
+      :visible.sync="lockConfirmVisible"
     />
   </div>
 </template>
@@ -268,17 +268,13 @@ export default {
     beforeSaveFile: {
       type: Function,
       default: () => {
-        return new Promise(fileSaved => {
-          fileSaved(true);
-        });
+        return Promise.resolve(true);
       }
     },
     beforeSaveAllFiles: {
       type: Function,
       default: () => {
-        return new Promise(filesSaved => {
-          filesSaved(true);
-        });
+        return Promise.resolve(true);
       }
     },
     canCreateNewFile: {
@@ -292,17 +288,17 @@ export default {
   },
   data: function() {
     return {
-      closeConfirmVisiable: false,
+      closeConfirmVisible: false,
       closeConfirmFileName: undefined,
-      reloadConfirmVisiable: false,
+      reloadConfirmVisible: false,
       reloadConfirmFileName: undefined,
-      lockConfirmVisiable: false,
+      lockConfirmVisible: false,
       lockConfirmPositions: [],
       feedbackTooltipPlacement: undefined,
-      feedbackTooltipVisiable: false,
+      feedbackTooltipVisible: false,
       feedbackTooltipContent: undefined,
       feedbackTooltipPosition: { left: 0, top: 0 },
-      lockMenuVisiable: false,
+      lockMenuVisible: false,
       lockMenuMode: 'lock',
       lockMenuPosition: { left: 0, top: 0 },
       selectedLocks: undefined,
@@ -518,7 +514,7 @@ export default {
       }, 101);
     },
     listenCmFocusEvent(cm) {
-      this.lockMenuVisiable = false;
+      this.lockMenuVisible = false;
       cm.focus();
     },
     initLockControlListener(cm) {
@@ -533,9 +529,12 @@ export default {
     },
     initFeedbackTooltipListener(cm) {
       if (this.hasFeedbackNotes) {
-        cm.getWrapperElement().onmouseover = e => {
+        cm.getWrapperElement().addEventListener('mouseover', e => {
           this.showFeedbackTooltipAtMouse(e);
-        };
+        });
+        cm.getWrapperElement().addEventListener('mouseup', e => {
+          this.removeFeedbackNoteAtMouse(e);
+        });
       }
     },
     modificationLossPrevention(e) {
@@ -566,8 +565,7 @@ export default {
       return this.setModificationState(this.currentFile);
     },
     hasModifiedFile() {
-      for (let index = 0; index < this.files.length; index++) {
-        let file = this.files[index];
+      for (const file of this.files) {
         if (file.isModified) {
           return true
         }
@@ -585,13 +583,8 @@ export default {
     // File Modification Outside ///
     ////////////////////////////////
     isCurrentFileChangedOutside() {
-      if (
-        this.currentFileCode !== this.currentFile.codeInit ||
-        !_isEqual(this.currentFileLocks, this.currentFile.locksInit)
-      ) {
-        return true;
-      }
-      return false;
+      return !!(this.currentFileCode !== this.currentFile.codeInit ||
+        !_isEqual(this.currentFileLocks, this.currentFile.locksInit));
     },
     reloadCurrentFile() {
       if (!this.currentFile) {
@@ -605,14 +598,14 @@ export default {
         (this.isAfterSwapDoc && this.isCurrentFileChangedOutside())
       ) {
         this.reloadConfirmFileName = this.currentFile.name;
-        this.reloadConfirmVisiable = true;
+        this.reloadConfirmVisible = true;
         new Promise(resolve => {
           this.$on('reload-confirm', result => {
             resolve(result);
             this.$off('reload-confirm');
           });
         }).then(result => {
-          this.reloadConfirmVisiable = false;
+          this.reloadConfirmVisible = false;
           if (result === 'reload') {
             this.initFile(this.currentFile);
             this.switchToCurrentFile();
@@ -661,8 +654,6 @@ export default {
       if (file.language === undefined || CodeMirror.findModeByName(file.language) === undefined) {
         if (CodeMirror.findModeByFileName(file.name) !== undefined) {
           mode = CodeMirror.findModeByFileName(file.name).mime;
-        } else {
-          mode = 'text/plain';
         }
       } else {
         mode = CodeMirror.findModeByName(file.language).mime;
@@ -798,14 +789,14 @@ export default {
           let file = this.files[index];
           if (file.isModified) {
             this.closeConfirmFileName = file.name;
-            this.closeConfirmVisiable = true;
+            this.closeConfirmVisible = true;
             new Promise(resolve => {
               this.$on('close-confirm', result => {
                 resolve(result);
                 this.$off('close-confirm');
               });
             }).then(result => {
-              this.closeConfirmVisiable = false;
+              this.closeConfirmVisible = false;
               if (result === 'cancel') {
                 returnToTab(false);
               } else {
@@ -925,13 +916,17 @@ export default {
       return doc.markText(feedbackNote.from, feedbackNote.to, {
         className: 'feedback-range-' + feedbackNote.type,
         attributes: {
-          content: feedbackNote.content
+          content: feedbackNote.content,
+          dismissible: feedbackNote.isDismissible,
+          line: feedbackNote.from.line
         }
       });
     },
     addFeedbackNotePositionMarker(doc, feedbackNote) {
       let element = document.createElement('span');
       element.setAttribute('data-content', feedbackNote.content);
+      element.setAttribute('data-dismissible', feedbackNote.isDismissible);
+      element.setAttribute('data-line', feedbackNote.from.line);
       element.className = 'feedback-position-' + feedbackNote.type;
       element.innerHTML = '';
       return doc.setBookmark(feedbackNote.from, {
@@ -944,7 +939,7 @@ export default {
       let element = document.createElement('div');
       element.className = 'jsk-code-editor-feedback-note-marker';
       element.innerHTML = '<i class="' + feedbackNote.type + '"></i>';
-      return doc.setGutterMarker(line, 'CodeMirror-feedback-notes', element);
+      doc.setGutterMarker(line, 'CodeMirror-feedback-notes', element);
     },
     clearFeedbackNotes(doc) {
       if (this.hasFeedbackNotes) {
@@ -960,15 +955,12 @@ export default {
       }
     },
     showFeedbackTooltipAtMouse(mouse) {
-      this.feedbackTooltipVisiable = false;
-      let feedbackNotes = this.getFeedbackNoteMarksAtMouse(
-        mouse.pageX,
-        mouse.pageY
-      );
+      this.feedbackTooltipVisible = false;
+      let feedbackNotes = this.getFeedbackNoteMarksAtMouse(mouse);
       if (feedbackNotes.length > 0) {
         const feedbackNote = feedbackNotes[0];
         this.setFeedbackTooltipPosition(feedbackNote);
-        this.feedbackTooltipVisiable = true;
+        this.feedbackTooltipVisible = true;
         if (feedbackNote.type === 'range') {
           this.feedbackTooltipContent = feedbackNote.attributes.content;
         } else {
@@ -1000,7 +992,9 @@ export default {
       }
       this.feedbackTooltipPosition.left = `${tooltipPositionX - 10}px`;
     },
-    getFeedbackNoteMarksAtMouse(pageX, pageY) {
+    getFeedbackNoteMarksAtMouse(mouse) {
+      const pageX = mouse.pageX
+      const pageY = mouse.pageY
       let cm = this.$refs.codemirror.cminstance;
       let mousePosition = cm.coordsChar({ left: pageX, top: pageY });
       const halfCharWidth = cm.defaultCharWidth() / 2;
@@ -1008,20 +1002,53 @@ export default {
       if (!isMouseAtChar) {
         return [];
       }
-      return cm.findMarksAt(mousePosition).filter(mark => {
-        const isRangeMarker = (
-          mark.className === 'feedback-range-warning' ||
-          mark.className === 'feedback-range-error'
-        );
-        const isPositionMarker = (
-          mark.type === 'bookmark' &&
-          mark.widgetNode && (
-            mark.widgetNode.childNodes[0].className === 'feedback-position-warning' ||
-            mark.widgetNode.childNodes[0].className === 'feedback-position-error'
-          )
-        );
-        return isRangeMarker || isPositionMarker;
-      });
+      return cm.findMarksAt(mousePosition).filter(this.isFeedbackNoteMark);
+    },
+    isFeedbackNoteMark(mark) {
+      const isRangeMarker = (
+        mark.className === 'feedback-range-warning' ||
+        mark.className === 'feedback-range-error'
+      );
+      const isPositionMarker = (
+        mark.type === 'bookmark' &&
+        mark.widgetNode && (
+          mark.widgetNode.childNodes[0].className === 'feedback-position-warning' ||
+          mark.widgetNode.childNodes[0].className === 'feedback-position-error'
+        )
+      );
+      return isRangeMarker || isPositionMarker;
+    },
+    removeFeedbackNoteAtMouse(mouse) {
+      let feedbackNotes = this.getFeedbackNoteMarksAtMouse(mouse);
+      if (feedbackNotes.length > 0) {
+        const feedbackNote = feedbackNotes[0];
+        let isDismissible = false;
+        if (feedbackNote.type === 'range') {
+          isDismissible = feedbackNote.attributes.dismissible;
+        } else {
+          isDismissible = (feedbackNote.widgetNode.childNodes[0].dataset.dismissible === 'true');
+        }
+        if (isDismissible) {
+          feedbackNote.clear();
+          this.removeFeedbackNoteGutterMarkerByFeedbackNote(feedbackNote);
+        }
+      }
+    },
+    removeFeedbackNoteGutterMarkerByFeedbackNote(feedbackNote) {
+      let line;
+      if (feedbackNote.type === 'range') {
+        line = feedbackNote.attributes.line;
+      } else {
+        line = parseInt(feedbackNote.widgetNode.childNodes[0].dataset.line);
+      }
+      const doc = this.currentFile.doc;
+      const markedSpansInLine = doc.lineInfo(line).handle.markedSpans;
+      const feedbackNotesInLine = markedSpansInLine.map(markedSpan => {
+        return markedSpan.marker;
+      }).filter(this.isFeedbackNoteMark);
+      if (feedbackNotesInLine.length === 0) {
+        doc.setGutterMarker(line, 'CodeMirror-feedback-notes', null);
+      }
     },
 
     //////////////////////////
@@ -1248,15 +1275,15 @@ export default {
         lock.hide = hide;
         if (index === 0) {
           this.checkLockEdgeCases(lock).then(position => {
-            if (position === "left" || position === "both") {
+            if (position === 'left' || position === 'both') {
               lock.from.ch -= 1;
               this.currentFile.lockStart = true;
             }
-            if (position === "right" || position === "both") {
+            if (position === 'right' || position === 'both') {
               lock.to.ch += 1;
               this.currentFile.lockEnd = true;
             }
-            this.lockConfirmVisiable = false;
+            this.lockConfirmVisible = false;
           });
         }
         return lock;
@@ -1275,7 +1302,7 @@ export default {
       }
       return new Promise(resolve => {
         if (this.lockConfirmPositions.length > 0) {
-          this.lockConfirmVisiable = true;
+          this.lockConfirmVisible = true;
           this.$on('lock-confirm', position => {
             resolve(position);
             this.$off('lock-confirm');
@@ -1316,7 +1343,7 @@ export default {
         this.lockMenuPosition.left = `${mouse.clientX - 30}px`;
       }
       this.lockMenuPosition.top = `${mouse.clientY - 15}px`;
-      this.lockMenuVisiable = true;
+      this.lockMenuVisible = true;
     },
     showLockControlAtMouse(mouse) {
       this.selectedLocks = this.getLocksAtMouse(mouse.pageX, mouse.pageY);
@@ -1324,7 +1351,7 @@ export default {
         this.lockMenuMode = 'unlock';
         this.lockMenuPosition.left = `${mouse.clientX - 30}px`;
         this.lockMenuPosition.top = `${mouse.clientY - 15}px`;
-        this.lockMenuVisiable = true;
+        this.lockMenuVisible = true;
       }
     },
     hiddenCodeReplacement() {
