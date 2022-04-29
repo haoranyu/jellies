@@ -897,7 +897,9 @@ export default {
         }
         if (feedbackNotes !== undefined) {
           feedbackNotes.forEach(feedbackNote => {
-            this.addFeedbackNote(doc, feedbackNote);
+            if (feedbackNote) {
+              this.addFeedbackNote(doc, feedbackNote);
+            }
           });
         }
       }
@@ -1035,7 +1037,7 @@ export default {
         }
         if (isDismissible) {
           feedbackNote.clear();
-          this.files[0].feedbackNotes.splice(index, 1)
+          this.files[0].feedbackNotes.splice(index, 1, null)
           this.removeFeedbackNoteGutterMarkerByFeedbackNote(feedbackNote);
         }
       }
