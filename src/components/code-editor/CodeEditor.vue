@@ -918,7 +918,8 @@ export default {
         attributes: {
           content: feedbackNote.content,
           dismissible: feedbackNote.isDismissible,
-          line: feedbackNote.from.line
+          line: feedbackNote.from.line,
+          index: feedbackNote.index
         }
       });
     },
@@ -927,6 +928,7 @@ export default {
       element.setAttribute('data-content', feedbackNote.content);
       element.setAttribute('data-dismissible', feedbackNote.isDismissible);
       element.setAttribute('data-line', feedbackNote.from.line);
+      element.setAttribute('data-index', feedbackNote.index);
       element.className = 'feedback-position-' + feedbackNote.type;
       element.innerHTML = '';
       return doc.setBookmark(feedbackNote.from, {
@@ -982,7 +984,7 @@ export default {
         tooltipPositionY = tooltipPosition.top - 3;
         tooltipPositionX = tooltipPosition.left - halfCharWidth;
       }
-      
+
       if (tooltipPositionY > window.innerHeight / 2) {
         this.feedbackTooltipPosition.top = `${tooltipPositionY + 10}px`;
         this.feedbackTooltipPlacement = 'top-start';
@@ -1023,13 +1025,17 @@ export default {
       if (feedbackNotes.length > 0) {
         const feedbackNote = feedbackNotes[0];
         let isDismissible = false;
+        let index = -1;
         if (feedbackNote.type === 'range') {
           isDismissible = feedbackNote.attributes.dismissible;
+          index = parseInt(feedbackNote.attributes.index);
         } else {
           isDismissible = (feedbackNote.widgetNode.childNodes[0].dataset.dismissible === 'true');
+          index = parseInt(feedbackNote.widgetNode.childNodes[0].dataset.index);
         }
         if (isDismissible) {
           feedbackNote.clear();
+          this.files[0].feedbackNotes.splice(index, 1)
           this.removeFeedbackNoteGutterMarkerByFeedbackNote(feedbackNote);
         }
       }
@@ -1043,9 +1049,12 @@ export default {
       }
       const doc = this.currentFile.doc;
       const markedSpansInLine = doc.lineInfo(line).handle.markedSpans;
-      const feedbackNotesInLine = markedSpansInLine.map(markedSpan => {
-        return markedSpan.marker;
-      }).filter(this.isFeedbackNoteMark);
+      let feedbackNotesInLine = [];
+      if (markedSpansInLine) {
+        feedbackNotesInLine = markedSpansInLine.map(markedSpan => {
+          return markedSpan.marker;
+        }).filter(this.isFeedbackNoteMark)
+      }
       if (feedbackNotesInLine.length === 0) {
         doc.setGutterMarker(line, 'CodeMirror-feedback-notes', null);
       }
