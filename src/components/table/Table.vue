@@ -13,6 +13,7 @@ export default TableWrapper;
 }
 .el-table::before {
   height: 2px;
+  z-index: 5;
 }
 .el-table.el-table--border {
   border-top: 1px solid #ddd;
