@@ -265,6 +265,16 @@ export default {
       type: Boolean,
       default: true
     },
+    hasCustomTabTooltip: {
+      type: Boolean,
+      default: false
+    },
+    customTabTooltips: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
     beforeSaveFile: {
       type: Function,
       default: () => {
@@ -1429,7 +1439,19 @@ export default {
       const size = doc.size;
       return { line: size - 1, ch: doc.getLine(size - 1).length }
     },
+    customTabTooltipContent(file) {
+      let tooltipContent = file.path ? file.path : file.name
+      this.customTabTooltips.forEach(({ value, title }) => {
+        if (file.language === value) {
+          tooltipContent = title
+        }
+      })
+      return tooltipContent
+    },
     tooltip(file) {
+      if (this.hasCustomTabTooltip) {
+        return this.customTabTooltipContent(file)
+      }
       if (file.path !== undefined) {
         return file.path;
       }
