@@ -103,6 +103,10 @@
         ref="codemirror"
         :options="editorOptions"
         class="jsk-code-editor-codemirror"
+        :style="{
+          fontSize: editorFontSize,
+          lineHeight: '1.5em',
+        }"
         @input="setCurrentFileModificationState"
         @refresh="renderCurrentFileLineArrows"
         @gutterContextMenu="setBreakpoint"
@@ -314,6 +318,7 @@ export default {
       selectedLocks: undefined,
       settings: _cloneDeep(CodeEditorDefaultSettings),
       editorOptions: _cloneDeep(CodeEditorCodemirrorOptions),
+      editorFontSizeOption: 'large',
       currentActiveIndex: 0
     };
   },
@@ -354,6 +359,18 @@ export default {
         return themeMapping[this.settings.theme];
       }
       return themeMapping['light'];
+    },
+    editorFontSize: function() {
+      let fontSizeMapping = {
+        small: '14px',
+        normal: '16px',
+        large: '20px',
+        'extra-large': '24px'
+      };
+      if (this.editorFontSizeOption) {
+        return fontSizeMapping[this.editorFontSizeOption];
+      }
+      return fontSizeMapping['normal'];
     },
     feedbackTooltipTheme: function() {
       return this.settings.theme === 'light' ? 'dark' : 'light';
@@ -399,10 +416,16 @@ export default {
         this.editorOptions.theme = this.editorTheme;
         this.setEditorIndentSize(this.settings.indent);
         this.setEditorMode(this.settings.mode);
+        this.setEditorFontSize(this.settings.fontSize);
         if (!_isEqual(this.settings, this.codeEditorSettings)) {
           this.$emit('update:codeEditorSettings', this.settings);
         }
       }
+    },
+    editorFontSizeOption: function () {
+      this.$nextTick(() => {
+        this.renderCurrentFile();
+      })
     },
     currentFileCode: function() {
       this.reloadCurrentFile();
@@ -734,6 +757,7 @@ export default {
       // - line notes
       // - errors and warnings
       // - file mode
+      file.doc.cm.refresh();
       file.doc.cm.setOption('mode', this.getFileMode(file));
       this.clearFeedbackNotes(file.doc);
       this.addFeedbackNotes(file.doc, file.feedbackNotes);
@@ -859,7 +883,6 @@ export default {
       } else {
         element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-start-up-marker';
       }
-      element.style.height = this.getLineArrowHeight(line);
       element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
       doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
     },
@@ -886,7 +909,6 @@ export default {
       } else {
         element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-end-up-marker';
       }
-      element.style.height = this.getLineArrowHeight(line);
       element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
       doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
     },
@@ -985,26 +1007,26 @@ export default {
     setFeedbackTooltipPosition(feedbackNote) {
       let cm = this.$refs.codemirror.cminstance;
       const halfCharWidth = cm.defaultCharWidth() / 2;
+      const charHeight = cm.defaultTextHeight();
       let tooltipPositionX, tooltipPositionY;
       if (feedbackNote.type === 'range') {
         const tooltipPositionLeft = cm.charCoords(feedbackNote.find().from);
         const tooltipPositionRight = cm.charCoords(feedbackNote.find().to);
-        tooltipPositionY = tooltipPositionRight.top - 3;
+        tooltipPositionY = tooltipPositionRight.bottom;
         tooltipPositionX = (tooltipPositionLeft.left + tooltipPositionRight.left) / 2 - halfCharWidth;
       } else if (feedbackNote.type === 'bookmark') {
         const tooltipPosition = cm.charCoords(feedbackNote.find());
-        tooltipPositionY = tooltipPosition.top - 3;
-        tooltipPositionX = tooltipPosition.left - halfCharWidth;
+        tooltipPositionY = tooltipPosition.bottom;
+        tooltipPositionX = tooltipPosition.left - 3.5;
       }
-
       if (tooltipPositionY > window.innerHeight / 2) {
-        this.feedbackTooltipPosition.top = `${tooltipPositionY + 10}px`;
+        this.feedbackTooltipPosition.top = `${tooltipPositionY - charHeight + 20}px`;
         this.feedbackTooltipPlacement = 'top-start';
       } else {
-        this.feedbackTooltipPosition.top = `${tooltipPositionY - 10}px`;
+        this.feedbackTooltipPosition.top = `${tooltipPositionY}px`;
         this.feedbackTooltipPlacement = 'bottom-start';
       }
-      this.feedbackTooltipPosition.left = `${tooltipPositionX - 10}px`;
+      this.feedbackTooltipPosition.left = `${tooltipPositionX}px`;
     },
     getFeedbackNoteMarksAtMouse(mouse) {
       const pageX = mouse.pageX
@@ -1400,6 +1422,9 @@ export default {
       this.editorOptions.tabSize = indentSize;
       this.editorOptions.indentUnit = indentSize;
     },
+    setEditorFontSize(fontSize) {
+      this.editorFontSizeOption = fontSize;
+    },
 
     /////////////////////////
     // Helper Functions /////
@@ -1528,13 +1553,13 @@ export default {
   background-color: #399af4;
 }
 .jsk-code-editor-codemirror .CodeMirror-breakpoints {
-  width: 14px;
+  width: 0.875em;
 }
 .jsk-code-editor-codemirror .CodeMirror-feedback-notes {
-  width: 16px;
+  width: 1em;
 }
 .jsk-code-editor-codemirror .CodeMirror-line-arrows {
-  width: 12px;
+  width: 0.75em;
 }
 .jsk-code-editor .locked-code,
 .jsk-code-editor .locked-code-focus {
@@ -1560,7 +1585,7 @@ export default {
   position: relative;
   display: inline-block;
   width: 0;
-  height: 13px;
+  height: 0.8125em;
   border-left-width: 1px;
   border-left-style: dotted;
 }
@@ -1592,7 +1617,7 @@ export default {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   padding: 5px 10px;
-  font-size: 14px;
+  font-size: inherit;
   color: #333333;
   display: flex;
 }
@@ -1609,28 +1634,28 @@ export default {
   color: #dd2e1d;
 }
 .jsk-code-editor-note > i {
-  line-height: 24px;
-  font-size: 16px;
-  width: 24px;
+  line-height: 1.8em;
+  font-size: inherit;
+  width: 1.5em;
 }
 .jsk-code-editor-note > div p {
   margin: 0;
 }
 .jsk-code-editor-breakpoint {
-  font-size: 16px;
+  font-size: inherit;
   line-height: 22px;
-  height: 24px;
+  height: 1.5em;
   text-align: right;
   color: #dd2e1d;
 }
 .jsk-code-editor-line-arrow-marker {
-  height: 24px;
+  height: 1.5em;
   padding-left: 2px;
   overflow: hidden;
   box-sizing: border-box;
 }
 .jsk-code-editor-line-arrow-marker i {
-  width: 8px;
+  width: 0.5em;
   display: block;
   border-style: solid none solid solid;
   border-right: none;
@@ -1646,45 +1671,45 @@ export default {
 }
 .jsk-code-editor-line-arrow-middle-marker i {
   height: 100%;
-  width: 6px;
+  width: 0.375em;
   display: block;
   border-style: none;
   border-left-style: solid;
 }
 .jsk-code-editor-line-arrow-start-down-marker,
 .jsk-code-editor-line-arrow-end-up-marker {
-  padding-top: 11px;
+  padding-top: 0.75em;
 }
 .jsk-code-editor-line-arrow-start-up-marker,
 .jsk-code-editor-line-arrow-end-down-marker {
-  padding-bottom: 11px;
+  padding-bottom: 0.75em;
 }
 .jsk-code-editor-line-arrow-start-down-marker i,
 .jsk-code-editor-line-arrow-end-up-marker i {
   border-bottom: none;
-  border-top-left-radius: 3px;
+  border-top-left-radius: 0.1875em;
 }
 .jsk-code-editor-line-arrow-start-up-marker i,
 .jsk-code-editor-line-arrow-end-down-marker i {
   border-top: none;
-  border-bottom-left-radius: 3px;
+  border-bottom-left-radius: 0.1875em;
 }
 .jsk-code-editor-line-arrow-end-up-marker i::after,
 .jsk-code-editor-line-arrow-end-down-marker i::after {
   position: absolute;
-  right: -2px;
+  right: -0.125em;
   width: 0;
   height: 0;
   display: block;
   content: " ";
   border-style: solid;
-  border-width: 3px 0 3px 7px;
+  border-width: 0.1875em 0 0.1875em 0.4375em;
 }
 .jsk-code-editor-line-arrow-end-down-marker i::after {
-  bottom: -3px;
+  bottom: -0.1875em;
 }
 .jsk-code-editor-line-arrow-end-up-marker i::after {
-  top: -3px;
+  top: -0.1875em;
 }
 .jsk-code-editor-line-arrow-end-up-marker i.warning::after,
 .jsk-code-editor-line-arrow-end-down-marker i.warning::after {
@@ -1695,18 +1720,18 @@ export default {
   border-color: transparent transparent transparent #dd2e1d;
 }
 .jsk-code-editor-feedback-note-marker i {
-  margin-top: 5px;
-  margin-left: 2px;
-  width: 14px;
-  height: 14px;
-  display: block;
+  display: flex;
   background-repeat: no-repeat;
+  font-family: 'jellies-icons' !important;
+  font-style: normal;
 }
-.jsk-code-editor-feedback-note-marker i.warning {
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAADqADAAQAAAABAAAADgAAAAC98Dn6AAABJklEQVQoFXWRTUoDQRCFq8ZR/MOIKLgMEX83wRuYA2SjG0Ev4V5B8AyeRFyK7ly5ExXREAmCKxkFs4g6z66SMp2asaCp7lfv8U1PM5UUTmtLeQ9HzMQ8NLzHzftnb2Mv4HwjxdvTNYBlmYXwDVeqdW5cfMXeJD7oPuvsWkjOAK1R0LxvgKi0rH0HooXYGEyPPF1diamDRKG5kFJFc9Q/oqed3M4rtLn6ot1T+0RHO3uYI1lW+iURVYNKo+99M/3XETzilfkv0dFkUBn91CV7q5jK/m5meu2O6HZmvGeSdrtrQu/tnbI/eXxZI1m+1BsyKcCb4Zn9nLbrnYJmQshspWC0SnK0OPthvkIPwVaaTE0c5Fk3Z8Y6gfvPU7AHgZGD+CoZmzz8AUtLhcGuiyt0AAAAAElFTkSuQmCC");
+.jsk-code-editor-feedback-note-marker i.warning::after {
+  color: #ffb020;
+  content: "\e927";
 }
-.jsk-code-editor-feedback-note-marker i.error {
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAADqADAAQAAAABAAAADgAAAAC98Dn6AAABSUlEQVQoFWNkQAOPLS05f3176szIwKgOkvrP8P8mG5f0Xtnjx78jK2VE5twzkAv99///NKBqEWRxBkaGN0yMjFlKFx6thonDNd7Vl5vx////dJgENpqRkXGm8sVHGSA5sEawTf/+r8KmGF2MiYkxDGQzE8hPYOdBVfB4+DKINvUwMPHyATE/g2hzLwO3mw9cP0gtSA8LKCCQ/cRp7cDA5xfKwKaizgB0GgO7lh4Dw99/DF93bYFoBvofpIcFFHrAkIOb+LarkYFNWY2BQ1sfLPbj8gWGtz1NcHkQA6SHCUUEzAEKA22CAyYgG5kPlWACxRNcEZAhXFYHdh7Iph9XL4JtFi6pQ1YCjlsWUOT+/PbkDcyf3w7vB/sJ7DygTSBN344AxWAAGKcgPeRHB8ggULyAIhdmKC4apAaWepBCgYGBrCQHs4XYRA4AxY+NWEoE1PsAAAAASUVORK5CYII=");
+.jsk-code-editor-feedback-note-marker i.error::after {
+  color: #dd2e1d;
+  content: "\e90f";
 }
 .jsk-code-editor-control {
   margin: 0;

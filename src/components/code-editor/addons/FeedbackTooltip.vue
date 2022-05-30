@@ -78,7 +78,8 @@ export default {
   z-index: 500;
   left: 0;
   top: 0;
-  min-width: 30px;
-  min-height: 30px;
+  width: 1px;
+  height: 1px;
+  margin-top: -10px;
 }
 </style>

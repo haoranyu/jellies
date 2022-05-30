@@ -19,7 +19,8 @@ export default {
       labels: {
         mode: '编辑模式',
         theme: '编辑器风格',
-        indent: '缩进模式'
+        indent: '缩进模式',
+        fontSize: '字体大小'
       },
       mode: {
         sublime: '默认',
@@ -34,6 +35,12 @@ export default {
         2: '2 个空格',
         4: '4 个空格',
         8: '8 个空格'
+      },
+      fontSize: {
+        small: '小',
+        normal: '正常',
+        large: '大',
+        'extra-large': '超大'
       }
     },
     hiddenLock: '这部分代码片段已被隐藏'
@@ -58,7 +65,8 @@ export default {
       labels: {
         mode: 'Editor Mode',
         theme: 'Editor Theme',
-        indent: 'Tab Spaces'
+        indent: 'Tab Spaces',
+        fontSize: 'Font Size'
       },
       mode: {
         sublime: 'Normal',
@@ -73,6 +81,12 @@ export default {
         2: '2 spaces',
         4: '4 spaces',
         8: '8 spaces'
+      },
+      fontSize: {
+        small: 'Small',
+        normal: 'Normal',
+        large: 'Large',
+        'extra-large': 'Large+'
       }
     },
     hiddenLock: 'The code piece is hidden'
