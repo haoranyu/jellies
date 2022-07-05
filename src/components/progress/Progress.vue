@@ -95,7 +95,7 @@ export default {
 .el-progress .el-progress-bar__outer {
   background: #F2F4F7 !important;
   box-shadow: inset 0 1px 1px 0 rgba(139, 154, 174, 0.3);
-  overflow: visible;
+  overflow: hidden;
 }
 .el-progress .el-progress-bar__inner {
   display: flex;
@@ -103,6 +103,7 @@ export default {
   align-items: center;
 }
 .el-progress.is-narrow .el-progress-bar__outer {
+  overflow: visible;
   box-shadow: inset 0 1px 1px 0 rgba(139, 154, 174, 0.2);
 }
 .el-progress.is-narrow .el-progress-bar__innerText {
