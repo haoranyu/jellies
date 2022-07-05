@@ -2,7 +2,7 @@
   <div class="jsk-code-editor-container">
     <jsk-tabs
       ref="tabs"
-      class="tabs"
+      class="file-tabs"
       :tabs-init-active="0"
       :tabs-theme="settings.theme || 'light'"
       tabs-height="35px"
@@ -1486,7 +1486,7 @@ export default {
 };
 </script>
 <style scoped>
-.tabs {
+.file-tabs {
   flex-shrink: 0;
   flex-grow: 0;
 }
