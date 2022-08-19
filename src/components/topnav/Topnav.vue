@@ -120,7 +120,7 @@ export default {
     }
   },
   mounted: function() {
-    if (this.topnavCurrentActive || this.topnavInitActive) {
+    if (this.topnavCurrentActive || this.topnavInitActive >= 0) {
       this.currentActive = this.topnavCurrentActive || this.topnavInitActive;
       this.currentHover = this.topnavCurrentActive || this.topnavInitActive;
     }
