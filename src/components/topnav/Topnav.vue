@@ -96,8 +96,8 @@ export default {
   },
   data: function() {
     return {
-      currentActive: 0,
-      currentHover: 0
+      currentActive: -1,
+      currentHover: -1
     };
   },
   computed: {
