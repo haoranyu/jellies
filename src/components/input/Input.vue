@@ -38,7 +38,7 @@ export default {
     event: 'change'
   },
   props: {
-    vModel: String,
+    vModel: [String, Number],
     isUnderline: {
       type: Boolean,
       default: false
