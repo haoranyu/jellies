@@ -27,7 +27,7 @@ export default {
     event: 'change'
   },
   props: {
-    vModel: String,
+    vModel: [String, Number],
     radioSize: {
       type: String,
       default: 'mini'
