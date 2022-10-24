@@ -185,7 +185,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  version: '1.6.54',
+  version: '1.6.55',
   install,
   Alert,
   Avatar,
