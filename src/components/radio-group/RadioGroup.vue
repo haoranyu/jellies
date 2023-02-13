@@ -22,7 +22,7 @@ export default {
     event: 'change'
   },
   props: {
-    vModel: String,
+    vModel: [String, Number],
     radioButtonTextColor: {
       type: String,
       default: '#FFFFFF'
