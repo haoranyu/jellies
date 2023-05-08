@@ -9,6 +9,7 @@
           color: (index === currentActive || index === currentHover) ? topnavActiveColor : 'inherit'
         }"
         @click="toItem(index)"
+        @touchstart.prevent="toItem(index)"
         @mouseover="hoverItem(index)"
         @mouseout="hoverItem(currentActive)"
       >

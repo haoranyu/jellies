@@ -9,11 +9,11 @@
     <span slot="footer">
       <jsk-button
         button-type="info"
-        @click="() => { this.$parent.$emit('reload-confirm', 'cancel') }"
+        @click="() => { $parent.$emit('reload-confirm', 'cancel') }"
       >{{ reloadConfirmContent.buttons[0] }}</jsk-button>
       <jsk-button
         button-type="success"
-        @click="() => { this.$parent.$emit('reload-confirm', 'reload') }"
+        @click="() => { $parent.$emit('reload-confirm', 'reload') }"
       >{{ reloadConfirmContent.buttons[1] }}</jsk-button>
     </span>
   </jsk-dialog>

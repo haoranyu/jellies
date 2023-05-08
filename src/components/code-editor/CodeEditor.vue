@@ -48,12 +48,14 @@
           <i
             class="el-icon-j-plus"
             @click="createAndSwitchToNewFile"
+            @touchstart.prevent="createAndSwitchToNewFile"
           />
         </li>
         <li v-if="hasSaveCurrentFileControl">
           <i
             class="el-icon-j-save"
             @click="saveCurrentFile"
+            @touchstart.prevent="saveCurrentFile"
           />
         </li>
         <li v-if="hasSettingsControl">

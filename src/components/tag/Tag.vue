@@ -8,6 +8,7 @@
     :style="{color: tagTextColor}"
     @close="clearTag"
     @click="$emit('click')"
+    @touchstart.prevent="$emit('click')"
   >
     <slot />
   </el-tag>

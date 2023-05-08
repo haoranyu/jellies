@@ -17,6 +17,7 @@
         borderRightColor: dividerColor
       }"
       @click="switchTrigger"
+      @touchstart.prevent="switchTrigger"
     >
       <div
         v-if="$parent.hasBar"

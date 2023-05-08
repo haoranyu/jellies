@@ -9,17 +9,17 @@
     <span slot="footer-left">
       <jsk-button
         button-type="info"
-        @click="() => { this.$parent.$emit('close-confirm', 'abandon') }"
+        @click="() => { $parent.$emit('close-confirm', 'abandon') }"
       >{{ closeConfirmContent.buttons[0] }}</jsk-button>
     </span>
     <span slot="footer-right">
       <jsk-button
         button-type="info"
-        @click="() => { this.$parent.$emit('close-confirm', 'cancel') }"
+        @click="() => { $parent.$emit('close-confirm', 'cancel') }"
       >{{ closeConfirmContent.buttons[1] }}</jsk-button>
       <jsk-button
         button-type="success"
-        @click="() => { this.$parent.$emit('close-confirm', 'save') }"
+        @click="() => { $parent.$emit('close-confirm', 'save') }"
       >{{ closeConfirmContent.buttons[2] }}</jsk-button>
     </span>
   </jsk-dialog>

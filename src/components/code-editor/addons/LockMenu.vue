@@ -8,8 +8,8 @@
       button-icon="el-icon-j-lock"
       is-circular
       @click="() => {
-        this.$emit('lock');
-        this.$emit('lock-change');
+        $emit('lock');
+        $emit('lock-change');
       }"
     />
     <jsk-button
@@ -17,8 +17,8 @@
       button-icon="el-icon-view"
       is-circular
       @click="() => {
-        this.$emit('hide');
-        this.$emit('lock-change');
+        $emit('hide');
+        $emit('lock-change');
       }"
     />
   </jsk-button-group>
@@ -29,8 +29,8 @@
     button-icon="el-icon-j-unlock"
     is-circular
     @click="() => {
-      this.$emit('unlock');
-      this.$emit('lock-change');
+      $emit('unlock');
+      $emit('lock-change');
     }"
   />
 </template>

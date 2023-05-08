@@ -23,13 +23,13 @@ export default {
   components: {
     ElDropdownMenu: DropdownMenu
   },
-  inheritAttrs: false,
   inject: ['dropdown'],
   provide: function () {
     return {
       dropdown: this.dropdown
     }
   },
+  inheritAttrs: false,
   props: {
     dropdownMenuMaxHeight: {
       type: [String, Number],

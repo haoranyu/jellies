@@ -11,27 +11,27 @@
         <jsk-button
           v-if="lockConfirmPositions.includes('start') && lockConfirmPositions.includes('end')"
           button-type="success"
-          @click="() => { this.$parent.$emit('lock-confirm', 'both') }"
+          @click="() => { $parent.$emit('lock-confirm', 'both') }"
         >
           {{ lockConfirmContent.buttons[0] }}
         </jsk-button>
         <jsk-button
           v-if="lockConfirmPositions.includes('start')"
           button-type="success"
-          @click="() => { this.$parent.$emit('lock-confirm', 'left') }"
+          @click="() => { $parent.$emit('lock-confirm', 'left') }"
         >
           {{ lockConfirmContent.buttons[1] }}
         </jsk-button>
         <jsk-button
           v-if="lockConfirmPositions.includes('end')"
           button-type="success"
-          @click="() => { this.$parent.$emit('lock-confirm', 'right') }"
+          @click="() => { $parent.$emit('lock-confirm', 'right') }"
         >
           {{ lockConfirmContent.buttons[2] }}
         </jsk-button>
         <jsk-button
           button-type="success"
-          @click="() => { this.$parent.$emit('lock-confirm', 'none') }"
+          @click="() => { $parent.$emit('lock-confirm', 'none') }"
         >
           {{ lockConfirmContent.buttons[3] }}
         </jsk-button>

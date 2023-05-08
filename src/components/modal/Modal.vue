@@ -34,11 +34,13 @@
             v-if="hasCloseButton"
             class="el-icon-j-times-square jsk-modal-option jsk-modal-option-close"
             @click="closeModal"
+            @touchstart.prevent="closeModal"
           />
           <i
             v-if="hasSizeButton"
             :class="['el-icon-j-' + modalSizeOption + '-square', 'jsk-modal-option', 'jsk-modal-option-size']"
             @click="changeModalSize"
+            @touchstart.prevent="changeModalSize"
           />
         </el-col>
       </el-row>
