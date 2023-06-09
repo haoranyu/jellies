@@ -56,8 +56,8 @@ export default {
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'checkbox-group-'];
-        prefixs.forEach((prefix) => {
+        let prefixes = ['is-', 'has-', 'checkbox-group-'];
+        prefixes.forEach((prefix) => {
           if (key.substr(0, prefix.length) === prefix) {
             attrs[key.substr(prefix.length)] = attrs[key];
           }

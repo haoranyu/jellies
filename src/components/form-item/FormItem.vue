@@ -49,8 +49,8 @@ export default {
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'form-item-'];
-        prefixs.forEach((prefix) => {
+        let prefixes = ['is-', 'has-', 'form-item-'];
+        prefixes.forEach((prefix) => {
           if (key.substr(0, prefix.length) === prefix) {
             attrs[key.substr(prefix.length)] = attrs[key];
           }

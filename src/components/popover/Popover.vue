@@ -1,5 +1,6 @@
 <template>
   <el-popover
+    ref="popover"
     v-model="value"
     v-bind="trimAttrs($attrs)"
     :trigger="triggerValue"
@@ -76,14 +77,19 @@ export default {
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'popover-'];
-        prefixs.forEach((prefix) => {
+        let prefixes = ['is-', 'has-', 'popover-'];
+        prefixes.forEach((prefix) => {
           if (key.substr(0, prefix.length) === prefix) {
             attrs[key.substr(prefix.length)] = attrs[key];
           }
         })
       })
       return attrs;
+    },
+    reposition: function() {
+      this.$nextTick(() => {
+        this.$refs.popover.updatePopper()
+      })
     }
   }
 }

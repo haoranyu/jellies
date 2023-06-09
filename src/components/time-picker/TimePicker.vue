@@ -70,8 +70,8 @@ export default {
   methods: {
     trimAttrs: function(attrs) {
       Object.keys(attrs).forEach((key) => {
-        let prefixs = ['is-', 'has-', 'time-picker-'];
-        prefixs.forEach((prefix) => {
+        let prefixes = ['is-', 'has-', 'time-picker-'];
+        prefixes.forEach((prefix) => {
           if (key.substr(0, prefix.length) === prefix) {
             attrs[key.substr(prefix.length)] = attrs[key];
           }
