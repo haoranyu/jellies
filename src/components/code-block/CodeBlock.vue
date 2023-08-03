@@ -22,14 +22,26 @@
       @focus="$emit('focus')"
       @blur="$emit('blur')"
     />
-    <el-button
-      v-if="isCopyAllowed"
-      :type="buttonType"
-      size="mini"
-      class="jsk-code-block-copy"
-      @click="onCopy"
-      v-text="buttonText"
-    />
+    <div class="jsk-code-block-buttons">
+      <el-button
+        v-if="isCopyAllowed"
+        :type="copyButtonType"
+        size="mini"
+        class="jsk-code-block-copy"
+        @click="onCopy"
+      >
+        {{ copyButtonText }}
+      </el-button>
+      <el-button
+        v-if="isRunAllowed"
+        type="info"
+        size="mini"
+        class="jsk-code-block-run"
+        @click="onRun"
+      >
+        {{ codeBlockRunText }}
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -51,6 +63,10 @@ export default {
     codeBlockTheme: {
       type: String,
       default: 'light'
+    },
+    codeBlockRunText: {
+      type: String,
+      default: '运行'
     },
     codeBlockCopyText: {
       type: String,
@@ -81,6 +97,10 @@ export default {
       default: false
     },
     isCopyAllowed: {
+      type: Boolean,
+      default: false
+    },
+    isRunAllowed: {
       type: Boolean,
       default: false
     },
@@ -124,7 +144,7 @@ export default {
       };
       return themeMapping[this.codeBlockTheme];
     },
-    buttonType: function() {
+    copyButtonType: function() {
       if (this.isCopied) {
         return 'success';
       } else if (this.codeBlockTheme === 'dark') {
@@ -133,7 +153,7 @@ export default {
         return 'info';
       }
     },
-    buttonText: function() {
+    copyButtonText: function() {
       if (this.isCopied) {
         return this.codeBlockCopiedText;
       } else {
@@ -200,6 +220,12 @@ export default {
       setTimeout(() => {
         this.isCopied = false;
       }, 3000);
+    },
+    onRun: function() {
+      this.$emit('run-code', {
+        code: this.value,
+        language: this.codeBlockLanguage
+      });
     }
   }
 }
@@ -213,7 +239,7 @@ export default {
   position: relative;
   overflow: hidden;
 }
-.jsk-code-block-copy {
+.jsk-code-block-buttons {
   position: absolute;
   top: 2px;
   right: 2px;
