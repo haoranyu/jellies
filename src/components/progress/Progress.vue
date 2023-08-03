@@ -116,6 +116,7 @@ export default {
   border-radius: 5px;
   text-align: center;
   background: #41b146;
+  color: #fff !important;
 }
 .el-progress.warning.is-narrow .el-progress-bar__innerText {
   background: #dd2e1d;
