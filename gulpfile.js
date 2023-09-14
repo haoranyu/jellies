@@ -1,7 +1,7 @@
 'use strict';
 
 const { parallel, src, dest } = require('gulp');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const packageImporter = require('node-sass-package-importer');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
