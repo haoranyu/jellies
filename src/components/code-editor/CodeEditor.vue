@@ -80,7 +80,7 @@
               >
                 <jsk-radio-group
                   v-model="settings[key]"
-                  radio-group-size="small"
+                  radio-group-size="mini"
                 >
                   <jsk-radio-button
                     v-for="(content, labelName) in settingsContent[key]"
@@ -419,6 +419,7 @@ export default {
         this.setEditorIndentSize(this.settings.indent);
         this.setEditorMode(this.settings.mode);
         this.setEditorFontSize(this.settings.fontSize);
+        this.setEditorAutoIndent(this.settings.autoIndent);
         if (!_isEqual(this.settings, this.codeEditorSettings)) {
           this.$emit('update:codeEditorSettings', this.settings);
         }
@@ -810,13 +811,11 @@ export default {
       this.files.splice(index, 1);
       if (this.files.length === 0) {
         this.createAndSwitchToNewFile();
-      } else {
-        if (index < this.currentActiveIndex) {
-          this.switchToPreviousTab();
-        } else if (index === this.currentActiveIndex) {
-          this.switchToPreviousTab();
-          this.switchToCurrentFile();
-        }
+      } else if (index < this.currentActiveIndex) {
+        this.switchToPreviousTab();
+      } else if (index === this.currentActiveIndex) {
+        this.switchToPreviousTab();
+        this.switchToCurrentFile();
       }
     },
     beforeCloseTab(index) {
@@ -835,18 +834,16 @@ export default {
               this.closeConfirmVisible = false;
               if (result === 'cancel') {
                 returnToTab(false);
+              } else if (result === 'save') {
+                this.saveFile(index).then(saveDone => {
+                  if (saveDone) {
+                    returnToTab(true);
+                  } else {
+                    returnToTab(false);
+                  }
+                });
               } else {
-                if (result === 'save') {
-                  this.saveFile(index).then(saveDone => {
-                    if (saveDone) {
-                      returnToTab(true);
-                    } else {
-                      returnToTab(false);
-                    }
-                  });
-                } else {
-                  returnToTab(true);
-                }
+                returnToTab(true);
               }
             });
           } else {
@@ -1427,6 +1424,23 @@ export default {
     setEditorFontSize(fontSize) {
       this.editorFontSizeOption = fontSize;
     },
+    setEditorAutoIndent(autoIndent) {
+      delete this.editorOptions.extraKeys['Enter']
+      this.editorOptions.smartIndent = true
+      switch (autoIndent) {
+        case 'force':
+          this.editorOptions.extraKeys['Enter'] = (cm) => {
+            cm.execCommand('indentAuto')
+            cm.replaceSelection('\n', 'end')
+            cm.execCommand('indentAuto')
+          }
+          break;
+        case 'smart':
+          break;
+        default:
+          this.editorOptions.smartIndent = false
+      }
+    },
 
     /////////////////////////
     // Helper Functions /////
@@ -1724,7 +1738,7 @@ export default {
 .jsk-code-editor-feedback-note-marker i {
   display: flex;
   background-repeat: no-repeat;
-  font-family: 'jellies-icons' !important;
+  font-family: 'jellies-icons', sans-serif !important;
   font-style: normal;
 }
 .jsk-code-editor-feedback-note-marker i.warning::after {
@@ -1763,8 +1777,12 @@ export default {
 .jsk-settings-form {
   margin-top: -10px;
 }
+.jsk-settings-form label {
+  font-size: 14px;
+  line-height: 20px !important;
+}
 .jsk-settings-form div {
-  margin-bottom: 10px !important;
+  margin-bottom: 6px !important;
 }
 .jsk-settings-form div:last-child {
   margin-bottom: 0 !important;

@@ -20,6 +20,7 @@ export default {
         mode: '编辑模式',
         theme: '编辑器风格',
         indent: '缩进模式',
+        autoIndent: '智能缩进',
         fontSize: '字体大小'
       },
       mode: {
@@ -35,6 +36,11 @@ export default {
         2: '2 个空格',
         4: '4 个空格',
         8: '8 个空格'
+      },
+      autoIndent: {
+        force: '强制修正',
+        smart: '自动添加',
+        none: '不启用'
       },
       fontSize: {
         small: '小',
@@ -66,6 +72,7 @@ export default {
         mode: 'Editor Mode',
         theme: 'Editor Theme',
         indent: 'Tab Spaces',
+        autoIndent: 'Auto-indentation',
         fontSize: 'Font Size'
       },
       mode: {
@@ -81,6 +88,11 @@ export default {
         2: '2 spaces',
         4: '4 spaces',
         8: '8 spaces'
+      },
+      autoIndent: {
+        force: 'Force',
+        smart: 'Smart',
+        none: 'Disabled'
       },
       fontSize: {
         small: 'Small',
