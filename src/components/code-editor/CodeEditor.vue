@@ -1430,7 +1430,9 @@ export default {
       switch (autoIndent) {
         case 'force':
           this.editorOptions.extraKeys['Enter'] = (cm) => {
-            cm.execCommand('indentAuto')
+            if (cm.doc.mode.name !== 'python') {
+              cm.execCommand('indentAuto')
+            }
             cm.replaceSelection('\n', 'end')
             cm.execCommand('indentAuto')
           }
