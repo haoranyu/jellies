@@ -66,13 +66,13 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
+@import "../../plugins/theme-variables.scss";
 .el-upload-list--picture .el-upload-list__item {
   border: none;
-  box-shadow: 0 0 4px 0 rgba(139, 154, 174, 0.4);
 }
 .el-upload-list--picture .el-upload-list__item-status-label {
-  background: #4EC53D !important;
+  background: $--color-success !important;
   box-shadow: none !important;
 }
 .el-upload .el-upload-dragger {

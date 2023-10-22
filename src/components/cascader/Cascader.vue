@@ -88,9 +88,10 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
+@import '../../plugins/theme-variables.scss';
 .el-cascader-menus {
-  border-radius: 5px !important;
+  border-radius: $--border-radius-base !important;
   overflow: hidden;
 }
 .el-cascader-menu .el-checkbox .el-checkbox__inner::after {

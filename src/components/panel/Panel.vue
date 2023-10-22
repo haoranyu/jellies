@@ -79,41 +79,41 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../plugins/theme-variables.scss';
 .panel {
   background: #FFFFFF;
   overflow: hidden;
-  border-radius: 5px;
-  box-shadow: 0 0 8px 0 rgba(139, 154, 174, 0.15);
+  border-radius: $--border-radius-base;
 }
 .panel-body {
-  padding: 24px;
+  padding: $--card-padding;
 }
 .panel-header,
 .panel-footer {
-  background: #F2F4F7;
-  padding: 24px;
+  background: $--color-face-lightest;
+  padding: $--card-padding;
 }
 .panel-header {
-  border-bottom: 1px solid #F0F0F0
+  border-bottom: 1px solid $--color-line-lightest
 }
 .panel-footer {
-  border-top: 1px solid #F0F0F0
+  border-top: 1px solid $--color-line-lightest
 }
 .panel-success .panel-header,
 .panel-success .panel-footer {
-  background: #BFF199;
-  border-color: #BFF199;
+  background: $--color-success-lighter;
+  border-color: $--color-success-lighter;
 }
 .panel-warning .panel-header,
 .panel-warning .panel-footer {
-  background: #FFF598;
-  border-color: #FFF598;
+  background: $--color-warning-lighter;
+  border-color: $--color-warning-lighter;
 }
 .panel-danger .panel-header,
 .panel-danger .panel-footer {
-  background: #FFD6D2;
-  border-color: #FFD6D2;
+  background: $--color-danger-lighter;
+  border-color: $--color-danger-lighter;
 }
 .no-background {
   background: none !important;

@@ -1516,7 +1516,7 @@ export default {
   padding-top: 1px;
 }
 </style>
-<style>
+<style lang="scss">
 .jsk-code-editor-container {
   display: flex;
   height: 100%;

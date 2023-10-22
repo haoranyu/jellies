@@ -4,9 +4,15 @@
 
 This project is a UI toolkit based on [ElementUI](https://github.com/ElemeFE/element) (v2.15.8). A full documentation will come out in a later version and if you would like to use it now you may refer to [a Chinese version](https://www.yuque.com/haoranyu/jellies) of temporary documentation.
 
+# Note
+
+The visual design is going to shift piece by piece since v2.0.0 and currently it is still in alpha phase.
+
+If you prefer a stable visual system, you can stay with v1.x.
+
 ## How to use
 
-Install the Jellies via NPM.
+Install the Jellies via NPM. 
 
 ```bash
 npm install --save jellies

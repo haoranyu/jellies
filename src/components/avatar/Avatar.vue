@@ -63,6 +63,5 @@ export default {
 <style scoped>
 .el-avatar {
   overflow: hidden;
-  box-shadow: 0 0 4px 0 rgba(139, 154, 174, 0.4);
 }
 </style>

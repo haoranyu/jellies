@@ -5,20 +5,24 @@ TableWrapper.name = 'JskTable';
 export default TableWrapper;
 </script>
 
-
-
-<style scoped>
+<style lang="scss" scoped>
+@import '../../plugins/theme-variables.scss';
 .el-table {
   border-top: 2px solid #ddd;
-}
-.el-table::before {
-  height: 2px;
-  z-index: 5;
-}
-.el-table.el-table--border {
-  border-top: 1px solid #ddd;
-}
-.el-table.el-table--border::before {
-  height: 1px;
+  &::before {
+    height: 2px;
+    z-index: 5;
+  }
+  &.el-table--border {
+    border-top: 1px solid #ddd;
+  }
+  &.el-table--border::before {
+    height: 1px;
+  }
+  ::v-deep {
+    .cell {
+      line-height: 38px;
+    }
+  }
 }
 </style>

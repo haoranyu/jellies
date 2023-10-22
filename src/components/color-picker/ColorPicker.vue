@@ -102,12 +102,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '../../plugins/theme-variables.scss';
 .el-color-picker .el-color-picker__color {
   border: none;
   border-radius: 0;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+  border-top-left-radius: $--border-radius-small;
+  border-bottom-left-radius: $--border-radius-small;
   overflow: hidden;
 }
 .el-color-picker .el-color-picker__trigger {
@@ -139,13 +140,13 @@ export default {
 button.el-color-dropdown__btn,
 button.el-color-dropdown__btn:hover,
 button.el-color-dropdown__btn:focus {
-  color: #41B146 !important;
+  color: $--color-success-dark !important;
   border: none;
   font-weight: 600;
 }
 button.el-color-dropdown__link-btn,
 button.el-color-dropdown__link-btn:hover,
 button.el-color-dropdown__link-btn:focus {
-  color: #555555;
+  color: $--color-line-dark;
 }
 </style>

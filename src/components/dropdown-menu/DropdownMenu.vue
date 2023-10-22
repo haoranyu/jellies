@@ -55,14 +55,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../plugins/theme-variables.scss';
 .el-dropdown-menu {
-  border: 1px solid #f0f0f0;
+  border: 1px solid $--color-line-lightest;
   padding: 0;
 }
 .dropdown-menu-outer {
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: $--border-radius-base;
 }
 .dropdown-menu-inner {
   padding: 6px 0;

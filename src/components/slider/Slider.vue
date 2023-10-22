@@ -133,7 +133,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "../../plugins/theme-variables.scss";
 .el-slider {
   font-size: 14px;
 }
@@ -152,12 +153,11 @@ export default {
 }
 .el-slider .el-slider__button {
   border: none;
-  background-color: #41B146;
-  box-shadow: 0 0 4px 0 rgba(139, 154, 174, 0.4);
+  background-color: $--color-success-dark;
 }
 .el-slider .el-slider__bar {
   transition: all 500ms ease 0s;
-  background-image: linear-gradient(to right, rgba(78, 197, 61, 0) 20%, #4ec53d 100%) !important;
+  background-image: linear-gradient(to right, rgba(78, 197, 61, 0) 20%, $--color-success 100%) !important;
   z-index: 101;
 }
 .el-slider .el-slider__runway {
@@ -172,7 +172,8 @@ export default {
 }
 </style>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../plugins/theme-variables.scss";
 .slider {
   position: relative;
 }
@@ -188,7 +189,7 @@ export default {
   transition: all 500ms ease 0s;
   height: 12px;
   width: 100%;
-  background: #4EC53D;
+  background: $--color-success;
   z-index: 100;
   position: absolute;
   border-radius: 6px;
@@ -204,7 +205,7 @@ ul.dots > li,
 ul.dots > li:first-child::after,
 ul.dots > li:last-child::before {
   border-radius: 100%;
-  background-color: #FFF;
+  background-color: $--color-white;
   height: 6px;
   width: 6px;
   content: " ";

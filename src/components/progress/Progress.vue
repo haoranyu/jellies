@@ -113,7 +113,7 @@ export default {
   position: absolute;
   right: 0;
   margin: 0;
-  border-radius: 5px;
+  border-radius: 6px;
   text-align: center;
   background: #41b146;
   color: #fff !important;

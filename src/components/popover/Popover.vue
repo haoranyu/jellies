@@ -94,3 +94,9 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@import '../../plugins/theme-variables.scss';
+.el-popover {
+  border-radius: $--border-radius-base !important;
+}
+</style>

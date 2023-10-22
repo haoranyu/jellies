@@ -119,9 +119,9 @@ $--border-style-base: solid !default;
 $--border-color-hover: $--color-text-placeholder !default;
 $--border-base: $--border-width-base $--border-style-base $--border-color-base !default;
 /// borderRadius|[大圆角,border radius base,border radius base]|Radius|0
-$--border-radius-base: 5px;
+$--border-radius-base: 12px;
 /// borderRadius|[小圆角,border radius small,border radius small]|Radius|0
-$--border-radius-small: 3px;
+$--border-radius-small: 10px;
 /// borderRadius|[圆形圆角,border radius circle,border radius circle]|Radius|0
 $--border-radius-circle: 100% !default;
 /// borderRadius|1|Radius|0
@@ -568,6 +568,8 @@ $--button-border-radius: $--border-radius-base !default;
 $--button-padding-vertical: 10px;
 $--button-padding-horizontal: 13px;
 $--button-margin: 12px;
+$--button-lip-size: 3px;
+
 
 /// fontSize|[]|Font|1
 $--button-medium-font-size: $--font-size-base !default;
@@ -608,32 +610,32 @@ $--button-primary-font-color: $--color-white !default;
 /// color||Color|0
 $--button-primary-background-color: rgba(0, 0, 0, 0.05);
 /// color||Color|0
-$--button-success-border-color: $--color-success-dark;
+$--button-success-border-color: $--color-success;
 /// color||Color|0
 $--button-success-font-color: $--color-white !default;
 /// color||Color|0
-$--button-success-background-color: $--color-success-dark;
+$--button-success-background-color: $--color-success;
 /// color||Color|0
-$--button-warning-border-color: $--color-warning-dark;
+$--button-warning-border-color: $--color-warning;
 /// color||Color|0
 $--button-warning-font-color: $--color-white !default;
 /// color||Color|0
-$--button-warning-background-color: $--color-warning-dark;
+$--button-warning-background-color: $--color-warning;
 /// color||Color|0
-$--button-danger-border-color: $--color-danger-dark;
+$--button-danger-border-color: $--color-danger;
 /// color||Color|0
 $--button-danger-font-color: $--color-white !default;
 /// color||Color|0
-$--button-danger-background-color: $--color-danger-dark;
+$--button-danger-background-color: $--color-danger;
 /// color||Color|0
-$--button-info-border-color: $--color-face-darkest;
+$--button-info-border-color: $--color-face-darker;
 /// color||Color|0
 $--button-info-font-color: $--color-white !default;
 /// color||Color|0
-$--button-info-background-color: $--color-face-darkest;
+$--button-info-background-color: $--color-face-darker;
 
 $--button-hover-tint-percent: 20% !default;
-$--button-active-shade-percent: 10% !default;
+$--button-active-shade-percent: 5% !default;
 
 
 /* cascader
@@ -744,7 +746,7 @@ $--tag-default-hover-background-color: $--color-line-dark;
 $--tag-border: $--color-line-light;
 /// fontSize||Font|1
 $--tag-font-size: $--font-size-small;
-$--tag-border-radius: 5px;
+$--tag-border-radius: 6px;
 
 $--tag-info-fill: $--color-face-light;
 $--tag-info-border: $--color-face-light;
@@ -827,7 +829,7 @@ $--steps-padding: 20px !default;
 --------------------------*/
 $--menu-item-font-size: $--font-size-base !default;
 $--menu-item-font-color: $--color-text-primary !default;
-	$--menu-background-color: $--color-white !default;
+$--menu-background-color: $--color-white !default;
 $--menu-item-hover-fill: $--color-primary-light-9 !default;
 
 /* Rate
