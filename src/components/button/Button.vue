@@ -103,7 +103,7 @@ export default {
 @import '../../plugins/theme-variables.scss';
 .el-button {
   transition: filter .2s,transform $--button-lip-size;
-  transform: translateY(-$--button-lip-size);
+  transform: translateY(1 - $--button-lip-size);
   &--primary {
     box-shadow: 0 $--button-lip-size 0 0 rgba(0, 0, 0, 0.1);
   }
@@ -131,7 +131,7 @@ export default {
     transform: translateY(0);
   }
   &.is-circle {
-    transform: scaleY(0.9);
+    transform: scaleY(0.9) translateY(1 - $--button-lip-size);
   }
 }
 </style>

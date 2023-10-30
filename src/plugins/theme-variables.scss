@@ -122,6 +122,8 @@ $--border-base: $--border-width-base $--border-style-base $--border-color-base !
 $--border-radius-base: 12px;
 /// borderRadius|[小圆角,border radius small,border radius small]|Radius|0
 $--border-radius-small: 10px;
+// borderRadius|[迷你圆角,border radius mini,border radius mini]|Radius|0
+$--border-radius-mini: 5px;
 /// borderRadius|[圆形圆角,border radius circle,border radius circle]|Radius|0
 $--border-radius-circle: 100% !default;
 /// borderRadius|1|Radius|0
