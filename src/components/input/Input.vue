@@ -8,6 +8,7 @@
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @clear="$emit('clear')"
+    @input="$emit('input')"
   >
     <template slot="prepend">
       <slot name="prepend" />

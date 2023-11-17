@@ -9,6 +9,7 @@
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @clear="$emit('clear')"
+    @input="$emit('input')"
   >
     <slot />
   </el-radio>
@@ -27,7 +28,7 @@ export default {
     event: 'change'
   },
   props: {
-    vModel: [String, Number],
+    vModel: [String, Number, Boolean],
     radioSize: {
       type: String,
       default: 'mini'
