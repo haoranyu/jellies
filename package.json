@@ -1,6 +1,6 @@
 {
   "name": "jellies",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "private": false,
   "description": "A UI toolkit for Vue 2.x based on elementUI.",
   "author": "Haoran Yu",
@@ -31,7 +31,7 @@
     "sass": "^1.62.1",
     "splitpanes": "^2.4.1",
     "vue-codemirror": "^4.0.6",
-    "vue-katex-auto-render": "^0.1.4"
+    "vue-katex-auto-render": "^0.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.8",
