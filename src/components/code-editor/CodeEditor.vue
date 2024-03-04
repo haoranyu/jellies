@@ -223,6 +223,10 @@ export default {
       type: Boolean,
       default: true
     },
+    isViewportKept: {
+      type: Boolean,
+      default: false
+    },
     hasRepeatWordsAnnotations: {
       type: Boolean,
       default: false
@@ -410,7 +414,16 @@ export default {
   },
   watch: {
     files: function () {
+      let viewport = null;
+      if (this.isViewportKept) {
+        viewport = this.codemirror.getScrollInfo();
+      }
       this.initFiles();
+      if (this.isViewportKept) {
+        this.$nextTick(() => {
+          this.codemirror.scrollTo(viewport.left, viewport.top);
+        });
+      }
     },
     settings: {
       deep: true,
