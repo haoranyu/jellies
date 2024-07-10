@@ -184,11 +184,7 @@ export default {
       this.$emit('code-updated', value);
     },
     codeBlockLanguage: function () {
-      if (this.codeBlockLanguage !== '') {
-        this.cmOption.mode = CodeMirror.findModeByName(this.codeBlockLanguage).mime;
-      } else {
-        this.cmOption.mode = 'text/plain';
-      }
+      this.refreshMode();
     }
   },
   mounted: function() {
@@ -203,9 +199,7 @@ export default {
     if (!this.hasSelection) {
       this.disableSelection();
     }
-    if (this.codeBlockLanguage !== '') {
-      this.cmOption.mode = CodeMirror.findModeByName(this.codeBlockLanguage).mime;
-    }
+    this.refreshMode();
   },
   methods: {
     disableSelection: function() {
@@ -226,6 +220,13 @@ export default {
         code: this.value,
         language: this.codeBlockLanguage
       });
+    },
+    refreshMode: function () {
+      let result;
+      if (this.codeBlockLanguage !== '') {
+        result = CodeMirror.findModeByName(this.codeBlockLanguage);
+      }
+      this.cmOption.mode = result ? result.mime : 'text/plain';
     }
   }
 }
