@@ -22,6 +22,10 @@
 export default {
   name: 'JskPanel',
   props: {
+    hasBorder: {
+      type: Boolean,
+      default: false
+    },
     panelType: {
       type: String,
       default: 'info'
@@ -56,7 +60,10 @@ export default {
     },
     panelTheme: function() {
       return [
-        'panel panel-' + this.panelType
+        'panel panel-' + this.panelType,
+        {
+          'panel-border': this.hasBorder
+        }
       ];
     },
     panelHeaderTheme: function() {
@@ -88,6 +95,9 @@ export default {
 }
 .panel-body {
   padding: $--card-padding;
+}
+.panel-border {
+  border: 2px solid $--color-line-lightest;
 }
 .panel-header,
 .panel-footer {
