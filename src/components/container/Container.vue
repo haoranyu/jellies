@@ -1,7 +1,14 @@
 <template>
   <el-container
-    :style="{ maxWidth: width }"
-    :class="['container', isCentered ? 'centered' : '', isFullScreen ? 'fullscreen' : '', hasBleed ? 'bleed' : '']"
+    :style="{
+      maxWidth: width,
+      paddingLeft: bleedPaddingSize,
+      paddingRight: bleedPaddingSize
+    }"
+    :class="[
+      'container', isCentered ? 'centered' : '', 
+      isFullScreen ? 'fullscreen' : ''
+    ]"
     :direction="(isFullScreen || isHorizontal) ? 'horizontal' : 'vertical'"
   >
     <slot />
@@ -36,6 +43,10 @@ export default {
     hasBleed: {
       type: Boolean,
       default: true
+    },
+    bleedSize: {
+      type: [String, Number],
+      default: 12
     }
   },
   computed: {
@@ -44,6 +55,15 @@ export default {
         return this.containerWidth;
       }
       return this.containerWidth + 'px';
+    },
+    bleedPaddingSize: function() {
+      if (this.hasBleed) {
+        if (typeof(this.bleedSize) === 'string') {
+          return this.bleedSize;
+        }
+        return this.bleedSize + 'px';
+      }
+      return '0';
     }
   }
 }
@@ -52,10 +72,6 @@ export default {
 <style scoped>
 .container {
   width: 100%;
-}
-.bleed {
-  padding-left: 12px;
-  padding-right: 12px;
 }
 .centered {
   margin-left: auto;
