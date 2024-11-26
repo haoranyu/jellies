@@ -1,28 +1,65 @@
+<template>
+  <div
+    :class="[{
+      'jsk-table--has-top-border': hasTopBorder
+    }, $attrs.class]"
+    :style="$attrs.style"
+    v-bind="$attrs"
+  >
+    <el-table v-bind="$attrs" v-on="$listeners">
+      <slot />
+    </el-table>
+  </div>
+</template>
+
 <script>
 import { Table } from 'element-ui';
-const TableWrapper = Table;
-TableWrapper.name = 'JskTable';
-export default TableWrapper;
+
+export default {
+  name: 'JskTable',
+  components: {
+    ElTable: Table
+  },
+  inheritAttrs: false,
+  props: {
+    hasTopBorder: {
+      type: Boolean,
+      default: true
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 @import '../../plugins/theme-variables.scss';
-.el-table {
-  border-top: 2px solid #ddd;
-  &::before {
-    height: 2px;
-    z-index: 5;
+
+.jsk-table--has-top-border {
+  ::v-deep .el-table {
+    border-top: 2px solid #ddd !important;
+    &::before {
+      height: 2px !important;
+      display: block !important;
+      z-index: 5;
+    }
   }
+}
+
+::v-deep .el-table {
+  border-top: none;
+  &::before {
+    display: none;
+  }
+  
   &.el-table--border {
     border-top: 1px solid #ddd;
-  }
-  &.el-table--border::before {
-    height: 1px;
-  }
-  ::v-deep {
-    .cell {
-      line-height: 38px;
+    &::before {
+      height: 1px;
+      display: block;
     }
+  }
+  
+  .cell {
+    line-height: 38px;
   }
 }
 </style>
