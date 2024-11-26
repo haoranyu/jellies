@@ -270,4 +270,12 @@ export default {
 .jsk-modal.is-fullscreen .el-dialog__body {
   border: none;
 }
+.jsk-modal .el-col {
+  overflow: hidden;
+}
+.jsk-modal-wrapper .el-row .el-col:first-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>
