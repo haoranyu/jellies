@@ -788,6 +788,7 @@ export default {
       }
       if (file.history) {
         file.doc.setHistory(file.history);
+        file.history = null;
       }
     },
     renderCurrentFile() {
