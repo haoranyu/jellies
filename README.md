@@ -145,7 +145,8 @@ import {
   Panel,
   Loading,
   Message,
-  Notification
+  Notification,
+  Calendar
 } from "jellies";
 
 Vue.use(Pagination);
@@ -210,6 +211,7 @@ Vue.use(Divider);
 Vue.use(Image);
 Vue.use(Backtop);
 Vue.use(Panel);
+Vue.use(Calendar);
 
 Vue.use(Loading.directive);
 

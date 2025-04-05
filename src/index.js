@@ -76,6 +76,7 @@ import Tooltip from './components/tooltip';
 import Topnav from './components/topnav';
 import Tree from './components/tree';
 import Upload from './components/upload';
+import Calendar from './components/calendar';
 import './plugins';
 
 const components = [
@@ -152,7 +153,8 @@ const components = [
   Tooltip,
   Topnav,
   Tree,
-  Upload
+  Upload,
+  Calendar
 ];
 
 const install = function(Vue, opts = {}) {
@@ -262,5 +264,6 @@ export default {
   Tooltip,
   Topnav,
   Tree,
-  Upload
+  Upload,
+  Calendar
 };
