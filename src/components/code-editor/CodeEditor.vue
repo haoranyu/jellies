@@ -113,14 +113,18 @@
         @refresh="renderCurrentFileLineArrows"
         @gutterContextMenu="setBreakpoint"
       />
-      <code-editor-lock-menu
-        v-show="lockMenuVisible"
-        :style="lockMenuPosition"
-        :lock-menu-mode="lockMenuMode"
+      <code-editor-context-menu
+        v-show="contextMenuVisible"
+        :style="contextMenuPosition"
+        :menu-mode="contextMenuMode"
+        :has-lock-control="hasLockControl"
+        :has-placeholder-control="hasPlaceholderControl"
         @lock-change="setCurrentFileModificationState"
         @lock="lockSelectedCode"
         @unlock="unlockLockedCode"
         @hide="lockSelectedCode(true)"
+        @add-placeholder="addPlaceholder"
+        @remove-placeholder="removePlaceholder"
       />
       <code-editor-feedback-tooltip
         :feedback-tooltip-placement="feedbackTooltipPlacement"
@@ -160,15 +164,18 @@ import JskRadioGroup from '../radio-group/RadioGroup';
 import { codemirror } from 'vue-codemirror';
 import 'codemirror/lib/codemirror.css';
 import '../../plugins/codemirror';
-import CodeMirror from 'codemirror';
 import CodeEditorCloseConfirm from './addons/CloseConfirm';
 import CodeEditorReloadConfirm from './addons/ReloadConfirm';
 import CodeEditorLockConfirm from './addons/LockConfirm';
-import CodeEditorLockMenu from './addons/LockMenu';
+import CodeEditorContextMenu from './addons/ContextMenu';
 import CodeEditorFeedbackTooltip from './addons/FeedbackTooltip';
-import CodeEditorTranslation from './configs/translation';
 import CodeEditorCodemirrorOptions from './configs/options';
 import CodeEditorDefaultSettings from './configs/settings';
+import breakpoints from './mixins/breakpoints';
+import files from './mixins/files';
+import feedbacks from './mixins/feedbacks';
+import settings from './mixins/settings';
+import marks from './mixins/marks';
 const _isEqual = require('lodash.isequal');
 const _merge = require('lodash.merge');
 const _cloneDeep = require('lodash.clonedeep');
@@ -178,7 +185,7 @@ export default {
     CodeEditorCloseConfirm,
     CodeEditorReloadConfirm,
     CodeEditorLockConfirm,
-    CodeEditorLockMenu,
+    CodeEditorContextMenu,
     CodeEditorFeedbackTooltip,
     codemirror,
     JskTabs,
@@ -189,6 +196,13 @@ export default {
     JskRadioButton,
     JskRadioGroup
   },
+  mixins: [
+    breakpoints,
+    feedbacks,
+    files,
+    settings,
+    marks
+  ],
   props: {
     codeEditorCloseConfirmContent: Object,
     codeEditorReloadConfirmContent: Object,
@@ -304,6 +318,10 @@ export default {
     isFirstFileClosable: {
       type: Boolean,
       default: true
+    },
+    hasPlaceholderControl: {
+      type: Boolean,
+      default: false
     }
   },
   data: function() {
@@ -318,98 +336,27 @@ export default {
       feedbackTooltipVisible: false,
       feedbackTooltipContent: undefined,
       feedbackTooltipPosition: { left: 0, top: 0 },
-      lockMenuVisible: false,
-      lockMenuMode: 'lock',
-      lockMenuPosition: { left: 0, top: 0 },
+      contextMenuVisible: false,
+      contextMenuMode: 'lock',
+      contextMenuPosition: { left: 0, top: 0 },
       selectedLocks: undefined,
+      selectedPlaceholders: undefined,
       settings: _cloneDeep(CodeEditorDefaultSettings),
       editorOptions: _cloneDeep(CodeEditorCodemirrorOptions),
       editorFontSizeOption: 'large',
-      currentActiveIndex: 0
+      currentActiveIndex: 0,
+      hasPlaceholderFocused: false
     };
   },
   computed: {
-    codemirror: function() {
+    codemirror() {
       return this.$refs.codemirror.codemirror;
     },
-    files: function() {
-      return this.codeEditorFiles;
-    },
-    currentFile: function() {
-      return this.files[this.currentActiveIndex];
-    },
-    currentFileCode: function() {
-      if (this.currentFile) {
-        return this.currentFile.code;
-      }
-      return '';
-    },
-    currentFileLocks: function() {
-      if (this.currentFile) {
-        return this.currentFile.locks;
-      }
-      return [];
-    },
-    currentFileReadOnly: function() {
-      if (this.currentFile) {
-        return this.currentFile.readOnly;
-      }
-      return false;
-    },
-    editorTheme: function() {
-      let themeMapping = {
-        dark: 'monokai',
-        light: 'eclipse'
-      };
-      if (this.settings.theme) {
-        return themeMapping[this.settings.theme];
-      }
-      return themeMapping['light'];
-    },
-    editorFontSize: function() {
-      let fontSizeMapping = {
-        small: '14px',
-        normal: '16px',
-        large: '20px',
-        'extra-large': '24px'
-      };
-      if (this.editorFontSizeOption) {
-        return fontSizeMapping[this.editorFontSizeOption];
-      }
-      return fontSizeMapping['normal'];
-    },
-    feedbackTooltipTheme: function() {
-      return this.settings.theme === 'light' ? 'dark' : 'light';
-    },
-    controlWidth: function() {
+    controlWidth() {
       if (typeof this.codeEditorControlPanelWidth === 'string') {
         return this.codeEditorControlPanelWidth;
       }
       return this.codeEditorControlPanelWidth + 'px';
-    },
-    closeConfirmContent: function() {
-      if (this.codeEditorCloseConfirmContent !== undefined) {
-        return this.codeEditorCloseConfirmContent;
-      }
-      return CodeEditorTranslation[this.codeEditorLanguage].closeConfirm;
-    },
-    reloadConfirmContent: function() {
-      if (this.codeEditorReloadConfirmContent !== undefined) {
-        return this.codeEditorReloadConfirmContent;
-      }
-      return CodeEditorTranslation[this.codeEditorLanguage].reloadConfirm;
-    },
-    lockConfirmContent: function() {
-      if (this.codeEditorLockConfirmContent !== undefined) {
-        return this.codeEditorLockConfirmContent;
-      }
-      return CodeEditorTranslation[this.codeEditorLanguage].lockConfirm;
-    },
-    settingsContent: function() {
-      if (this.codeEditorSettingsContent !== undefined) {
-        return this.codeEditorSettingsContent;
-      }
-      return CodeEditorTranslation[this.codeEditorLanguage].settings;
     }
   },
   watch: {
@@ -456,11 +403,19 @@ export default {
       this.reloadCurrentFile();
     },
     hasLockControl() {
-      const cm = this.$refs.codemirror.cminstance;
-      if (this.hasLockControl) {
-        this.initLockControlListener(cm)
-      } else {
-        this.removeLockControlListener(cm)
+      this.updateControlMenuListeners();
+    },
+    hasPlaceholderControl() {
+      this.updateControlMenuListeners();
+    },
+    hasPlaceholderFocused(newValue) {
+      if (this.$refs.codemirror) {
+        const codemirrorWrapper = this.$refs.codemirror.cminstance.getWrapperElement();
+        if (newValue) {
+          codemirrorWrapper.classList.add('has-placeholder-focused');
+        } else {
+          codemirrorWrapper.classList.remove('has-placeholder-focused');
+        }
       }
     }
   },
@@ -479,53 +434,6 @@ export default {
     }
   },
   methods: {
-    /////////////////////////
-    // Initialization ///////
-    /////////////////////////
-    initFiles() {
-      if (this.files.length === 0) {
-        this.createAndSwitchToNewFile();
-      } else {
-        this.files.forEach(file => {
-          if (!file.isInitialized) {
-            this.initFile(file);
-          }
-        });
-      }
-    },
-    initFile(file) {
-      this.$set(file, 'isSaving', false);
-      this.$set(file, 'isModified', false);
-      this.initFileLocks(file);
-      this.initFileDoc(file);
-      this.initFileLocksBoundary(file);
-      this.$set(file, 'codeInit', file.code);
-      this.$set(file, 'locksInit', _cloneDeep(file.locks));
-      this.$set(file, 'isInitialized', true);
-    },
-    initFileDoc(file) {
-      file.doc = CodeMirror.Doc(file.code, this.getFileMode(file));
-      if (file.readOnly) {
-        file.doc.cantEdit = true;
-      }
-      this.addLocks(file.doc, file.locks);
-      this.addLineArrows(file.doc, file.lineArrows);
-      this.addFeedbackNotes(file.doc, file.feedbackNotes);
-      this.addLineNotes(file.doc, file.lineNotes);
-      this.addLineClasses(file.doc, file.lineClasses);
-    },
-    initFileLocks(file) {
-      if (file.locks === undefined) {
-        this.$set(file, 'locks', []);
-      }
-      file.locks.forEach(lock => {
-        lock.hide = lock.hide === true;
-      });
-    },
-    initFileLocksBoundary(file) {
-      this.$set(file, 'lockStart', this.isFileLockedAtStart(file));
-      this.$set(file, 'lockEnd', this.isFileLockedAtEnd(file));
-    },
     initEditorOptions() {
       this.editorOptions = _merge(this.editorOptions, this.codeEditorOptions);
       if (this.codeEditorSettings !== undefined) {
@@ -546,973 +454,11 @@ export default {
     initEditorListeners() {
       let cm = this.$refs.codemirror.cminstance;
       cm.save = this.saveCurrentFile;
-      this.initLockControlListener(cm);
+      this.updateControlMenuListeners(cm);
       this.initFeedbackTooltipListener(cm);
       if (this.hasModificationLossConfirm) {
         window.addEventListener('beforeunload', this.modificationLossPrevention)
       }
-    },
-    listenCmContextMenuEvent(cm, e) {
-      e.preventDefault();
-      setTimeout(() => {
-        if (cm.somethingSelected()) {
-          this.showLockControlAtSelection(e);
-        } else {
-          this.showLockControlAtMouse(e);
-        }
-      }, 101);
-    },
-    listenCmFocusEvent(cm) {
-      this.lockMenuVisible = false;
-      cm.focus();
-    },
-    initLockControlListener(cm) {
-      if (this.hasLockControl) {
-        cm.on('contextmenu', this.listenCmContextMenuEvent);
-        cm.on('update', this.listenCmFocusEvent);
-      }
-    },
-    removeLockControlListener(cm) {
-      cm.off('contextmenu', this.listenCmContextMenuEvent);
-      cm.off('update', this.listenCmFocusEvent);
-    },
-    initFeedbackTooltipListener(cm) {
-      if (this.hasFeedbackNotes) {
-        cm.getWrapperElement().addEventListener('mouseover', e => {
-          this.showFeedbackTooltipAtMouse(e);
-        });
-        cm.getWrapperElement().addEventListener('mouseup', e => {
-          this.removeFeedbackNoteAtMouse(e);
-        });
-      }
-    },
-    modificationLossPrevention(e) {
-      if (this.hasModifiedFile()) {
-        e = e || window.event;
-        if (e) {
-          e.returnValue = '';
-        }
-        return '';
-      }
-      return null;
-    },
-
-    /////////////////////////
-    // Status Control ///////
-    /////////////////////////
-    setSaving(file, isSaving = true) {
-      file.doc.cantEdit = isSaving;
-      file.isSaving = isSaving;
-    },
-    setModificationState(file) {
-      let isCodeChanged = file.codeInit !== file.doc.getValue();
-      let areLocksChanged = !_isEqual(file.locksInit, this.getLocks(file));
-      this.isAfterSwapDoc = false;
-      file.isModified = isCodeChanged || areLocksChanged;
-    },
-    setCurrentFileModificationState() {
-      return this.setModificationState(this.currentFile);
-    },
-    hasModifiedFile() {
-      for (const file of this.files) {
-        if (file.isModified) {
-          return true
-        }
-      }
-      return false
-    },
-    isFileClosable(file, indexOfFile) {
-      const indexOfFirstFile = 0
-      if (!this.isFirstFileClosable && indexOfFile === indexOfFirstFile ) {
-        return false
-      }
-      return file.isSaving ? false : undefined
-    },
-    ////////////////////////////////
-    // File Modification Outside ///
-    ////////////////////////////////
-    isCurrentFileChangedOutside() {
-      return !!(this.currentFileCode !== this.currentFile.codeInit ||
-        !_isEqual(this.currentFileLocks, this.currentFile.locksInit));
-    },
-    reloadCurrentFile() {
-      if (!this.currentFile) {
-        return;
-      }
-      if (!this.currentFile.isModified) {
-        this.initFile(this.currentFile);
-        this.switchToCurrentFile();
-      } else if (
-        !this.isAfterSwapDoc ||
-        (this.isAfterSwapDoc && this.isCurrentFileChangedOutside())
-      ) {
-        this.reloadConfirmFileName = this.currentFile.name;
-        this.reloadConfirmVisible = true;
-        new Promise(resolve => {
-          this.$on('reload-confirm', result => {
-            resolve(result);
-            this.$off('reload-confirm');
-          });
-        }).then(result => {
-          this.reloadConfirmVisible = false;
-          if (result === 'reload') {
-            this.initFile(this.currentFile);
-            this.switchToCurrentFile();
-          }
-        });
-      }
-    },
-
-    /////////////////////////
-    // File Control /////////
-    /////////////////////////
-    flushCurrentFile() {
-      let cm = this.$refs.codemirror.cminstance;
-      this.currentFile.doc = cm.getDoc();
-      this.currentFile.selections = cm.listSelections();
-      this.currentFile.history = cm.getHistory();
-    },
-    switchToCurrentFile() {
-      let cm = this.$refs.codemirror.cminstance;
-      cm.swapDoc(this.currentFile.doc);
-      this.isAfterSwapDoc = true;
-      this.renderCurrentFile();
-    },
-    createAndSwitchToNewFile() {
-      if (!this.canCreateNewFile) {
-        return this.$emit('create-new-file-error')
-      }
-      let newFile = {
-        name: 'untitled',
-        code: ''
-      };
-      this.initFile(newFile);
-      this.files.push(newFile);
-      this.$refs.tabs.changeActive(this.files.length - 1);
-      if (this.files.length === 1) {
-        this.setActiveTab(0);
-        this.switchToCurrentFile();
-      } else {
-        this.flushCurrentFile();
-        this.setActiveTab(this.files.length - 1);
-        this.switchToCurrentFile();
-      }
-    },
-    getFileMode(file) {
-      let mode = 'text/plain';
-      if (file.language === undefined || CodeMirror.findModeByName(file.language) === undefined) {
-        if (CodeMirror.findModeByFileName(file.name) !== undefined) {
-          mode = CodeMirror.findModeByFileName(file.name).mime;
-        }
-      } else {
-        mode = CodeMirror.findModeByName(file.language).mime;
-      }
-      return mode;
-    },
-    saveCurrentFile() {
-      return this.saveFile(this.currentActiveIndex);
-    },
-    saveFile(index) {
-      let file = this.files[index];
-      if (file.isModified || file.name === 'untitled') {
-        this.setSaving(file);
-        return new Promise(saveDone => {
-          this.$emit('before-save', index);
-          this.beforeSaveFile(file, index).then(fileSaved => {
-            if (fileSaved) {
-              this.updateSavedFile(index);
-              saveDone(true);
-            } else {
-              this.setSaving(file, false);
-              saveDone(false);
-            }
-          });
-        });
-      }
-    },
-    saveAllFiles() {
-      const fileIndexList = []
-      for (let index = 0; index < this.files.length; index++) {
-        let file = this.files[index];
-        if (file.isModified || file.name === 'untitled') {
-          fileIndexList.push(index)
-          this.setSaving(file);
-        }
-      }
-      return new Promise(saveDone => {
-        this.$emit('before-save-all');
-        this.beforeSaveAllFiles().then(filesSaved => {
-          if (filesSaved) {
-            fileIndexList.forEach(index => {
-              this.updateSavedFile(index);
-            })
-            saveDone(true);
-          } else {
-            fileIndexList.forEach(index => {
-              this.setSaving(this.files[index], false);
-            })
-            saveDone(false);
-          }
-        });
-      });
-    },
-    updateSavedFile(index) {
-      let file = this.files[index];
-      file.codeInit = file.doc.getValue();
-      file.code = file.doc.getValue();
-      file.locksInit = this.getLocks(file);
-      file.locks = this.getLocks(file);
-      file.selections = file.doc.listSelections();
-      file.history = file.doc.getHistory();
-      this.$emit('saved', index);
-      this.setSaving(file, false);
-      this.setModificationState(file);
-    },
-    renderDoc(file) {
-      // Suppose that the followings might be changed and need to be rerendered:
-      // - line notes
-      // - errors and warnings
-      // - file mode
-      file.doc.cm.refresh();
-      file.doc.cm.setOption('mode', this.getFileMode(file));
-      this.clearFeedbackNotes(file.doc);
-      this.addFeedbackNotes(file.doc, file.feedbackNotes);
-      this.clearLineArrows(file.doc);
-      this.addLineArrows(file.doc, file.lineArrows);
-      this.clearLineNotes(file.doc);
-      this.addLineNotes(file.doc, file.lineNotes);
-      this.clearLineClasses(file.doc);
-      this.addLineClasses(file.doc, file.lineClasses);
-      if (file.selections) {
-        file.doc.setSelections(file.selections);
-      }
-      if (file.history) {
-        file.doc.setHistory(file.history);
-        file.history = null;
-      }
-    },
-    renderCurrentFile() {
-      this.renderDoc(this.currentFile);
-    },
-    renderCurrentFileLineArrows() {
-      const file = this.currentFile;
-      this.clearLineArrows(file.doc);
-      this.$nextTick(() => {
-        this.addLineArrows(file.doc, file.lineArrows);
-      })
-    },
-
-    /////////////////////////
-    // Tabs Control /////////
-    /////////////////////////
-    switchToTab(targetIndex) {
-      this.flushCurrentFile();
-      this.setActiveTab(targetIndex);
-      this.switchToCurrentFile();
-    },
-    switchToPreviousTab() {
-      this.setActiveTab(this.currentActiveIndex - 1);
-    },
-    setActiveTab(index) {
-      if (index < 0) {
-        index = 0;
-      }
-      this.currentActiveIndex = index;
-      this.$refs.tabs.changeActive(index);
-      this.$emit('switch-tab', index);
-    },
-    closeTab(index) {
-      this.files.splice(index, 1);
-      if (this.files.length === 0) {
-        this.createAndSwitchToNewFile();
-      } else if (index < this.currentActiveIndex) {
-        this.switchToPreviousTab();
-      } else if (index === this.currentActiveIndex) {
-        this.switchToPreviousTab();
-        this.switchToCurrentFile();
-      }
-    },
-    beforeCloseTab(index) {
-      return () => {
-        return new Promise(returnToTab => {
-          let file = this.files[index];
-          if (file.isModified) {
-            this.closeConfirmFileName = file.name;
-            this.closeConfirmVisible = true;
-            new Promise(resolve => {
-              this.$on('close-confirm', result => {
-                resolve(result);
-                this.$off('close-confirm');
-              });
-            }).then(result => {
-              this.closeConfirmVisible = false;
-              if (result === 'cancel') {
-                returnToTab(false);
-              } else if (result === 'save') {
-                this.saveFile(index).then(saveDone => {
-                  if (saveDone) {
-                    returnToTab(true);
-                  } else {
-                    returnToTab(false);
-                  }
-                });
-              } else {
-                returnToTab(true);
-              }
-            });
-          } else {
-            returnToTab(true);
-          }
-        });
-      };
-    },
-
-    /////////////////////////
-    // Line Arrows Control //
-    /////////////////////////
-    addLineArrows(doc, lineArrows) {
-      if (this.hasLineArrows) {
-        if (lineArrows !== undefined) {
-          lineArrows.forEach(lineArrow => {
-            this.addLineArrow(doc, lineArrow);
-          });
-        }
-      }
-    },
-    getLineArrowHeight(line) {
-      let cm = this.$refs.codemirror.cminstance;
-      return `${Math.ceil(cm.heightAtLine(line + 1) - cm.heightAtLine(line))}px`;
-    },
-    addLineArrow(doc, lineArrow) {
-      this.addLineArrowStartGutterMarker(doc, lineArrow);
-      this.addLineArrowMiddleGutterMarker(doc, lineArrow);
-      this.addLineArrowEndGutterMarker(doc, lineArrow);
-    },
-    addLineArrowStartGutterMarker(doc, lineArrow) {
-      let line = lineArrow.from;
-      let element = document.createElement('div');
-      if (lineArrow.from < lineArrow.to) {
-        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-start-down-marker';
-      } else {
-        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-start-up-marker';
-      }
-      element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
-      doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
-    },
-    addLineArrowMiddleGutterMarker(doc, lineArrow) {
-      let startLine = lineArrow.from
-      let endLine = lineArrow.to
-      if (lineArrow.from > lineArrow.to) {
-        startLine = lineArrow.to
-        endLine = lineArrow.from
-      }
-      for (let line = startLine + 1; line < endLine; line += 1) {
-        let element = document.createElement('div');
-        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-middle-marker';
-        element.style.height = this.getLineArrowHeight(line);
-        element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
-        doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
-      }
-    },
-    addLineArrowEndGutterMarker(doc, lineArrow) {
-      let line = lineArrow.to;
-      let element = document.createElement('div');
-      if (lineArrow.from < lineArrow.to) {
-        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-end-down-marker';
-      } else {
-        element.className = 'jsk-code-editor-line-arrow-marker jsk-code-editor-line-arrow-end-up-marker';
-      }
-      element.innerHTML = '<i class="' + lineArrow.type + '"></i>';
-      doc.setGutterMarker(line, 'CodeMirror-line-arrows', element);
-    },
-    clearLineArrows(doc) {
-      if (this.hasLineArrows) {
-        doc.clearGutter('CodeMirror-line-arrows');
-      }
-    },
-
-    ////////////////////////////
-    // Feedback Notes Control //
-    ////////////////////////////
-    addFeedbackNotes(doc, feedbackNotes) {
-      if (this.hasFeedbackNotes) {
-        if (doc.feedbackNotes === undefined) {
-          doc.feedbackNotePositionMarkers = [];
-          doc.feedbackNoteRangeMarkers = [];
-        }
-        if (feedbackNotes !== undefined) {
-          feedbackNotes.forEach(feedbackNote => {
-            if (feedbackNote) {
-              this.addFeedbackNote(doc, feedbackNote);
-            }
-          });
-        }
-      }
-    },
-    addFeedbackNote(doc, feedbackNote) {
-      if (_isEqual(feedbackNote.from, feedbackNote.to)) {
-        let feedbackNotePositionMarker = this.addFeedbackNotePositionMarker(doc, feedbackNote);
-        doc.feedbackNotePositionMarkers.push(feedbackNotePositionMarker);
-      } else {
-        let feedbackNoteRangeMarker = this.addFeedbackNoteRangeMarker(doc, feedbackNote);
-        doc.feedbackNoteRangeMarkers.push(feedbackNoteRangeMarker);
-      }
-      this.addFeedbackNoteGutterMarker(doc, feedbackNote);
-    },
-    addFeedbackNoteRangeMarker(doc, feedbackNote) {
-      return doc.markText(feedbackNote.from, feedbackNote.to, {
-        className: 'feedback-range-' + feedbackNote.type,
-        attributes: {
-          content: feedbackNote.content,
-          dismissible: feedbackNote.isDismissible,
-          line: feedbackNote.from.line,
-          index: feedbackNote.index
-        }
-      });
-    },
-    addFeedbackNotePositionMarker(doc, feedbackNote) {
-      let element = document.createElement('span');
-      element.setAttribute('data-content', feedbackNote.content);
-      element.setAttribute('data-dismissible', feedbackNote.isDismissible);
-      element.setAttribute('data-line', feedbackNote.from.line);
-      element.setAttribute('data-index', feedbackNote.index);
-      element.className = 'feedback-position-' + feedbackNote.type;
-      element.innerHTML = '';
-      return doc.setBookmark(feedbackNote.from, {
-        widget: element,
-        insertLeft: true
-      });
-    },
-    addFeedbackNoteGutterMarker(doc, feedbackNote) {
-      let line = feedbackNote.from.line;
-      let element = document.createElement('div');
-      element.className = 'jsk-code-editor-feedback-note-marker';
-      element.innerHTML = '<i class="' + feedbackNote.type + '"></i>';
-      doc.setGutterMarker(line, 'CodeMirror-feedback-notes', element);
-    },
-    clearFeedbackNotes(doc) {
-      if (this.hasFeedbackNotes) {
-        if (doc.feedbackNoteRangeMarkers !== undefined) {
-          doc.feedbackNoteRangeMarkers.forEach(feedbackNoteRangeMarker => feedbackNoteRangeMarker.clear());
-        }
-        if (doc.feedbackNotePositionMarkers !== undefined) {
-          doc.feedbackNotePositionMarkers.forEach(feedbackNotePositionMarker => feedbackNotePositionMarker.clear());
-        }
-        doc.clearGutter('CodeMirror-feedback-notes');
-        doc.feedbackNotePositionMarkers = undefined;
-        doc.feedbackNoteRangeMarkers = undefined;
-      }
-    },
-    showFeedbackTooltipAtMouse(mouse) {
-      this.feedbackTooltipVisible = false;
-      let feedbackNotes = this.getFeedbackNoteMarksAtMouse(mouse);
-      if (feedbackNotes.length > 0) {
-        const feedbackNote = feedbackNotes[0];
-        this.setFeedbackTooltipPosition(feedbackNote);
-        this.feedbackTooltipVisible = true;
-        if (feedbackNote.type === 'range') {
-          this.feedbackTooltipContent = feedbackNote.attributes.content;
-        } else {
-          this.feedbackTooltipContent = feedbackNote.widgetNode.childNodes[0].dataset.content;
-        }
-      }
-    },
-    setFeedbackTooltipPosition(feedbackNote) {
-      let cm = this.$refs.codemirror.cminstance;
-      const halfCharWidth = cm.defaultCharWidth() / 2;
-      const charHeight = cm.defaultTextHeight();
-      let tooltipPositionX, tooltipPositionY;
-      if (feedbackNote.type === 'range') {
-        const tooltipPositionLeft = cm.charCoords(feedbackNote.find().from);
-        const tooltipPositionRight = cm.charCoords(feedbackNote.find().to);
-        tooltipPositionY = tooltipPositionRight.bottom;
-        tooltipPositionX = (tooltipPositionLeft.left + tooltipPositionRight.left) / 2 - halfCharWidth;
-      } else if (feedbackNote.type === 'bookmark') {
-        const tooltipPosition = cm.charCoords(feedbackNote.find());
-        tooltipPositionY = tooltipPosition.bottom;
-        tooltipPositionX = tooltipPosition.left - 3.5;
-      }
-      if (tooltipPositionY > window.innerHeight / 2) {
-        this.feedbackTooltipPosition.top = `${tooltipPositionY - charHeight + 20}px`;
-        this.feedbackTooltipPlacement = 'top-start';
-      } else {
-        this.feedbackTooltipPosition.top = `${tooltipPositionY}px`;
-        this.feedbackTooltipPlacement = 'bottom-start';
-      }
-      this.feedbackTooltipPosition.left = `${tooltipPositionX}px`;
-    },
-    getFeedbackNoteMarksAtMouse(mouse) {
-      const pageX = mouse.pageX
-      const pageY = mouse.pageY
-      let cm = this.$refs.codemirror.cminstance;
-      let mousePosition = cm.coordsChar({ left: pageX, top: pageY });
-      const halfCharWidth = cm.defaultCharWidth() / 2;
-      const isMouseAtChar = Math.abs(pageX - cm.charCoords(mousePosition).left) < halfCharWidth;
-      if (!isMouseAtChar) {
-        return [];
-      }
-      return cm.findMarksAt(mousePosition).filter(this.isFeedbackNoteMark);
-    },
-    isFeedbackNoteMark(mark) {
-      const isRangeMarker = (
-        mark.className === 'feedback-range-warning' ||
-        mark.className === 'feedback-range-error'
-      );
-      const isPositionMarker = (
-        mark.type === 'bookmark' &&
-        mark.widgetNode && (
-          mark.widgetNode.childNodes[0].className === 'feedback-position-warning' ||
-          mark.widgetNode.childNodes[0].className === 'feedback-position-error'
-        )
-      );
-      return isRangeMarker || isPositionMarker;
-    },
-    removeFeedbackNoteAtMouse(mouse) {
-      let feedbackNotes = this.getFeedbackNoteMarksAtMouse(mouse);
-      if (feedbackNotes.length > 0) {
-        const feedbackNote = feedbackNotes[0];
-        let isDismissible = false;
-        let index = -1;
-        if (feedbackNote.type === 'range') {
-          isDismissible = feedbackNote.attributes.dismissible;
-          index = parseInt(feedbackNote.attributes.index);
-        } else {
-          isDismissible = (feedbackNote.widgetNode.childNodes[0].dataset.dismissible === 'true');
-          index = parseInt(feedbackNote.widgetNode.childNodes[0].dataset.index);
-        }
-        if (isDismissible) {
-          feedbackNote.clear();
-          this.files[0].feedbackNotes.splice(index, 1, null)
-          this.removeFeedbackNoteGutterMarkerByFeedbackNote(feedbackNote);
-        }
-      }
-    },
-    removeFeedbackNoteGutterMarkerByFeedbackNote(feedbackNote) {
-      let line;
-      if (feedbackNote.type === 'range') {
-        line = feedbackNote.attributes.line;
-      } else {
-        line = parseInt(feedbackNote.widgetNode.childNodes[0].dataset.line);
-      }
-      const doc = this.currentFile.doc;
-      const markedSpansInLine = doc.lineInfo(line).handle.markedSpans;
-      let feedbackNotesInLine = [];
-      if (markedSpansInLine) {
-        feedbackNotesInLine = markedSpansInLine.map(markedSpan => {
-          return markedSpan.marker;
-        }).filter(this.isFeedbackNoteMark)
-      }
-      if (feedbackNotesInLine.length === 0) {
-        doc.setGutterMarker(line, 'CodeMirror-feedback-notes', null);
-      }
-    },
-
-    //////////////////////////
-    // Line Class Control //
-    //////////////////////////
-    addLineClasses(doc, lineClasses) {
-      if (doc.lineClasses === undefined) {
-        doc.lineClasses = [];
-      }
-      if (lineClasses !== undefined) {
-        lineClasses.forEach((lineClass) => {
-          this.addLineClass(doc, lineClass);
-        });
-      }
-    },
-    addLineClass(doc, lineClass) {
-      doc.addLineClass(lineClass.line, lineClass.where, lineClass.class);
-      doc.lineClasses.push({
-        line: lineClass.line,
-        where: lineClass.where,
-        class: lineClass.class
-      });
-    },
-    clearLineClasses(doc) {
-      if (doc.lineClasses !== undefined) {
-        doc.lineClasses.forEach(lineClass => {
-          doc.removeLineClass(lineClass.line, lineClass.where, lineClass.class);
-        });
-      }
-      doc.lineClasses = undefined;
-    },
-
-    //////////////////////////
-    // Line Notes Control //
-    //////////////////////////
-    addLineNotes(doc, lineNotes) {
-      if (this.hasLineNotes) {
-        if (doc.lineNotes === undefined) {
-          doc.lineNotes = [];
-        }
-        if (lineNotes !== undefined) {
-          lineNotes.forEach(lineNote => {
-            this.addLineNote(doc, lineNote);
-          });
-        }
-      }
-    },
-    addLineNote(doc, lineNote) {
-      let element = document.createElement('span');
-      let elementClass = 'jsk-code-editor-note';
-      let elementIcon = '';
-      if (lineNote.type !== undefined) {
-        elementClass += ' jsk-code-editor-note-' + lineNote.type;
-      }
-      if (lineNote.hasIcon === true) {
-        let iconType = lineNote.type || 'info';
-        let icons = {
-          info: 'info',
-          warning: 'warning',
-          error: 'times-o',
-          success: 'check-o'
-        };
-        elementIcon += '<i class="el-icon-j-' + icons[iconType] + '"></i>';
-      }
-      element.innerHTML =
-        '<div class="' +
-        elementClass +
-        '">' +
-        elementIcon +
-        '<div>' +
-        lineNote.content +
-        '</div></div>';
-      let lineNoteWidget = doc.addLineWidget(lineNote.line, element, {
-        above: true
-      });
-      doc.lineNotes.push(lineNoteWidget);
-    },
-    clearLineNotes(doc) {
-      if (this.hasLineNotes) {
-        if (doc.lineNotes !== undefined) {
-          doc.lineNotes.forEach(lineNoteWidget => lineNoteWidget.clear());
-        }
-        doc.lineNotes = undefined;
-      }
-    },
-
-    ////////////////////////
-    // Breakpoint Control //
-    ////////////////////////
-    getBreakpoints(index) {
-      return this.files[index].doc.breakpoints;
-    },
-    hasBreakpoint(line, cm) {
-      if (cm === undefined) {
-        cm = this.$refs.codemirror.cminstance;
-      }
-      let gutterMarkers = cm.lineInfo(line).gutterMarkers;
-      let hasBreakpoint = gutterMarkers !== null;
-      if (gutterMarkers !== null) {
-        if (!gutterMarkers['CodeMirror-breakpoints']) {
-          hasBreakpoint = false;
-        }
-      }
-      return hasBreakpoint;
-    },
-    setBreakpoint(cm, line) {
-      let doc = cm.getDoc();
-      if (doc.breakpoints === undefined) {
-        doc.breakpoints = [];
-      }
-      if (this.hasBreakpointControl) {
-        if (this.hasBreakpoint(line, cm)) {
-          this.removeBreakpoint(doc, line);
-        } else {
-          this.addBreakpoint(doc, line);
-        }
-      }
-    },
-    addBreakpoint(doc, line) {
-      let element = document.createElement('div');
-      element.className = 'jsk-code-editor-breakpoint';
-      element.innerHTML = '●';
-      doc.setGutterMarker(line, 'CodeMirror-breakpoints', element);
-      doc.breakpoints.push(line);
-    },
-    removeBreakpoint(doc, line) {
-      doc.setGutterMarker(line, 'CodeMirror-breakpoints', null);
-      doc.breakpoints = doc.breakpoints.filter(function(value) {
-        return value !== line;
-      });
-    },
-
-    /////////////////////////
-    // Lock Control /////////
-    /////////////////////////
-    getLocks(file) {
-      let allMarks = this.getMarks(file.doc, 'locked-code');
-      let allLocks = [];
-      allMarks.forEach(mark => {
-        allLocks.push({
-          from: this.getLockMarkFromPosition(mark, file),
-          to: this.getLockMarkToPosition(mark, file),
-          hide: mark.collapsed === true
-        });
-      });
-      return allLocks;
-    },
-    getLockMarkFromPosition(mark, file) {
-      let from = this.makePosition(mark.find().from);
-      if (from.line === 0 && from.ch === 0 && file.lockStart) {
-        from.ch -= 1;
-      }
-      return from;
-    },
-    getLockMarkToPosition(mark, file) {
-      let to = this.makePosition(mark.find().to);
-      let last = this.getLastPosition(file.doc);
-      if (to.line === last.line && to.ch === last.ch && file.lockEnd) {
-        to.ch += 1;
-      }
-      return to;
-    },
-    isFileLockedAtStart(file) {
-      let fileLockedAtStart = false;
-      file.locks.forEach(lock => {
-        if (lock.from.line === 0 && lock.from.ch < 0) {
-          fileLockedAtStart = true;
-        }
-      });
-      return fileLockedAtStart;
-    },
-    isFileLockedAtEnd(file) {
-      let fileLockedAtEnd = false;
-      file.locks.forEach(lock => {
-        let last = this.getLastPosition(file.doc);
-        if (lock.to.line === last.line && lock.to.ch > last.ch) {
-          fileLockedAtEnd = true;
-        }
-      });
-      return fileLockedAtEnd;
-    },
-    addLocks(doc, locks) {
-      if (doc.locks === undefined) {
-        doc.locks = [];
-      }
-      if (locks !== undefined) {
-        locks.forEach(lock => {
-          this.addLock(doc, lock);
-        });
-      }
-    },
-    addLock(doc, lock) {
-      let first = { line: 0, ch: 0 };
-      let last = this.getLastPosition(doc);
-      let isInvisible = (lock.hide === true);
-      let options = {
-        readOnly: true,
-        className: 'locked-code',
-        collapsed: isInvisible
-      };
-      if (isInvisible) {
-        options.replacedWith = this.hiddenCodeReplacement();
-        options.handleMouseEvents = true;
-      }
-      if (lock.from.line === first.line && lock.from.ch < first.ch) {
-        options.inclusiveLeft = true;
-      }
-      if (lock.to.line === last.line && lock.to.ch > last.ch) {
-        options.inclusiveRight = true;
-      }
-      let lockMark = doc.markText(lock.from, lock.to, options);
-      doc.locks.push(lockMark);
-    },
-    clearLocks(doc) {
-      if (doc.locks !== undefined) {
-        doc.locks.forEach(lockMark => lockMark.clear());
-      }
-      doc.locks = undefined;
-    },
-    lockSelectedCode(hide = false) {
-      let cm = this.$refs.codemirror.cminstance;
-      let newLocks = cm.listSelections().map((selection, index) => {
-        let lock = this.removeSelectionDirection(selection);
-        lock.hide = hide;
-        if (index === 0) {
-          this.checkLockEdgeCases(lock).then(position => {
-            if (position === 'left' || position === 'both') {
-              lock.from.ch -= 1;
-              this.currentFile.lockStart = true;
-            }
-            if (position === 'right' || position === 'both') {
-              lock.to.ch += 1;
-              this.currentFile.lockEnd = true;
-            }
-            this.lockConfirmVisible = false;
-          });
-        }
-        return lock;
-      });
-      this.addLocks(cm.doc, newLocks);
-    },
-    checkLockEdgeCases(lock) {
-      let cm = this.$refs.codemirror.cminstance;
-      let last = this.getLastPosition(cm.doc);
-      this.lockConfirmPositions = [];
-      if (lock.from.line === 0 && lock.from.ch === 0) {
-        this.lockConfirmPositions.push('start');
-      }
-      if (lock.to.line === last.line && lock.to.ch === last.ch) {
-        this.lockConfirmPositions.push('end');
-      }
-      return new Promise(resolve => {
-        if (this.lockConfirmPositions.length > 0) {
-          this.lockConfirmVisible = true;
-          this.$on('lock-confirm', position => {
-            resolve(position);
-            this.$off('lock-confirm');
-          });
-        } else {
-          resolve('none');
-        }
-      })
-    },
-    getLocksAtSelection() {
-      let cm = this.$refs.codemirror.cminstance;
-      if (cm.listSelections().length === 1) {
-        let selection = this.removeSelectionDirection(cm.listSelections()[0]);
-        return cm.findMarks(selection.from, selection.to).filter(mark => {
-          return mark.className === 'locked-code';
-        });
-      }
-    },
-    getLocksAtMouse(pageX, pageY) {
-      let cm = this.$refs.codemirror.cminstance;
-      let mousePosition = cm.coordsChar({ left: pageX, top: pageY });
-      return cm.findMarksAt(mousePosition).filter(mark => {
-        return mark.className === 'locked-code';
-      });
-    },
-    unlockLockedCode() {
-      this.selectedLocks.forEach(lock => {
-        lock.clear();
-      });
-    },
-    showLockControlAtSelection(mouse) {
-      this.selectedLocks = this.getLocksAtSelection();
-      if (this.selectedLocks.length > 0) {
-        this.lockMenuMode = 'unlock';
-        this.lockMenuPosition.left = `${mouse.clientX - 15}px`;
-      } else {
-        this.lockMenuMode = 'lock';
-        this.lockMenuPosition.left = `${mouse.clientX - 30}px`;
-      }
-      this.lockMenuPosition.top = `${mouse.clientY - 15}px`;
-      this.lockMenuVisible = true;
-    },
-    showLockControlAtMouse(mouse) {
-      this.selectedLocks = this.getLocksAtMouse(mouse.pageX, mouse.pageY);
-      if (this.selectedLocks.length > 0) {
-        this.lockMenuMode = 'unlock';
-        this.lockMenuPosition.left = `${mouse.clientX - 30}px`;
-        this.lockMenuPosition.top = `${mouse.clientY - 15}px`;
-        this.lockMenuVisible = true;
-      }
-    },
-    hiddenCodeReplacement() {
-      let element = document.createElement('span');
-      element.innerHTML =
-        '<span class="CodeMirror-foldmarker locked-code" title="' +
-        CodeEditorTranslation[this.codeEditorLanguage].hiddenLock +
-        '">…</span>';
-      return element;
-    },
-
-    ////////////////////////////////
-    // Configuration Functions /////
-    ////////////////////////////////
-    setEditorMode(mode) {
-      if (mode === 'vim') {
-        this.editorOptions.vimMode = true;
-      } else {
-        this.editorOptions.vimMode = false;
-      }
-      this.editorOptions.keyMap = mode;
-    },
-    setEditorIndentSize(indentSize) {
-      indentSize = parseInt(indentSize);
-      this.editorOptions.tabSize = indentSize;
-      this.editorOptions.indentUnit = indentSize;
-    },
-    setEditorFontSize(fontSize) {
-      this.editorFontSizeOption = fontSize;
-    },
-    setEditorAutoIndent(autoIndent) {
-      delete this.editorOptions.extraKeys['Enter']
-      this.editorOptions.smartIndent = true
-      switch (autoIndent) {
-        case 'force':
-          this.editorOptions.extraKeys['Enter'] = (cm) => {
-            if (cm.doc.mode.name !== 'python') {
-              cm.execCommand('indentAuto')
-            }
-            cm.replaceSelection('\n', 'end')
-            cm.execCommand('indentAuto')
-          }
-          break;
-        case 'smart':
-          break;
-        default:
-          this.editorOptions.smartIndent = false
-      }
-    },
-
-    /////////////////////////
-    // Helper Functions /////
-    /////////////////////////
-    removeSelectionDirection(selection) {
-      let range = {};
-      let anchor = selection.anchor;
-      let head = selection.head;
-      if (
-        anchor.line < head.line ||
-        (anchor.line === head.line && anchor.ch < head.ch)
-      ) {
-        range.from = { line: anchor.line, ch: anchor.ch };
-        range.to = { line: head.line, ch: head.ch };
-      } else {
-        range.from = { line: head.line, ch: head.ch };
-        range.to = { line: anchor.line, ch: anchor.ch };
-      }
-      return range;
-    },
-    makePosition(position) {
-      return {
-        line: position.line,
-        ch: position.ch
-      };
-    },
-    getMarks(doc, markClassName) {
-      let allMarks = doc.getAllMarks();
-      if (markClassName !== undefined) {
-        allMarks = allMarks.filter(mark => {
-          return mark.className === markClassName;
-        });
-      }
-      return allMarks;
-    },
-    getLastPosition(doc) {
-      const size = doc.size;
-      return { line: size - 1, ch: doc.getLine(size - 1).length }
-    },
-    customTabTooltipContent(file) {
-      let tooltipContent = file.path ? file.path : file.name
-      this.customTabTooltips.forEach(({ value, title }) => {
-        if (file.language === value) {
-          tooltipContent = title
-        }
-      })
-      return tooltipContent
-    },
-    tooltip(file) {
-      if (this.hasCustomTabTooltip) {
-        return this.customTabTooltipContent(file)
-      }
-      if (file.path !== undefined) {
-        return file.path;
-      }
-      return file.name;
     }
   }
 };
@@ -1553,6 +499,53 @@ export default {
 .jsk-code-editor-codemirror .CodeMirror {
   height: 100%;
   font-family: Inconsolata, Monaco, Menlo, Consolas, "Courier New", monospace !important;
+  .code-placeholder {
+    display: inline-block;
+    background-color: #DEE3EB;
+    border-radius: 5px;
+    color: #777;
+    cursor: pointer;
+    padding: 0 4px;
+    margin: 0 1px;
+    position: relative;
+    font-weight: bold;
+    
+    &::before {
+      content: attr(data-placeholder);
+      display: inline-block;
+    }
+    
+    &:hover {
+      background-color: #D1D8E4;
+    }
+  }
+
+  .code-placeholder-focus {
+    background-color: #0164E1 !important;
+    color: #FFF !important;
+  }
+
+  &.cm-s-monokai {
+    .code-placeholder {
+      color: #FFF !important;
+      background-color: #777777;
+      &:hover {
+        background-color: #8B9AAE;
+      }
+    }
+
+    .code-placeholder-focus {
+      background-color: #0059D1 !important;
+      border-color: #0059D1 !important;
+      color: #FFF !important;
+    }
+  }
+  &.has-placeholder-focused {
+    .CodeMirror-selected,
+    .CodeMirror-selectedtext {
+      background: transparent !important;
+    }
+  }
 }
 .jsk-code-editor-codemirror .CodeMirror-overlayscroll-horizontal,
 .jsk-code-editor-codemirror .CodeMirror-overlayscroll-vertical,
