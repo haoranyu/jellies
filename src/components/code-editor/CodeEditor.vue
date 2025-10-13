@@ -501,13 +501,14 @@ export default {
   font-family: Inconsolata, Monaco, Menlo, Consolas, "Courier New", monospace !important;
   .code-placeholder {
     display: inline-block;
-    background-color: #DEE3EB;
+    border: 1px solid #aaa;
     border-radius: 5px;
     color: #777;
     cursor: pointer;
     padding: 0 4px;
     margin: 0 1px;
     position: relative;
+    line-height: 1.25;
     font-weight: bold;
     
     &::before {
@@ -516,21 +517,21 @@ export default {
     }
     
     &:hover {
-      background-color: #D1D8E4;
+      background-color: color-mix(in srgb, #D1D8E4 50%, transparent);
     }
   }
 
   .code-placeholder-focus {
     background-color: #0164E1 !important;
+    border: 1px solid #0164E1 !important;
     color: #FFF !important;
   }
 
   &.cm-s-monokai {
     .code-placeholder {
       color: #FFF !important;
-      background-color: #777777;
       &:hover {
-        background-color: #8B9AAE;
+        background-color: color-mix(in srgb, #8B9AAE 50%, transparent);
       }
     }
 
