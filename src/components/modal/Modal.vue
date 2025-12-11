@@ -13,7 +13,7 @@
     :close-on-press-escape="isPressEscClosable"
     :show-close="false"
     :destroy-on-close="isDestroyedOnClose"
-    :fullscreen="isFullscreen"
+    :fullscreen="fullscreen"
     :lock-scroll="isScrollLocked"
     :custom-class="modalCustomClass + ' jsk-modal'"
     @open="$emit('open')"
@@ -133,23 +133,27 @@ export default {
     hasSizeButton: {
       type: Boolean,
       default: true
+    },
+    isFullscreen: {
+      type: Boolean,
+      default: false
     }
   },
   data: function() {
     return {
       visibleProp: false,
-      isFullscreen: false,
+      fullscreen: this.isFullscreen,
       draggie: false,
       position: null
     };
   },
   computed: {
     modalSizeOption: function() {
-      return this.isFullscreen ? 'shrink' : 'expand';
+      return this.fullscreen ? 'shrink' : 'expand';
     },
     modalBodyMaxHeight: function() {
       let topHeight = parseInt(this.modalTop);
-      if (this.isFullscreen) {
+      if (this.fullscreen) {
         return 'calc(100vh - 40px)';
       }
       return 'calc(' + (100 - topHeight * 2) + 'vh - 42px)';
@@ -197,8 +201,8 @@ export default {
       return attrs;
     },
     changeModalSize: function() {
-      this.isFullscreen = !this.isFullscreen;
-      if (this.isFullscreen) {
+      this.fullscreen = !this.fullscreen;
+      if (this.fullscreen) {
         if (this.isDraggable) {
           this.draggie.setPosition(this.position.x, this.position.y);
           this.draggie.disable();
