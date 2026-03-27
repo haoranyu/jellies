@@ -4,7 +4,8 @@
       'jsk-code-block',
       hasSelection ? '' : 'no-selection',
       hasLineNumbers ? '' : 'no-line-numbers',
-      'jsk-code-block-copy-' + codeBlockCopyButtonTrigger
+      'jsk-code-block-copy-' + codeBlockCopyButtonTrigger,
+      'jsk-code-block-run-' + codeBlockRunButtonTrigger
     ]"
     :style="{
       borderColor: codeBlockTheme === 'light' ? '#DDDDDD' : '#272822',
@@ -89,6 +90,10 @@ export default {
       default: 'inherit'
     },
     codeBlockCopyButtonTrigger: {
+      type: String,
+      default: 'show'
+    },
+    codeBlockRunButtonTrigger: {
       type: String,
       default: 'show'
     },
@@ -253,7 +258,13 @@ export default {
   display: none;
 }
 .jsk-code-block-copy-hover:hover .jsk-code-block-copy {
-  display: block;
+  display: inline-block;
+}
+.jsk-code-block-run-hover .jsk-code-block-run {
+  display: none;
+}
+.jsk-code-block-run-hover:hover .jsk-code-block-run {
+  display: inline-block;
 }
 </style>
 <style>
