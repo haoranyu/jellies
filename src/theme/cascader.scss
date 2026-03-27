@@ -1,3 +1,7 @@
 @import "../plugins/theme-variables.scss";
 @import "../../node_modules/element-ui/packages/theme-chalk/src/mixins/mixins";
 @import "../../node_modules/element-ui/packages/theme-chalk/src/cascader";
+
+.el-cascader-menu .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
