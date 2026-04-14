@@ -49,8 +49,11 @@ export default {
     };
   },
   watch: {
-    value: function() {
-      this.$emit('change', this.value);
+    value: function(newValue, oldValue) {
+      this.$emit('change', newValue);
+      if (this.isValueEmpty(newValue) && !this.isValueEmpty(oldValue)) {
+        this.$emit('clear');
+      }
       this.$nextTick(() => {
         if (this.value !== this.vModel) {
           this.value = this.vModel;
@@ -84,6 +87,9 @@ export default {
     },
     removeTag: function(para) {
       this.$emit('remove-tag', para);
+    },
+    isValueEmpty: function(value) {
+      return value == null || value === '' || (Array.isArray(value) && value.length === 0);
     }
   }
 }
